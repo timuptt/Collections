@@ -6,6 +6,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Collections.Web/Collections.Web.csproj", "Collections.Web/"]
+COPY ["Collections.Infrastructure/Collections.Infrastructure.csproj", "Collections.Infrastructure/"]
+COPY ["Collections.Shared/Collections.Shared.csproj", "Collections.Shared/"]
 RUN dotnet restore "Collections.Web/Collections.Web.csproj"
 COPY . .
 WORKDIR "/src/Collections.Web"

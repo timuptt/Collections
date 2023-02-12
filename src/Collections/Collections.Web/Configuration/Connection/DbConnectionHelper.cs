@@ -2,7 +2,7 @@ using Npgsql;
 
 namespace Collections.Web.Configuration.Connection;
 
-public class DbConnectionHelper
+public static class DbConnectionHelper
 {
     public static string GetConnectionString(IConfiguration configuration)
     {

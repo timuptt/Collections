@@ -3,13 +3,14 @@ using Collections.Web.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddInfrastructure(builder.Configuration)
+builder.Services
+    .AddInfrastructure(builder.Configuration)
     .AddIdentity()
-    .AddPresentation();
+    .AddPresentation()
+    .AddApplication()
+    .AddWebServices();
 
 var app = builder.Build();
-
-await app.MigrateDatabaseAsync();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

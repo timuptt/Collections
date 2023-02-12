@@ -1,0 +1,32 @@
+@model Collections.Web.Models.Collection.CreateCollectionViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div class="container">
+    <h1>Create new collection</h1>
+    @using (Html.BeginForm("Create", "Collections", FormMethod.Post))
+    {
+        <div class="input-group">
+            @Html.DisplayNameFor(m => m.Title)
+            @Html.TextBoxFor(m => m.Title)
+            @Html.ValidationMessageFor(m => m.Title)
+        </div>
+        <div class="input-group">
+            @Html.DisplayNameFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description)
+            @Html.ValidationMessageFor(m => m.Description)
+        </div>
+        <div class="input-group">
+            @Html.DisplayNameFor(m => m.SelectedThemeId)
+            @Html.DropDownListFor(m => m.SelectedThemeId, Model.Themes)
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit"/>
+    }
+</div>
+</body>
+</html>

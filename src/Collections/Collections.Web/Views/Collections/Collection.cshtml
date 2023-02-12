@@ -1,0 +1,24 @@
+@model Collections.Web.Models.Collection.CollectionWithItemsViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div class="container">
+    <h1>@Model.Title  <small class="text-muted text-decoration-underline">by @Model.ProfileFullName</small></h1>
+    <h3>@Model.UserCollectionTheme</h3>
+    <p>@Model.Description</p>
+    <h3>Items</h3>
+    <a class="btn btn-primary">Create item</a>
+    <div class="container">
+        <table class="table-responsive">
+            
+        </table>
+    </div>
+    
+</div>
+</body>
+</html>

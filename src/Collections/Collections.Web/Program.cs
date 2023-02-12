@@ -1,4 +1,6 @@
 using Collections.Web.Configuration;
+using Collections.Web.Host;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 

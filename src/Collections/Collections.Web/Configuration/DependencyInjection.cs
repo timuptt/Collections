@@ -7,7 +7,6 @@ using Collections.Infrastructure.Identity.Models;
 using Collections.Shared.Interfaces;
 using Collections.Web.Common.Mappings;
 using Collections.Web.Configuration.Connection;
-using Collections.Web.Host;
 using Collections.Web.Interfaces;
 using Collections.Web.Services;
 using Microsoft.EntityFrameworkCore;
@@ -53,7 +52,6 @@ public static class DependencyInjection
         services.AddScoped<IHomePageViewModelService, HomePageViewModelService>();
         services.AddAutoMapper(configuration =>
                 configuration.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly())));
-        services.AddHostedService<HostedDbMigrationService>();
         return services;
     }
 }

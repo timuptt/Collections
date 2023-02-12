@@ -1,12 +1,13 @@
+using Collections.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Collections.Web.Host;
 
 public class HostedDbMigrationService : IHostedService
 {
-    private readonly DbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public HostedDbMigrationService(DbContext context)
+    public HostedDbMigrationService(ApplicationDbContext context)
     {
         _dbContext = context;
     }

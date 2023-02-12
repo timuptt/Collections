@@ -20,6 +20,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+await app.MigrateDatabaseAsync();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

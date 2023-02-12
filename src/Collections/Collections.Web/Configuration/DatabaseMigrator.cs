@@ -8,7 +8,7 @@ public static class DatabaseMigrator
     public static async Task MigrateDatabaseAsync(this WebApplication application)
     {
         using var scope = application.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<CollectionsDbContext>();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         await context.Database.MigrateAsync();
     }
 }

@@ -3,13 +3,14 @@ using Collections.Web.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddInfrastructure(builder.Configuration)
+builder.Services
+    .AddInfrastructure(builder.Configuration)
     .AddIdentity()
-    .AddPresentation();
+    .AddPresentation()
+    .AddApplication()
+    .AddWebServices();
 
 var app = builder.Build();
-
-await app.MigrateDatabaseAsync();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -18,6 +19,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+await app.MigrateDatabaseAsync();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

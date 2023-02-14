@@ -12,6 +12,6 @@ public class ExtraFieldValueTypeConfiguration : IEntityTypeConfiguration<ExtraFi
             .Property(c => c.ValueType)
             .HasConversion(
                 v => v.ToString(),
-                v => (ValueTypes)Enum.Parse(typeof(ValueType), v));
+                v => (ValueTypes)Enum.Parse(typeof(ValueTypes), v));
     }
 }

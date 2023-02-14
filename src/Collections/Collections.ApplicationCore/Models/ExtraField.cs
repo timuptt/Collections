@@ -1,15 +1,14 @@
+using Collections.Shared.Interfaces;
 using Collections.Shared.Models;
 
 namespace Collections.ApplicationCore.Models;
 
-public class ExtraField : EntityBase<int>
+public class ExtraField : EntityBase<int>, IAggregateRoot
 {
-    public int ValueTypeId { get; set; }
+    public int ExtraFieldValueTypeId { get; set; }
     
     public ExtraFieldValueType ExtraFieldValueType { get; set; }
-    
-    public string Name { get; set; }
-    
+
     public string Value { get; set; }
 
     public int ItemId { get; set; }

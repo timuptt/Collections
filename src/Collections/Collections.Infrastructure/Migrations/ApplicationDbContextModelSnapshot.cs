@@ -75,16 +75,9 @@ namespace Collections.Infrastructure.Migrations
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("ValueTypeId")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -115,11 +108,20 @@ namespace Collections.Infrastructure.Migrations
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserCollectionId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ValueType")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserCollectionId");
 
                     b.ToTable("ExtraFieldValueTypes");
                 });
@@ -334,19 +336,19 @@ namespace Collections.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7b7bef7b-9bcf-405e-b4f1-72a176700058",
+                            Id = "540e95d2-3f78-45ea-a47e-c75a6cc95461",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "2b4536a3-cc1a-4793-ae5e-7e35bad2556f",
+                            Id = "4320cedf-aa90-4773-bc75-704d80871987",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d6139685-e207-46c7-ad5e-15aac69a71af",
+                            Id = "37c04691-4343-4717-821b-64a68c5cb6ac",
                             Name = "Author",
                             NormalizedName = "AUTHOR"
                         });
@@ -420,21 +422,6 @@ namespace Collections.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("ExtraFieldValueTypeUserCollection", b =>
-                {
-                    b.Property<int>("ExtraFieldValueTypesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserCollectionsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ExtraFieldValueTypesId", "UserCollectionsId");
-
-                    b.HasIndex("UserCollectionsId");
-
-                    b.ToTable("ExtraFieldValueTypeUserCollection");
                 });
 
             modelBuilder.Entity("ItemTag", b =>
@@ -588,6 +575,17 @@ namespace Collections.Infrastructure.Migrations
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("Collections.ApplicationCore.Models.ExtraFieldValueType", b =>
+                {
+                    b.HasOne("Collections.ApplicationCore.Models.UserCollection", "UserCollection")
+                        .WithMany("ExtraFieldValueTypes")
+                        .HasForeignKey("UserCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserCollection");
+                });
+
             modelBuilder.Entity("Collections.ApplicationCore.Models.Item", b =>
                 {
                     b.HasOne("Collections.ApplicationCore.Models.UserCollection", "UserCollection")
@@ -638,21 +636,6 @@ namespace Collections.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("UserProfile");
-                });
-
-            modelBuilder.Entity("ExtraFieldValueTypeUserCollection", b =>
-                {
-                    b.HasOne("Collections.ApplicationCore.Models.ExtraFieldValueType", null)
-                        .WithMany()
-                        .HasForeignKey("ExtraFieldValueTypesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Collections.ApplicationCore.Models.UserCollection", null)
-                        .WithMany()
-                        .HasForeignKey("UserCollectionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ItemTag", b =>
@@ -730,6 +713,8 @@ namespace Collections.Infrastructure.Migrations
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.UserCollection", b =>
                 {
+                    b.Navigation("ExtraFieldValueTypes");
+
                     b.Navigation("Items");
                 });
 

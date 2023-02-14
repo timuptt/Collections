@@ -1,9 +1,10 @@
 using Ardalis.GuardClauses;
+using Collections.Shared.Interfaces;
 using Collections.Shared.Models;
 
 namespace Collections.ApplicationCore.Models;
 
-public class Tag : EntityBase<int>
+public class Tag : EntityBase<int>, IAggregateRoot
 {
     public string Title { get; set; }
     

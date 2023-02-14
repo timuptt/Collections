@@ -28,7 +28,5 @@ public class CreateCollectionViewModel
     
     public SelectList? Themes { get; set; }
 
-    public IEnumerable<ExtraFieldValueTypeViewModel>? ExtraFieldValueTypes { get; set; }
-
-    
+    public IEnumerable<CreateExtraFieldValueTypeViewModel>? ExtraFieldValueTypes { get; set; }
 }

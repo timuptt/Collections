@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         services.AddScoped<ICollectionService, CollectionService>();
+        services.AddScoped<IItemService, ItemService>();
         return services;
     }
     

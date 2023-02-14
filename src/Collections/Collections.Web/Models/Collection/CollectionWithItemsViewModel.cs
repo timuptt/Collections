@@ -21,7 +21,7 @@ public class CollectionWithItemsViewModel : IMapWith<UserCollection>
     
     public string ImageSource { get; set; }
     
-    public IEnumerable<ItemViewModel> Items { get; set; }
+    public IList<ItemViewModel> Items { get; set; }
     
     public IEnumerable<ExtraFieldValueTypeViewModel> ExtraFieldValueTypes { get; set; }
 

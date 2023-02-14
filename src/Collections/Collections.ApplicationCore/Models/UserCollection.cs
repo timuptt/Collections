@@ -35,6 +35,7 @@ public class UserCollection : EntityBase<int>, IAggregateRoot
         UserProfileId = Guard.Against.NegativeOrZero(userProfileId, nameof(userProfileId));
         UserCollectionThemeId = Guard.Against.NegativeOrZero(userCollectionThemeId, nameof(userCollectionThemeId));
         ImageSource = imageSource;
+        ExtraFieldValueTypes = extraFieldValueTypes;
     }
 
     protected internal void AddItem(Item item)

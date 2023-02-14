@@ -8,7 +8,7 @@ public class LastItemsSpecification : Specification<Item>, ISingleResultSpecific
     public LastItemsSpecification()
     {
         Query
-            .OrderBy(i => i.AddedOn)
+            .OrderByDescending(i => i.AddedOn)
             .Take(5);
     }
 }

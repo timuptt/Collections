@@ -3,6 +3,7 @@ using Collections.ApplicationCore.Models;
 using Collections.Infrastructure.Identity.Models;
 using Collections.Web.Interfaces;
 using Collections.Web.Models.Collection;
+using Collections.Web.Models.Collection.Items;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,13 @@ public class CollectionsController : Controller
         }
         var user = await _userManager.GetUserAsync(User);
         await _collectionService.CreateCollection(user.UserProfileId, request.SelectedThemeId, request.Title, request.Description,
-            request.ImageSource, new List<ExtraFieldValueType>());
+            request.ImageSource, request.ExtraFieldValueTypes.Select(e => new ExtraFieldValueType()
+            {
+                Name = e.Name,
+                IsRequired = e.IsRequired,
+                IsVisible = e.IsVisible,
+                ValueType = e.ValueType
+            }).ToList());
         return RedirectToAction("Index", "Home");
     }
 
@@ -59,5 +66,11 @@ public class CollectionsController : Controller
     {
         var collectionVm = await _collectionViewModelService.GetCollectionViewModelById(id);
         return View(collectionVm);
+    }
+
+    public IActionResult CreateItem(int collectionId)
+    {
+        var itemVm = new CreateItemViewModel() { UserCollectionId = collectionId};
+        return RedirectToAction("Create", "Item", itemVm);
     }
 }

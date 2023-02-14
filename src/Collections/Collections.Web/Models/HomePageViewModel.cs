@@ -7,7 +7,9 @@ public class HomePageViewModel
 {
     public IEnumerable<CollectionViewModel> CollectionsWithMoreItems { get; set; }
     
-    public IEnumerable<ItemViewModel> MostPopularItems { get; set; }
+    public IEnumerable<CardItemViewModel> LastAddedItems { get; set; }
+    
+    public IEnumerable<CardItemViewModel> MostPopularItems { get; set; }
     
     public IEnumerable<TagViewModel> Tags { get; set; }
 }

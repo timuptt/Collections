@@ -14,16 +14,17 @@ public class Item : EntityBase<int>, IAggregateRoot
 
     public ICollection<Like> Likes { get; set; }
     
-    public IEnumerable<ExtraField> ExtraFields { get; set; }
+    public ICollection<ExtraField> ExtraFields { get; set; }
 
-    public IEnumerable<Tag> Tags { get; set; }
+    public ICollection<Tag> Tags { get; set; }
     
     public Item() {}
 
-    public Item(int collectionId, string title, ICollection<Tag> tags)
+    public Item(int collectionId, string title, ICollection<Tag> tags, ICollection<ExtraField> extraFields)
     {
         UserCollectionId = Guard.Against.NegativeOrZero(collectionId, nameof(collectionId));
         Title = Guard.Against.NullOrEmpty(title, nameof(title));
         Tags = Guard.Against.Null(tags, nameof(tags));
+        ExtraFields = extraFields;
     }
 }

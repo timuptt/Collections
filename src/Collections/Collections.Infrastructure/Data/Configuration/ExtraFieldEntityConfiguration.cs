@@ -8,8 +8,6 @@ public class ExtraFieldEntityConfiguration : IEntityTypeConfiguration<ExtraField
 {
     public void Configure(EntityTypeBuilder<ExtraField> builder)
     {
-        builder
-            .Property(f => f.Value)
-            .IsRequired();
+
     }
 }

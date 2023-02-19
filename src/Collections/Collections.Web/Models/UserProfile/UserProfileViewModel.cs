@@ -1,4 +1,5 @@
 using AutoMapper;
+using Collections.ApplicationCore.Common.Mappings;
 using Collections.Web.Common.Mappings;
 
 namespace Collections.Web.Models.UserProfile;

@@ -9,7 +9,7 @@ public class ExtraField : EntityBase<int>, IAggregateRoot
     
     public ExtraFieldValueType ExtraFieldValueType { get; set; }
 
-    public string Value { get; set; }
+    public string? Value { get; set; }
 
     public int ItemId { get; set; }
     

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using AutoMapper;
+using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Models;
 using Collections.Web.Common.Mappings;
 

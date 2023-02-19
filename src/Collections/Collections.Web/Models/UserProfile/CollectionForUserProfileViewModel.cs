@@ -2,6 +2,7 @@ using System.ComponentModel;
 using Collections.ApplicationCore.Models;
 using Collections.Web.Common.Mappings;
 using AutoMapper;
+using Collections.ApplicationCore.Common.Mappings;
 
 namespace Collections.Web.Models.UserProfile;
 

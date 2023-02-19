@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace Collections.Web.Common.Mappings;
+namespace Collections.ApplicationCore.Common.Mappings;
 
 public interface IMapWith<T>
 {

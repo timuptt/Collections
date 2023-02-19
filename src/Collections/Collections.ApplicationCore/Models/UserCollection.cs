@@ -20,7 +20,7 @@ public class UserCollection : EntityBase<int>, IAggregateRoot
 
     public string? ImageSource { get; set; }
     
-    public ICollection<ExtraFieldValueType> ExtraFieldValueTypes { get; set; }
+    public List<ExtraFieldValueType>? ExtraFieldValueTypes { get; set; }
 
     public ICollection<Item> Items { get; set; }
 
@@ -35,7 +35,7 @@ public class UserCollection : EntityBase<int>, IAggregateRoot
         UserProfileId = Guard.Against.NegativeOrZero(userProfileId, nameof(userProfileId));
         UserCollectionThemeId = Guard.Against.NegativeOrZero(userCollectionThemeId, nameof(userCollectionThemeId));
         ImageSource = imageSource;
-        ExtraFieldValueTypes = extraFieldValueTypes;
+        ExtraFieldValueTypes = extraFieldValueTypes.ToList();
     }
 
     protected internal void AddItem(Item item)

@@ -1,4 +1,4 @@
-@model Collections.Web.Models.Collection.CreateCollectionViewModel
+@model Collections.Web.Models.Collection.UpdateCollectionViewModel
 
 <!DOCTYPE html>
 
@@ -8,12 +8,13 @@
 </head>
 <body>
 <div class="container">
-    <h1>Create new collection</h1>
+    <h1>Update collection @Model.Title</h1>
     <hr/>
     <div>
-        @using (Html.BeginForm("Create", "Collections", FormMethod.Post))
+        @using (Html.BeginForm("Update", "Collections", FormMethod.Post))
         {
-            <div id="inputsBlock">
+            <div>
+                @Html.HiddenFor(m => m.Id)
                 <div class="mb-3">
                     <label class="form-label">@Html.DisplayNameFor(m => m.Title)</label>
                     @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
@@ -27,26 +28,41 @@
                         </div>
                         <div class="col">
                             Preview
-                        </div>    
+                        </div>
                     </div>
                     @Html.ValidationMessageFor(m => m.Description, string.Empty, new { @class = "form-validation text-danger" })
                 </div>
-                
-                <div class="mb-3">
-                    @Html.DisplayNameFor(m => m.SelectedThemeId)
-                    @Html.DropDownListFor(m => m.SelectedThemeId, Model.Themes, new {@class="form-select"})
-                </div>
-                
+
                 <h5>Additional fields</h5>
                 <hr/>
+                <div id="updateBlock">
+                    @if(Model.ExtraFieldValueTypes != null) 
+                    {
+                        for (var i = 0; i < Model.ExtraFieldValueTypes.Count; i++)
+                        {
+                            @Html.HiddenFor(m => m.ExtraFieldValueTypes[i].Id)
+                            @Html.HiddenFor(m => m.ExtraFieldValueTypes[i].IsRequired)
+                            @Html.HiddenFor(m => m.ExtraFieldValueTypes[i].ValueType)
+                            <div class="bg-light rounded-1 mb-3 p-3">
+                                <div>
+                                    <label class="form-label">@Html.DisplayNameFor(m => m.ExtraFieldValueTypes[i].Name)</label>
+                                    @Html.TextBoxFor(m => m.ExtraFieldValueTypes[i].Name, new { @class = "form-control" })
+                                </div>
+
+                                <label>Is Visible</label>
+                                @Html.CheckBoxFor(m => m.ExtraFieldValueTypes[i].IsVisible)
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="row text-center ms-1 me-1">
+                    <input type="button" value="Add property" class="btn btn-outline-success" id="addPropertyInput"/>
+                </div>
             </div>
-            <div class="row text-center ms-1 me-1">
-                <input type="button" value="Add property" class="btn btn-outline-success" id="addPropertyInput"/>
-            </div>
+            
             <input type="submit" class="btn btn-primary" value="Submit"/>
         }
     </div>
-    
 </div>
 <script>
     {
@@ -61,12 +77,12 @@
                 "<div class='row'>" +
                 "<div class='form-group col'>" +
                 "<label class='control-label'>Name</label>" +
-                "<input type='text' class='form-control valid' id='ExtraFieldValueTypes_0__Name' name='ExtraFieldValueTypes[" + i + "].Name' data-val='true' data-val-required='Name must not be empty.' aria=describedby='_0__Name-error' aria-invalid='false' autocomplete='off' />" +
-                "<span class='text-danger field-validation-valid' data-valmsg-for='ExtraFieldValueTypes[" + i + "].Name' data-valmsg-replace='true'></span>" +
+                "<input type='text' class='form-control valid' id='NewExtraFieldValueTypes_0__Name' name='NewExtraFieldValueTypes[" + i + "].Name' data-val='true' data-val-required='Name must not be empty.' aria=describedby='_0__Name-error' aria-invalid='false' autocomplete='off' />" +
+                "<span class='text-danger field-validation-valid' data-valmsg-for='NewExtraFieldValueTypes[" + i + "].Name' data-valmsg-replace='true'></span>" +
                 "</div>" +
                 "<div class='form-group col'>" +
                 "<label class='control-label'>Type</label>" +
-                "<select class='form-select valid' name='ExtraFieldValueTypes[" + i + "].ValueType'>" +
+                "<select class='form-select valid' name='NewExtraFieldValueTypes[" + i + "].ValueType'>" +
                 "<option value='0'>String</option>" +
                 "<option value='1'>Text</option>" +
                 "<option value='2'>Number</option>" +
@@ -78,11 +94,11 @@
                 "<div class='d-flex justify-content-between pt-1 pb-1'>"+
                 "<div>" +
                 "<div class='form-check'>" +
-                "<input type='checkbox' class='form-check-input' id='ExtraFieldValueTypes_0__IsVisible' name='ExtraFieldValueTypes["+i+"].IsVisible' data-val='true' value='true'/>" +
+                "<input type='checkbox' class='form-check-input' id='NewExtraFieldValueTypes_0__IsVisible' name='NewExtraFieldValueTypes["+i+"].IsVisible' data-val='true' value='true'/>" +
                 "<label class='form-check-label'>Is Visible</label>" +
                 "</div>" +
                 "<div class='form-check'>" +
-                "<input type='checkbox' class='form-check-input' id='ExtraFieldValueTypes_0__IsRequired' name='ExtraFieldValueTypes["+i+"].IsRequired' data-val='true' value='true'/>" +
+                "<input type='checkbox' class='form-check-input' id='NewExtraFieldValueTypes_0__IsRequired' name='NewExtraFieldValueTypes["+i+"].IsRequired' data-val='true' value='true'/>" +
                 "<label class='form-check-label'>Is Required</label>" +
                 "</div>" +
                 "</div>" +
@@ -95,7 +111,7 @@
         }
         addPropertyInput.onclick = () => {
             let html = getHtml();
-            inputsBlock.insertAdjacentHTML('beforeend', html);
+            updateBlock.insertAdjacentHTML('beforeend', html);
         }
     }
 </script>

@@ -1,6 +1,11 @@
+using AutoMapper;
+using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Interfaces;
 using Collections.ApplicationCore.Models;
+using Collections.ApplicationCore.Specifications;
 using Collections.Infrastructure.Identity.Models;
+using Collections.Shared.Constants.Identity;
+using Collections.Shared.Interfaces;
 using Collections.Web.Interfaces;
 using Collections.Web.Models.Collection;
 using Collections.Web.Models.Collection.Items;
@@ -16,15 +21,20 @@ public class CollectionsController : Controller
     private readonly ICollectionService _collectionService;
     private readonly ICollectionViewModelService _collectionViewModelService;
     private readonly IThemeViewModelService _themeViewModelService;
+    private readonly IReadRepository<UserCollection> _userCollectionReadRepository;
+    private readonly IMapper _mapper;
     private readonly UserManager<ApplicationUser> _userManager;
 
     public CollectionsController(ICollectionService collectionService, IThemeViewModelService themeViewModelService,
-        UserManager<ApplicationUser> userManager, ICollectionViewModelService collectionViewModelService)
+        UserManager<ApplicationUser> userManager, ICollectionViewModelService collectionViewModelService,
+        IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper)
     {
         _collectionService = collectionService;
         _themeViewModelService = themeViewModelService;
         _userManager = userManager;
         _collectionViewModelService = collectionViewModelService;
+        _userCollectionReadRepository = userCollectionReadRepository;
+        _mapper = mapper;
     }
 
     [AllowAnonymous]
@@ -50,19 +60,51 @@ public class CollectionsController : Controller
             request.Themes = await _themeViewModelService.GetThemesAsSelectList();
             return View(request);
         }
-        var user = await _userManager.GetUserAsync(User);
-        await _collectionService.CreateCollection(user.UserProfileId, request.SelectedThemeId, request.Title, request.Description,
-            request.ImageSource, request.ExtraFieldValueTypes.Select(e => new ExtraFieldValueType()
+        var extraFieldValueTypes = new List<ExtraFieldValueType>();
+        if (request.ExtraFieldValueTypes != null)
+        {
+            extraFieldValueTypes = request.ExtraFieldValueTypes.Select(e => new ExtraFieldValueType()
             {
                 Name = e.Name,
                 IsRequired = e.IsRequired,
                 IsVisible = e.IsVisible,
                 ValueType = e.ValueType
-            }).ToList());
+            }).ToList();
+        }
+        await _collectionService.CreateCollection(
+            int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value),
+            request.SelectedThemeId, request.Title, request.Description,
+            request.ImageSource, extraFieldValueTypes);
         return RedirectToAction("Index", "Home");
     }
 
-    public async Task<IActionResult> Collection(int id)
+    public async Task<IActionResult> Update(int collectionId)
+    {
+        var specification = new UserCollectionByIdSpec(collectionId);
+        var collectionVm =
+           await _userCollectionReadRepository.GetBySpecProjectedAsync<UpdateCollectionViewModel>(specification);
+        return View(collectionVm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(UpdateCollectionViewModel request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(request);
+        }
+        await _collectionService.UpdateCollection(_mapper.Map<UpdateUserCollectionDto>(request));
+        return RedirectToAction("Details", "Collections", request.Id);
+    }
+    
+    public async Task<IActionResult> Delete(int collectionId)
+    {
+        await _collectionService.DeleteCollection(collectionId);
+        return RedirectToAction("Index", "Home");
+    }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(int id)
     {
         var collectionVm = await _collectionViewModelService.GetCollectionViewModelById(id);
         return View(collectionVm);
@@ -70,7 +112,7 @@ public class CollectionsController : Controller
 
     public IActionResult CreateItem(int collectionId)
     {
-        var itemVm = new CreateItemViewModel() { UserCollectionId = collectionId};
+        var itemVm = new CreateItemViewModel() { UserCollectionId = collectionId };
         return RedirectToAction("Create", "Item", itemVm);
     }
 }

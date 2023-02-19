@@ -1,5 +1,6 @@
 using System.Reflection;
 using AutoMapper;
+using Collections.ApplicationCore.Common.Mappings;
 
 namespace Collections.Web.Common.Mappings;
 

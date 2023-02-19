@@ -14,10 +14,12 @@ public class Item : EntityBase<int>, IAggregateRoot
 
     public ICollection<Like> Likes { get; set; }
     
-    public ICollection<ExtraField> ExtraFields { get; set; }
+    public List<ExtraField> ExtraFields { get; set; }
 
     public ICollection<Tag> Tags { get; set; }
-    
+
+    public ICollection<Comment> Comments { get; set; }
+
     public Item() {}
 
     public Item(int collectionId, string title, ICollection<Tag> tags, ICollection<ExtraField> extraFields)
@@ -25,6 +27,6 @@ public class Item : EntityBase<int>, IAggregateRoot
         UserCollectionId = Guard.Against.NegativeOrZero(collectionId, nameof(collectionId));
         Title = Guard.Against.NullOrEmpty(title, nameof(title));
         Tags = Guard.Against.Null(tags, nameof(tags));
-        ExtraFields = extraFields;
+        ExtraFields = extraFields.ToList();
     }
 }

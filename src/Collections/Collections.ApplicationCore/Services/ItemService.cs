@@ -1,3 +1,4 @@
+using Ardalis.GuardClauses;
 using Collections.ApplicationCore.Interfaces;
 using Collections.ApplicationCore.Models;
 using Collections.Shared.Interfaces;
@@ -22,5 +23,13 @@ public class ItemService : IItemService
     {
         var item = new Item(collectionId, title, tags.ToList(), extraFields.ToList());
         await _itemRepository.AddAsync(item);
+    }
+
+    public async Task DeleteItem(int itemId)
+    {
+        Guard.Against.NegativeOrZero(itemId);
+        var itemToDelete = await _itemRepository.GetByIdAsync(itemId);
+        Guard.Against.Null(itemToDelete);
+        await _itemRepository.DeleteAsync(itemToDelete);
     }
 }

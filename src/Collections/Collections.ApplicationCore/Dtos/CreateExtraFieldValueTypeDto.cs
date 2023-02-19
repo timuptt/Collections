@@ -1,11 +1,10 @@
 using AutoMapper;
 using Collections.ApplicationCore.Common.Mappings;
-using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Models;
 
-namespace Collections.Web.Models.Collection.Items;
+namespace Collections.ApplicationCore.Dtos;
 
-public class CreateExtraFieldValueTypeViewModel : IMapWith<CreateExtraFieldValueTypeDto>
+public class CreateExtraFieldValueTypeDto : IMapWith<ExtraFieldValueType>
 {
     public ValueTypes ValueType { get; set; }
     
@@ -14,10 +13,14 @@ public class CreateExtraFieldValueTypeViewModel : IMapWith<CreateExtraFieldValue
     public bool IsRequired { get; set; }
     
     public bool IsVisible { get; set; }
+    
+    public int? UserCollectionId { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<CreateExtraFieldValueTypeDto, CreateExtraFieldValueTypeViewModel>()
+        profile.CreateMap<ExtraFieldValueType, CreateExtraFieldValueTypeDto>()
+            .ReverseMap();
+        profile.CreateMap<List<ExtraFieldValueType>, IEnumerable<CreateExtraFieldValueTypeDto>>()
             .ReverseMap();
     }
 }

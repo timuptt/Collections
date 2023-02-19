@@ -5,7 +5,6 @@ using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Interfaces;
 using Collections.Web.Models.Collection.Items;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Collections.Web.Controllers;
 
@@ -13,19 +12,28 @@ public class ItemController : Controller
 {
     private readonly IItemService _itemService;
     private readonly IReadRepository<ExtraFieldValueType> _extraFieldReadRepository;
+    private readonly IReadRepository<Item> _itemReadRepository;
     private readonly IMapper _mapper;
 
-    public ItemController(IItemService itemService, IMapper mapper, IReadRepository<ExtraFieldValueType> extraFieldReadRepository)
+    public ItemController(IItemService itemService, IMapper mapper, IReadRepository<ExtraFieldValueType> extraFieldReadRepository, IReadRepository<Item> itemReadRepository)
     {
         _itemService = itemService;
         _mapper = mapper;
         _extraFieldReadRepository = extraFieldReadRepository;
+        _itemReadRepository = itemReadRepository;
     }
     
     // GET
     public IActionResult Index()
     {
         return View();
+    }
+
+    public async Task<IActionResult> Details(int id)
+    {
+        var specification = new ItemByIdSpec(id);
+        var itemViewModel = await _itemReadRepository.GetBySpecProjectedAsync<ItemExtendedViewModel>(specification);
+        return View(itemViewModel);
     }
 
     public async Task<IActionResult> Create(CreateItemViewModel request)
@@ -45,9 +53,14 @@ public class ItemController : Controller
     {
         if (!ModelState.IsValid) return View("Create", request);
         await _itemService.CreateItem(request.UserCollectionId, request.Title, new List<Tag>(),
-            request.ExtraFields.Select(f => new ExtraField()
+            request.ExtraFields!.Select(f => new ExtraField()
                 { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }));
         return RedirectToAction("Index", "Home");
+    }
 
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _itemService.DeleteItem(id);
+        return RedirectToAction("Index", "Home");
     }
 }

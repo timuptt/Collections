@@ -1,13 +1,17 @@
 using AutoMapper;
+using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Interfaces;
 using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Specifications;
+using Collections.Shared.Constants.Identity;
 using Collections.Shared.Interfaces;
 using Collections.Web.Models.Collection.Items;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Collections.Web.Controllers;
 
+[Authorize]
 public class ItemController : Controller
 {
     private readonly IItemService _itemService;
@@ -29,6 +33,7 @@ public class ItemController : Controller
         return View();
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Details(int id)
     {
         var specification = new ItemByIdSpec(id);
@@ -56,6 +61,14 @@ public class ItemController : Controller
             request.ExtraFields!.Select(f => new ExtraField()
                 { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }));
         return RedirectToAction("Index", "Home");
+    }
+
+
+    public async Task<IActionResult> WriteComment(CreateCommentViewModel request)
+    {
+        request.UserProfileId = int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value);
+        await _itemService.WriteComment(_mapper.Map<CommentDto>(request));
+        return RedirectToAction("Details", "Item",new{ id = request.ItemId });
     }
 
     public async Task<IActionResult> Delete(int id)

@@ -11,9 +11,8 @@ public class UserCollectionsByProfileIdFilteredPaginatedSpec : Specification<Use
         int userProfileId, 
         int take, 
         int skip,
-        Expression<Func<UserCollection, string>>? searchPredicate = null,
         Expression<Func<UserCollection, object?>>? orderPredicate = null, 
-        string searchTerm = "%%",
+        string searchTerm = "",
         OrderEnum order = OrderEnum.Ascending)
     {
         Query
@@ -22,10 +21,11 @@ public class UserCollectionsByProfileIdFilteredPaginatedSpec : Specification<Use
             .Take(take);
             
         
-        if (searchPredicate != null)
+        if (!string.IsNullOrWhiteSpace(searchTerm))
         {
             Query
-                .Search(searchPredicate, "%" + searchTerm + "%");
+                .Search(i => i.Title, "%" + searchTerm + "%")
+                .Search(i => i.Description, "%" + searchTerm + "%");
         }
 
         if (orderPredicate != null)

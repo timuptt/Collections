@@ -15,12 +15,15 @@ public class UserProfileController : Controller
 {
     private readonly IReadRepository<UserProfile> _userProfileReadRepository;
     private readonly IReadRepository<UserCollection> _userCollectionsReadRepository;
-    private readonly IFilter<UserCollection> _filter = new CollectionFilter();
+    private readonly IFilter<UserCollection> _filter;
 
-    public UserProfileController(IReadRepository<UserProfile> userProfileReadRepository, IReadRepository<UserCollection> userCollectionsReadRepository)
+    public UserProfileController(IReadRepository<UserProfile> userProfileReadRepository, 
+        IReadRepository<UserCollection> userCollectionsReadRepository, 
+        IFilter<UserCollection> filter)
     {
         _userProfileReadRepository = userProfileReadRepository;
         _userCollectionsReadRepository = userCollectionsReadRepository;
+        _filter = filter;
     }
 
     // GET
@@ -36,7 +39,7 @@ public class UserProfileController : Controller
         var profileSpec = new UserProfileByIdSpec(id);
         var profileViewModel = await _userProfileReadRepository.GetBySpecProjectedAsync<UserProfileViewModel>(profileSpec);
         var collectionsSpec = new UserCollectionsByProfileIdFilteredPaginatedSpec(id, pageSize, pageNumber - 1, 
-            _filter.GetSearchPredicate(searchProp), _filter.GetOrderPredicate(sortProp), searchTerm, _filter.GetSortOrder(sortOrder));
+            _filter.GetOrderPredicate(sortProp), searchTerm, _filter.GetSortOrder(sortOrder));
         var countSpec = new UserCollectionsCountByProfileIdSpec(id);
         profileViewModel.UserCollections =
             await PaginatedList<CollectionForUserProfileViewModel, UserCollection>.CreateAsync(_userCollectionsReadRepository,

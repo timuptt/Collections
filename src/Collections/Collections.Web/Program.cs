@@ -1,4 +1,5 @@
 using Collections.Web.Configuration;
+using Collections.Web.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,5 +35,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapHub<CommentsHub>("/commentsHub");
 
 app.Run();

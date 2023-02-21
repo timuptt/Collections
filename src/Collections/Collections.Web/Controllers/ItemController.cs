@@ -5,9 +5,11 @@ using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Constants.Identity;
 using Collections.Shared.Interfaces;
+using Collections.Web.Hubs;
 using Collections.Web.Models.Collection.Items;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Collections.Web.Controllers;
 
@@ -18,15 +20,19 @@ public class ItemController : Controller
     private readonly IReadRepository<ExtraFieldValueType> _extraFieldReadRepository;
     private readonly IReadRepository<Item> _itemReadRepository;
     private readonly IMapper _mapper;
+    private readonly IHubContext<CommentsHub> _commentsHub;
 
-    public ItemController(IItemService itemService, IMapper mapper, IReadRepository<ExtraFieldValueType> extraFieldReadRepository, IReadRepository<Item> itemReadRepository)
+    public ItemController(IItemService itemService, IMapper mapper,
+        IReadRepository<ExtraFieldValueType> extraFieldReadRepository, IReadRepository<Item> itemReadRepository,
+        IHubContext<CommentsHub> commentsHub)
     {
         _itemService = itemService;
         _mapper = mapper;
         _extraFieldReadRepository = extraFieldReadRepository;
         _itemReadRepository = itemReadRepository;
+        _commentsHub = commentsHub;
     }
-    
+
     // GET
     public IActionResult Index()
     {
@@ -67,7 +73,10 @@ public class ItemController : Controller
     public async Task<IActionResult> WriteComment(CreateCommentViewModel request)
     {
         request.UserProfileId = int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value);
+        var userName = User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileFullnameClaim).Value;
         await _itemService.WriteComment(_mapper.Map<CommentDto>(request));
+        await _commentsHub.Clients.Groups(request.ItemId.ToString())
+            .SendAsync("ReceiveMessage", request.UserProfileId, userName, request.Body);
         return RedirectToAction("Details", "Item",new{ id = request.ItemId });
     }
 

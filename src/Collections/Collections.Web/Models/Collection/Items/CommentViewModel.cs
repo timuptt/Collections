@@ -14,6 +14,8 @@ public class CommentViewModel : IMapWith<Comment>
     public string UserName { get; set; }
     
     public string Body { get; set; }
+    
+    public DateTime AddedOn { get; set; }
 
     public void Mapping(Profile profile)
     {

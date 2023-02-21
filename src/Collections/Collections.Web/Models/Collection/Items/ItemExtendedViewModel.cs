@@ -30,9 +30,11 @@ public class ItemExtendedViewModel : IMapWith<Item>
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Item, ItemExtendedViewModel>()
-            .ForMember(itemVm => itemVm.LikesCount, 
+            .ForMember(itemVm => itemVm.LikesCount,
                 opt => opt.MapFrom(item => item.Likes.Count))
             .ForMember(itemVm => itemVm.UserCollectionTitle,
-                opt => opt.MapFrom(item => item.UserCollection.Title));
+                opt => opt.MapFrom(item => item.UserCollection.Title))
+            .ForMember(itemVm => itemVm.Comments, opt =>
+                opt.MapFrom(item => item.Comments.OrderByDescending(c => c.AddedOn)));
     }
 }

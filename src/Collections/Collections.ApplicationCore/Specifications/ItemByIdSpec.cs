@@ -8,9 +8,6 @@ public class ItemByIdSpec : Specification<Item>, ISingleResultSpecification
     public ItemByIdSpec(int id)
     {
         Query
-            .Where(i => i.Id == id)
-            .Include(i => i.UserCollection)
-            .Include(i => i.ExtraFields)
-            .Include(i => i.Comments);
+            .Where(i => i.Id == id);
     }
 }

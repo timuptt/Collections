@@ -64,6 +64,7 @@ public static class DependencyInjection
             }
                 );
         services.AddScoped<IFilter<UserCollection>, CollectionFilter>();
+        services.AddSignalR();
         return services;
     }
 }

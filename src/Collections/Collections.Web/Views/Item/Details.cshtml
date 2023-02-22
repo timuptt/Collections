@@ -1,4 +1,5 @@
 @using Collections.ApplicationCore.Models
+@using Collections.Shared.Constants.Identity
 @using Microsoft.AspNetCore.Mvc.Rendering
 @model Collections.Web.Models.Collection.Items.ItemExtendedViewModel;
 
@@ -47,8 +48,22 @@
             <label class="me-1 text-muted">Updated:</label>
             <p>@Model.ModifiedOn</p>
         </div>
+        <div>
+            <label>Lieks:</label>
+        <p></p>
+            <div>
+                @if (Model.Likes.All(p => p.UserProfileId != int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value)))
+                {
+                    <a type="button" class="btn btn-outline-secondary" onclick="location.href = '@Url.Action("LikeItem", "Item", new {itemId = @Model.Id})'"><span class="bi bi-heart"></span> @Model.Likes.Count()</a>
+                }
+                else
+                {
+                    <a type="button" class="btn btn-outline-danger" onclick="location.href = '@Url.Action("LikeItem", "Item", new {itemId = @Model.Id})'"><span class="bi bi-heart-fill"></span> @Model.Likes.Count()</a>
+                }
+            </div>
+            
+        </div>
         
-
     </div>
     
 </div>
@@ -80,7 +95,6 @@
                     <div class="bg-white p-2">
                         <p>@comment.Body</p>
                     </div>
-                            
                 </div>
             }
         </div>

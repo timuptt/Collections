@@ -13,12 +13,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Item> Items { get; set; }
     public DbSet<Tag> Tags { get; set; }
-    public DbSet<Like> Likes { get; set; }
     public DbSet<ExtraFieldValueType> ExtraFieldValueTypes { get; set; }
     public DbSet<ExtraField> ExtraFields { get; set; }
     public DbSet<UserCollectionTheme> UserCollectionThemes { get; set; } 
     public DbSet<UserProfile> UserProfiles { get; set; }
-    
+    public DbSet<Like> Likes { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

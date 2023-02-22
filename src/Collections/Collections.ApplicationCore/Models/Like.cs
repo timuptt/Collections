@@ -1,11 +1,14 @@
-using Collections.Shared.Models;
+using AutoMapper;
+using Collections.Shared.Interfaces;
 
 namespace Collections.ApplicationCore.Models;
 
-public class Like : EntityBase<int>
+public class Like : IAggregateRoot
 {
-    public string ApplicationUserId { get; set; }
-
+    public int UserProfileId { get; set; }
+    
+    public UserProfile UserProfile { get; set; }
+    
     public int ItemId { get; set; }
     
     public Item Item { get; set; }

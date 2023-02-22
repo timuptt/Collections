@@ -21,16 +21,18 @@ public class ItemController : Controller
     private readonly IReadRepository<Item> _itemReadRepository;
     private readonly IMapper _mapper;
     private readonly IHubContext<CommentsHub> _commentsHub;
+    private readonly ILikesService _likesService;
 
     public ItemController(IItemService itemService, IMapper mapper,
         IReadRepository<ExtraFieldValueType> extraFieldReadRepository, IReadRepository<Item> itemReadRepository,
-        IHubContext<CommentsHub> commentsHub)
+        IHubContext<CommentsHub> commentsHub, ILikesService likesService)
     {
         _itemService = itemService;
         _mapper = mapper;
         _extraFieldReadRepository = extraFieldReadRepository;
         _itemReadRepository = itemReadRepository;
         _commentsHub = commentsHub;
+        _likesService = likesService;
     }
 
     // GET
@@ -84,5 +86,12 @@ public class ItemController : Controller
     {
         await _itemService.DeleteItem(id);
         return RedirectToAction("Index", "Home");
+    }
+
+    public async Task<IActionResult> LikeItem(int itemId)
+    {
+        await _likesService.Like(itemId,
+            int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value));
+        return RedirectToAction("Details", "Item", new { id = itemId });
     }
 }

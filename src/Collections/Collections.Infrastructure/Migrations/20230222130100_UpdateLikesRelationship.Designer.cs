@@ -3,6 +3,7 @@ using System;
 using Collections.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Collections.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230222130100_UpdateLikesRelationship")]
+    partial class UpdateLikesRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,21 +156,6 @@ namespace Collections.Infrastructure.Migrations
                     b.HasIndex("UserCollectionId");
 
                     b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("Collections.ApplicationCore.Models.Like", b =>
-                {
-                    b.Property<int>("UserProfileId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserProfileId", "ItemId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.Tag", b =>
@@ -323,19 +311,19 @@ namespace Collections.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "08c6dfa7-3cfc-4d91-ba64-2219fec0a88c",
+                            Id = "a6cb2294-6a2f-47c7-8666-59f140be738d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1ff5f03d-5e96-4976-a70b-fd9a2a386a5c",
+                            Id = "f91c57c4-5cec-45ea-9f20-f98d48bd9278",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "65dd2847-9316-4bfa-be81-b49253c1321a",
+                            Id = "c3d0f391-ac79-4d73-b0a9-0fb3051f967b",
                             Name = "Author",
                             NormalizedName = "AUTHOR"
                         });
@@ -424,6 +412,21 @@ namespace Collections.Infrastructure.Migrations
                     b.HasIndex("TagsId");
 
                     b.ToTable("ItemTag");
+                });
+
+            modelBuilder.Entity("ItemUserProfile", b =>
+                {
+                    b.Property<int>("LikedItemsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LikesId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("LikedItemsId", "LikesId");
+
+                    b.HasIndex("LikesId");
+
+                    b.ToTable("ItemUserProfile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -592,25 +595,6 @@ namespace Collections.Infrastructure.Migrations
                     b.Navigation("UserCollection");
                 });
 
-            modelBuilder.Entity("Collections.ApplicationCore.Models.Like", b =>
-                {
-                    b.HasOne("Collections.ApplicationCore.Models.Item", "Item")
-                        .WithMany("Likes")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Collections.ApplicationCore.Models.UserProfile", "UserProfile")
-                        .WithMany("Likes")
-                        .HasForeignKey("UserProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("UserProfile");
-                });
-
             modelBuilder.Entity("Collections.ApplicationCore.Models.UserCollection", b =>
                 {
                     b.HasOne("Collections.ApplicationCore.Models.UserCollectionTheme", "UserCollectionTheme")
@@ -652,6 +636,21 @@ namespace Collections.Infrastructure.Migrations
                     b.HasOne("Collections.ApplicationCore.Models.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ItemUserProfile", b =>
+                {
+                    b.HasOne("Collections.ApplicationCore.Models.Item", null)
+                        .WithMany()
+                        .HasForeignKey("LikedItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Collections.ApplicationCore.Models.UserProfile", null)
+                        .WithMany()
+                        .HasForeignKey("LikesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -712,8 +711,6 @@ namespace Collections.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("ExtraFields");
-
-                    b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.UserCollection", b =>
@@ -730,8 +727,6 @@ namespace Collections.Infrastructure.Migrations
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.UserProfile", b =>
                 {
-                    b.Navigation("Likes");
-
                     b.Navigation("UserCollections");
                 });
 #pragma warning restore 612, 618

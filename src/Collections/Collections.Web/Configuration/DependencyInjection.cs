@@ -26,6 +26,7 @@ public static class DependencyInjection
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         services.AddScoped<ICollectionService, CollectionService>();
         services.AddScoped<IItemService, ItemService>();
+        services.AddScoped<ILikesService, LikesService>();
         return services;
     }
     

@@ -2,6 +2,7 @@ using AutoMapper;
 using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Models;
 using Collections.Web.Common.Mappings;
+using Collections.Web.Models.UserProfile;
 
 namespace Collections.Web.Models.Collection.Items;
 
@@ -26,6 +27,8 @@ public class ItemExtendedViewModel : IMapWith<Item>
     public DateTime ModifiedOn { get; set; }
     
     public IEnumerable<CommentViewModel> Comments { get; set; }
+    
+    public IEnumerable<LikeViewModel> Likes { get; set; }
 
     public void Mapping(Profile profile)
     {

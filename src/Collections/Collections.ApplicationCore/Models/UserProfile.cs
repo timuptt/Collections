@@ -14,4 +14,6 @@ public class UserProfile : EntityBase<int>, IAggregateRoot
     public string? ImageSource { get; set; }
     
     public IEnumerable<UserCollection> UserCollections { get; set; }
+    
+    public ICollection<Like> Likes { get; set; }
 }

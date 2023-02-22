@@ -3,6 +3,7 @@ using System;
 using Collections.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Collections.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230222144034_CreateTableLike")]
+    partial class CreateTableLike
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,7 +170,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.Tag", b =>
@@ -323,19 +326,19 @@ namespace Collections.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "08c6dfa7-3cfc-4d91-ba64-2219fec0a88c",
+                            Id = "76ea641a-3dad-4093-9e25-8e3d116e6108",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1ff5f03d-5e96-4976-a70b-fd9a2a386a5c",
+                            Id = "2e4c48fd-1d98-4e8f-872b-98ce978e42ea",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "65dd2847-9316-4bfa-be81-b49253c1321a",
+                            Id = "48947d2c-40b3-4d7d-9910-d2fab5c0d2a1",
                             Name = "Author",
                             NormalizedName = "AUTHOR"
                         });

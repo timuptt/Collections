@@ -52,7 +52,7 @@
             <label>Lieks:</label>
         <p></p>
             <div>
-                @if (Model.Likes.All(p => p.UserProfileId != int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value)))
+                @if (!User.Identity.IsAuthenticated || Model.Likes.All(p => p.UserProfileId != int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value)))
                 {
                     <a type="button" class="btn btn-outline-secondary" onclick="location.href = '@Url.Action("LikeItem", "Item", new {itemId = @Model.Id})'"><span class="bi bi-heart"></span> @Model.Likes.Count()</a>
                 }

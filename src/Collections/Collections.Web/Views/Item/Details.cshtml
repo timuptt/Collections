@@ -1,6 +1,8 @@
 @using Collections.ApplicationCore.Models
 @using Collections.Web.Interfaces
+@using Markdig
 @using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Collections.Web.Models.Collection.Items.ItemExtendedViewModel;
 @inject ICurrentUserProvider currentUser
 
@@ -24,27 +26,29 @@
         @foreach (var extraField in @Model.ExtraFields)
         {
             <div class="d-flex">
-                <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
+                
                 @switch (extraField.ExtraFieldValueType!.ValueType)
                 {
                     case ValueTypes.String:
+                        <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
                         <p>@extraField.Value</p>
                         break;
                     case ValueTypes.Binary:
+                        <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
                         <input type="checkbox" class="disabled" checked="@bool.Parse(extraField.Value)"/>
                         break;
-                    case ValueTypes.Text:
-                        <p>@extraField.Value</p>
-                        break;
                     case ValueTypes.Date:
+                        <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
                         <p>@extraField.Value</p>
                         break;
                     case ValueTypes.Number:
+                        <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
                         <p>@extraField.Value</p>
                         break;
                 }
             </div>
         }
+        
         <div class="d-flex mt-3">
             <label class="me-1 text-muted">Created:</label>
             <p>@Model.AddedOn</p>
@@ -53,22 +57,33 @@
             <label class="me-1 text-muted">Updated:</label>
             <p>@Model.ModifiedOn</p>
         </div>
+        @{
+            var markdownFields = @Model.ExtraFields.Where(e => e.ExtraFieldValueType.ValueType == ValueTypes.Text);
+            if (markdownFields.Any())
+            {
+                foreach (var field in markdownFields)
+                {
+                    <div class="p-3 bg-light mt-3 mb-3 rounded-1 w-auto">
+                        <small class="text-muted">@field.ExtraFieldValueType.Name</small>
+                        @Html.Raw(Markdown.ToHtml(@field.Value))
+                    </div>
+                }
+            }
+        }
         <div>
-            <label>Lieks:</label>
-        <p></p>
             <div>
                 @if (!User.Identity.IsAuthenticated || Model.Likes.All(p => p.UserProfileId != currentUser.ProfileId))
                 {
-                    <a type="button" class="btn btn-outline-secondary" onclick="location.href = '@Url.Action("LikeItem", "Item", new {itemId = @Model.Id})'"><span class="bi bi-heart"></span> @Model.Likes.Count()</a>
+                    <a type="button" class="btn btn-outline-secondary" onclick="location.href = '@Url.Action("LikeItem", "Item", new { itemId = @Model.Id })'"><span class="bi bi-heart"></span> @Model.Likes.Count()</a>
                 }
                 else
                 {
-                    <a type="button" class="btn btn-outline-danger" onclick="location.href = '@Url.Action("LikeItem", "Item", new {itemId = @Model.Id})'"><span class="bi bi-heart-fill"></span> @Model.Likes.Count()</a>
+                    <a type="button" class="btn btn-outline-danger" onclick="location.href = '@Url.Action("LikeItem", "Item", new { itemId = @Model.Id })'"><span class="bi bi-heart-fill"></span> @Model.Likes.Count()</a>
                 }
             </div>
-            
+
         </div>
-        
+
     </div>
     
 </div>

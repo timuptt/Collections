@@ -22,6 +22,8 @@ public class CreateCollectionViewModel
     
     public string? ImageSource { get; set; }
     
+    public int UserProfileId { get; set; }
+    
     [Required]
     [DisplayName("Theme")]
     public int SelectedThemeId { get; set; }

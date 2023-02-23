@@ -69,8 +69,8 @@ public class ItemController : Controller
     {
         if (!ModelState.IsValid) return View("Create", request);
         await _itemService.CreateItem(request.UserCollectionId, request.Title, new List<Tag>(),
-            request.ExtraFields!.Select(f => new ExtraField()
-                { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }));
+            request.ExtraFields.Select(f => new ExtraField()
+                { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }) ?? new List<ExtraField>());
         return RedirectToAction("Index", "Home");
     }
 

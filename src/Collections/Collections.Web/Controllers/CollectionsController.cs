@@ -41,10 +41,15 @@ public class CollectionsController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(int profileId)
     {
+        if (profileId <= 0)
+        {
+            profileId = _currentUser.ProfileId;
+        }
         var createCollectionViewModel = new CreateCollectionViewModel
         {
+            UserProfileId = profileId,
             Themes = await _themeViewModelService.GetThemesAsSelectList()
         };
         return View(createCollectionViewModel);
@@ -70,7 +75,7 @@ public class CollectionsController : Controller
             }).ToList();
         }
         await _collectionService.CreateCollection(
-            _currentUser.ProfileId,
+            request.UserProfileId,
             request.SelectedThemeId, request.Title, request.Description,
             request.ImageSource, extraFieldValueTypes);
         return RedirectToAction("Index", "Home");

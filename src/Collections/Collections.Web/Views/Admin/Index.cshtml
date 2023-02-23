@@ -40,7 +40,7 @@
                         @user.Id
                     </td>
                     <td>
-                        @user.FullName
+                        <a asp-action="Details" asp-controller="UserProfile" asp-route-id="@user.UserProfileId" class="text-decoration-none"> @user.FullName</a>
                     </td>
                     <td>
                         @string.Join(", ", user.UserRoles.Select(x => x.Role.Name))

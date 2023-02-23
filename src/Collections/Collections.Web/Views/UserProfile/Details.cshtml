@@ -18,7 +18,14 @@
     <h3>Collections</h3>
     @if (crrentUser.HasPermissions(@Model.Id))
     {
-        <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create">Create collection</a>
+        if (crrentUser.IsAdmin)
+        {
+            <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create" asp-route-profileId="@Model.Id">Create collection as @Model.FirstName @Model.LastName</a>
+        }
+        else
+        {
+            <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create">Create collection</a>
+        }
     }
     <hr/>
     @using (Html.BeginForm())

@@ -1,4 +1,6 @@
+@using Collections.Web.Interfaces
 @model Collections.Web.Models.Collection.CreateCollectionViewModel
+@inject ICurrentUserProvider currentUser
 
 <!DOCTYPE html>
 
@@ -13,6 +15,7 @@
     <div>
         @using (Html.BeginForm("Create", "Collections", FormMethod.Post))
         {
+            @Html.HiddenFor(m => m.UserProfileId)
             <div id="inputsBlock">
                 <div class="mb-3">
                     <label class="form-label">@Html.DisplayNameFor(m => m.Title)</label>

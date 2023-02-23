@@ -1,4 +1,6 @@
+@using Collections.Web.Interfaces
 @model Collections.Web.Models.Collection.CollectionWithItemsViewModel
+@inject ICurrentUserProvider currentUser
 
 <!DOCTYPE html>
 
@@ -11,15 +13,21 @@
     <div class="d-flex justify-content-between">
         <h1>@Model.Title <small class="text-muted text-decoration-underline">by @Model.ProfileFullName</small></h1>
         <div class="p-3">
-            <a asp-action="Update" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-secondary">Update collection</a>
-            <a asp-action="Delete" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-danger">Delete collection</a>
+            @if (currentUser.HasPermissions(@Model.UserProfileId))
+            {
+                <a asp-action="Update" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-secondary">Update collection</a>
+                <a asp-action="Delete" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-danger">Delete collection</a>
+            }
         </div>
     </div>
     <hr/>
     <h3>@Model.UserCollectionTheme</h3>
     <p>@Model.Description</p>
     <h3>Items</h3>
-    <a asp-action="CreateItem" asp-route-collectionId="@Model.Id" class="btn btn-primary">Create item</a>
+    @if (currentUser.HasPermissions(@Model.UserProfileId))
+    {
+        <a asp-action="CreateItem" asp-route-collectionId="@Model.Id" class="btn btn-primary">Create item</a>
+    }
     @if (Model.Items.Count > 0)
     {
         <div class="table-responsive">

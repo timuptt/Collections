@@ -6,6 +6,7 @@ using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Constants.Identity;
 using Collections.Shared.Interfaces;
 using Collections.Web.Hubs;
+using Collections.Web.Interfaces;
 using Collections.Web.Models.Collection.Items;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,11 @@ public class ItemController : Controller
     private readonly IMapper _mapper;
     private readonly IHubContext<CommentsHub> _commentsHub;
     private readonly ILikesService _likesService;
+    private readonly ICurrentUserProvider _currentUser;
 
     public ItemController(IItemService itemService, IMapper mapper,
         IReadRepository<ExtraFieldValueType> extraFieldReadRepository, IReadRepository<Item> itemReadRepository,
-        IHubContext<CommentsHub> commentsHub, ILikesService likesService)
+        IHubContext<CommentsHub> commentsHub, ILikesService likesService, ICurrentUserProvider currentUser)
     {
         _itemService = itemService;
         _mapper = mapper;
@@ -33,6 +35,7 @@ public class ItemController : Controller
         _itemReadRepository = itemReadRepository;
         _commentsHub = commentsHub;
         _likesService = likesService;
+        _currentUser = currentUser;
     }
 
     // GET
@@ -66,19 +69,18 @@ public class ItemController : Controller
     {
         if (!ModelState.IsValid) return View("Create", request);
         await _itemService.CreateItem(request.UserCollectionId, request.Title, new List<Tag>(),
-            request.ExtraFields!.Select(f => new ExtraField()
-                { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }));
+            request.ExtraFields.Select(f => new ExtraField()
+                { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }) ?? new List<ExtraField>());
         return RedirectToAction("Index", "Home");
     }
 
 
     public async Task<IActionResult> WriteComment(CreateCommentViewModel request)
     {
-        request.UserProfileId = int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value);
-        var userName = User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileFullnameClaim).Value;
+        request.UserProfileId = _currentUser.ProfileId;
         await _itemService.WriteComment(_mapper.Map<CommentDto>(request));
         await _commentsHub.Clients.Groups(request.ItemId.ToString())
-            .SendAsync("ReceiveMessage", request.UserProfileId, userName, request.Body);
+            .SendAsync("ReceiveMessage", request.UserProfileId, _currentUser.FullName, request.Body);
         return RedirectToAction("Details", "Item",new{ id = request.ItemId });
     }
 
@@ -90,8 +92,12 @@ public class ItemController : Controller
 
     public async Task<IActionResult> LikeItem(int itemId)
     {
-        await _likesService.Like(itemId,
-            int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value));
+        await _likesService.Like(itemId, _currentUser.ProfileId);
         return RedirectToAction("Details", "Item", new { id = itemId });
+    }
+
+    public async Task<IActionResult> Update(int itemId)
+    {
+        throw new NotImplementedException();
     }
 }

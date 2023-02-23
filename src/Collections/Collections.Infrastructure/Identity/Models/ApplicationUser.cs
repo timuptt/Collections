@@ -8,4 +8,6 @@ public class ApplicationUser : IdentityUser
     public int UserProfileId { get; set; }
     
     public UserProfile UserProfile { get; set; }
+
+    public ICollection<ApplicationUserRole> UserRoles { get; set; }
 }

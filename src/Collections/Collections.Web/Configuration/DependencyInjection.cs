@@ -7,6 +7,7 @@ using Collections.Infrastructure.Data.Contexts;
 using Collections.Infrastructure.Data.Repositories;
 using Collections.Infrastructure.Identity.Claims;
 using Collections.Infrastructure.Identity.Models;
+using Collections.Infrastructure.Identity.Services;
 using Collections.Shared.Interfaces;
 using Collections.Web.Common.Mappings;
 using Collections.Web.Configuration.Connection;
@@ -43,6 +44,7 @@ public static class DependencyInjection
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserProfileClaimFactory>();
+        services.AddScoped<IUserManagementService<ApplicationUser>, UserManagementService>();
         return services;
     }
 
@@ -61,10 +63,11 @@ public static class DependencyInjection
         services.AddAutoMapper(configuration =>
             {
                 configuration.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
-                configuration.AddProfile(new AssemblyMappingProfile(Assembly.GetAssembly(typeof(IMapWith<>))));
+                configuration.AddProfile(new AssemblyMappingProfile(Assembly.GetAssembly(typeof(IMapWith<>))!));
             }
                 );
         services.AddScoped<IFilter<UserCollection>, CollectionFilter>();
+        services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
         services.AddSignalR();
         return services;
     }

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Collections.Shared.Constants.Identity
+@using Collections.Web.Interfaces
+@inject ICurrentUserProvider currentUser
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -22,6 +25,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Collections" asp-action="Index">Explore collections</a>
                     </li>
+                    @if (currentUser.IsAdmin)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">User management</a>
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="navbar-collapse-ignore d-sm-inline-flex justify-content-between">

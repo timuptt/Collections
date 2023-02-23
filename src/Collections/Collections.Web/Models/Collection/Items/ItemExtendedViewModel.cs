@@ -14,6 +14,8 @@ public class ItemExtendedViewModel : IMapWith<Item>
     
     public int UserCollectionId { get; set; }
     
+    public int UserProfileId { get; set; }
+    
     public string UserCollectionTitle { get; set; }
     
     public string LikesCount { get; set; }
@@ -38,6 +40,8 @@ public class ItemExtendedViewModel : IMapWith<Item>
             .ForMember(itemVm => itemVm.UserCollectionTitle,
                 opt => opt.MapFrom(item => item.UserCollection.Title))
             .ForMember(itemVm => itemVm.Comments, opt =>
-                opt.MapFrom(item => item.Comments.OrderByDescending(c => c.AddedOn)));
+                opt.MapFrom(item => item.Comments.OrderByDescending(c => c.AddedOn)))
+            .ForMember(itemVm => itemVm.UserProfileId, opt => 
+                opt.MapFrom(item => item.UserCollection.UserProfileId));
     }
 }

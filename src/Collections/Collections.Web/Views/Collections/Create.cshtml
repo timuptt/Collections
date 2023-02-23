@@ -1,9 +1,9 @@
 @using Collections.Web.Interfaces
+@using Markdig
 @model Collections.Web.Models.Collection.CreateCollectionViewModel
 @inject ICurrentUserProvider currentUser
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>title</title>
@@ -26,10 +26,10 @@
                     <label class="form-label">@Html.DisplayNameFor(m => m.Description)</label>
                     <div class="row">
                         <div class="me-3 col">
-                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @oninput="OnTextChanged"})
                         </div>
                         <div class="col">
-                            Preview
+                            <markdown text="# Hello"># Hello</markdown>
                         </div>    
                     </div>
                     @Html.ValidationMessageFor(m => m.Description, string.Empty, new { @class = "form-validation text-danger" })
@@ -104,3 +104,13 @@
 </script>
 </body>
 </html>
+
+@functions
+{
+    public string Input { get; set; } = "## Hello";
+
+    protected void OnTextChanged(EventArgs args)
+    {
+        Input = Markdown.ToHtml(args.ToString());
+    }
+}

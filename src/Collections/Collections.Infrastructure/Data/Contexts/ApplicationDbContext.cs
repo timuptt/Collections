@@ -2,12 +2,14 @@ using Collections.ApplicationCore.Models;
 using Collections.Infrastructure.Data.Extensions;
 using Collections.Infrastructure.Identity.Models;
 using Collections.Shared.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Collections.Infrastructure.Data.Contexts;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, 
+    ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
 {
     public DbSet<UserCollection> UserCollections { get; set; }
     public DbSet<Comment> Comments { get; set; }

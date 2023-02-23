@@ -3,14 +3,12 @@ using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Interfaces;
 using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Specifications;
-using Collections.Infrastructure.Identity.Models;
 using Collections.Shared.Constants.Identity;
 using Collections.Shared.Interfaces;
 using Collections.Web.Interfaces;
 using Collections.Web.Models.Collection;
 using Collections.Web.Models.Collection.Items;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Collections.Web.Controllers;
@@ -22,19 +20,19 @@ public class CollectionsController : Controller
     private readonly ICollectionViewModelService _collectionViewModelService;
     private readonly IThemeViewModelService _themeViewModelService;
     private readonly IReadRepository<UserCollection> _userCollectionReadRepository;
+    private readonly ICurrentUserProvider _currentUser;
     private readonly IMapper _mapper;
-    private readonly UserManager<ApplicationUser> _userManager;
 
     public CollectionsController(ICollectionService collectionService, IThemeViewModelService themeViewModelService,
-        UserManager<ApplicationUser> userManager, ICollectionViewModelService collectionViewModelService,
-        IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper)
+        ICollectionViewModelService collectionViewModelService,
+        IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper, ICurrentUserProvider currentUser)
     {
         _collectionService = collectionService;
         _themeViewModelService = themeViewModelService;
-        _userManager = userManager;
         _collectionViewModelService = collectionViewModelService;
         _userCollectionReadRepository = userCollectionReadRepository;
         _mapper = mapper;
+        _currentUser = currentUser;
     }
 
     [AllowAnonymous]
@@ -72,7 +70,7 @@ public class CollectionsController : Controller
             }).ToList();
         }
         await _collectionService.CreateCollection(
-            int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value),
+            _currentUser.ProfileId,
             request.SelectedThemeId, request.Title, request.Description,
             request.ImageSource, extraFieldValueTypes);
         return RedirectToAction("Index", "Home");

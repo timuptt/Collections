@@ -1,5 +1,7 @@
 @using Collections.ApplicationCore.Models
+@using Collections.Web.Interfaces
 @model Collections.Web.Models.UserProfile.UserProfileViewModel
+@inject ICurrentUserProvider crrentUser
 
 <!DOCTYPE html>
 
@@ -14,6 +16,10 @@
     </h1>
     <hr/>
     <h3>Collections</h3>
+    @if (crrentUser.HasPermissions(@Model.Id))
+    {
+        <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create">Create collection</a>
+    }
     <hr/>
     @using (Html.BeginForm())
     {

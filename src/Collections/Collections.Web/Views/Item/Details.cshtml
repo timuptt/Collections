@@ -1,7 +1,8 @@
 @using Collections.ApplicationCore.Models
-@using Collections.Shared.Constants.Identity
+@using Collections.Web.Interfaces
 @using Microsoft.AspNetCore.Mvc.Rendering
 @model Collections.Web.Models.Collection.Items.ItemExtendedViewModel;
+@inject ICurrentUserProvider currentUser
 
 <!DOCTYPE html>
 
@@ -14,7 +15,11 @@
     <h1>@Model.Title <small class="text-muted">in collection <a asp-action="Details" asp-controller="Collections" asp-route-id="@Model.UserCollectionId" class="text-decoration-none">@Model.UserCollectionTitle</a></small></h1>
     <hr/>
     @Html.HiddenFor(m=> m.Id, new {@id="groupId"})
-    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete item</a>
+    @if (currentUser.HasPermissions(@Model.UserProfileId))
+    {
+        <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Update item</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete item</a>
+    }
     <div class="p-3">
         @foreach (var extraField in @Model.ExtraFields)
         {
@@ -52,7 +57,7 @@
             <label>Lieks:</label>
         <p></p>
             <div>
-                @if (!User.Identity.IsAuthenticated || Model.Likes.All(p => p.UserProfileId != int.Parse(User.Claims.First(c => c.Type == UserClaimsConstants.UserProfileIdClaim).Value)))
+                @if (!User.Identity.IsAuthenticated || Model.Likes.All(p => p.UserProfileId != currentUser.ProfileId))
                 {
                     <a type="button" class="btn btn-outline-secondary" onclick="location.href = '@Url.Action("LikeItem", "Item", new {itemId = @Model.Id})'"><span class="bi bi-heart"></span> @Model.Likes.Count()</a>
                 }

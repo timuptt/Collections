@@ -40,10 +40,10 @@ public class CollectionService : ICollectionService
     }
 
     public async Task CreateCollection(int userProfileId, int userCollectionThemeId, string title,
-        string description, string imageSource,
+        string description, string imageSource, string imageName,
         ICollection<ExtraFieldValueType> extraFieldValueTypes)
     {
-        var collection = new UserCollection(title, description, userProfileId, userCollectionThemeId, imageSource, extraFieldValueTypes);
+        var collection = new UserCollection(title, description, userProfileId, userCollectionThemeId, imageSource, imageName, extraFieldValueTypes);
         await _userCollectionsRepository.AddAsync(collection);
     }
 

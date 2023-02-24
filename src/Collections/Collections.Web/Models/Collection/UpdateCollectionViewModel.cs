@@ -27,6 +27,10 @@ public class UpdateCollectionViewModel : IMapWith<UserCollection>
 
     public string? ImageSource { get; set; }
     
+    public string? ImageName { get; set; }
+    
+    public IFormFile? Image { get; set; }
+    
     public IList<UpdateExtraFieldValueTypeViewModel>? ExtraFieldValueTypes { get; set; }
     
     public IList<CreateExtraFieldValueTypeViewModel>? NewExtraFieldValueTypes { get; set; }

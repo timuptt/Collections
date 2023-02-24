@@ -9,10 +9,12 @@ namespace Collections.Web.Services;
 public class CollectionViewModelService : ICollectionViewModelService
 {
     private readonly IReadRepository<UserCollection> _userCollectionsRepository;
+    private readonly ICloudStorageService _cloudStorageService;
 
-    public CollectionViewModelService(IReadRepository<UserCollection> userCollectionRepository)
+    public CollectionViewModelService(IReadRepository<UserCollection> userCollectionRepository, ICloudStorageService cloudStorageService)
     {
         _userCollectionsRepository = userCollectionRepository;
+        _cloudStorageService = cloudStorageService;
     }
 
     
@@ -24,6 +26,11 @@ public class CollectionViewModelService : ICollectionViewModelService
     public async Task<CollectionWithItemsViewModel> GetCollectionViewModelById(int id)
     {
         var specification = new UserCollectionWithItemsByIdSpecification(id);
-        return await _userCollectionsRepository.GetBySpecProjectedAsync<CollectionWithItemsViewModel>(specification);
+        var collection = await _userCollectionsRepository.GetBySpecProjectedAsync<CollectionWithItemsViewModel>(specification);
+        if (!string.IsNullOrWhiteSpace(collection.ImageName))
+        {
+            collection.ImageSignedSource = await _cloudStorageService.GetSignedUrlAsync(collection.ImageName);
+        }
+        return collection;
     }
 }

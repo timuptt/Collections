@@ -5,6 +5,8 @@ using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Services;
 using Collections.Infrastructure.Data.Contexts;
 using Collections.Infrastructure.Data.Repositories;
+using Collections.Infrastructure.FileStorage.Configuration;
+using Collections.Infrastructure.FileStorage.Services;
 using Collections.Infrastructure.Identity.Claims;
 using Collections.Infrastructure.Identity.Models;
 using Collections.Infrastructure.Identity.Services;
@@ -35,6 +37,8 @@ public static class DependencyInjection
     {
         services.AddDbContext<ApplicationDbContext>(options => 
             options.UseNpgsql(DbConnectionHelper.GetConnectionString(configuration)));
+        services.Configure<GCSConfiguration>(configuration);
+        services.AddScoped<ICloudStorageService, CloudStorageService>();
         return services;
     }
 

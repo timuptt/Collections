@@ -20,7 +20,10 @@ public class CreateCollectionViewModel
     [DisplayName("Description")]
     public string Description { get; set; }
     
+    public IFormFile? Image { get; set; }
     public string? ImageSource { get; set; }
+    
+    public string? ImageName { get; set; }
     
     public int UserProfileId { get; set; }
     

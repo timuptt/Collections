@@ -21,11 +21,12 @@ public class CollectionsController : Controller
     private readonly IThemeViewModelService _themeViewModelService;
     private readonly IReadRepository<UserCollection> _userCollectionReadRepository;
     private readonly ICurrentUserProvider _currentUser;
+    private readonly ICloudStorageService _cloudStorageService;
     private readonly IMapper _mapper;
 
     public CollectionsController(ICollectionService collectionService, IThemeViewModelService themeViewModelService,
         ICollectionViewModelService collectionViewModelService,
-        IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper, ICurrentUserProvider currentUser)
+        IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper, ICurrentUserProvider currentUser, ICloudStorageService cloudStorageService)
     {
         _collectionService = collectionService;
         _themeViewModelService = themeViewModelService;
@@ -33,6 +34,7 @@ public class CollectionsController : Controller
         _userCollectionReadRepository = userCollectionReadRepository;
         _mapper = mapper;
         _currentUser = currentUser;
+        _cloudStorageService = cloudStorageService;
     }
 
     [AllowAnonymous]
@@ -74,10 +76,14 @@ public class CollectionsController : Controller
                 ValueType = e.ValueType
             }).ToList();
         }
+        if (request.Image != null)
+        {
+            (request.ImageSource, request.ImageName) = await _cloudStorageService.UploadImageAsync(request.Image);
+        }
         await _collectionService.CreateCollection(
             request.UserProfileId,
             request.SelectedThemeId, request.Title, request.Description,
-            request.ImageSource, extraFieldValueTypes);
+            request.ImageSource, request.ImageName, extraFieldValueTypes);
         return RedirectToAction("Index", "Home");
     }
 
@@ -96,10 +102,15 @@ public class CollectionsController : Controller
         {
             return View(request);
         }
+        if (ImageIsChanged(request))
+        {
+            await _cloudStorageService.DeleteFileAsync(request.ImageName!);
+            (request.ImageSource, request.ImageName) = await _cloudStorageService.UploadImageAsync(request.Image!);
+        }
         await _collectionService.UpdateCollection(_mapper.Map<UpdateUserCollectionDto>(request));
-        return RedirectToAction("Details", "Collections", request.Id);
+        return RedirectToAction("Details", "Collections",new {id = request.Id});
     }
-    
+
     public async Task<IActionResult> Delete(int collectionId)
     {
         await _collectionService.DeleteCollection(collectionId);
@@ -118,4 +129,7 @@ public class CollectionsController : Controller
         var itemVm = new CreateItemViewModel() { UserCollectionId = collectionId };
         return RedirectToAction("Create", "Item", itemVm);
     }
+    
+    private static bool ImageIsChanged(UpdateCollectionViewModel request) =>
+        request.Image != null;
 }

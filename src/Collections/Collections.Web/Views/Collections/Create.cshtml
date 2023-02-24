@@ -13,7 +13,7 @@
     <h1>Create new collection</h1>
     <hr/>
     <div>
-        @using (Html.BeginForm("Create", "Collections", FormMethod.Post))
+        @using (Html.BeginForm("Create", "Collections", FormMethod.Post, new {@enctype="multipart/form-data"}))
         {
             @Html.HiddenFor(m => m.UserProfileId)
             <div id="inputsBlock">
@@ -39,7 +39,10 @@
                     @Html.DisplayNameFor(m => m.SelectedThemeId)
                     @Html.DropDownListFor(m => m.SelectedThemeId, Model.Themes, new {@class="form-select"})
                 </div>
-                
+                <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input type="file" asp-for="Image" class="form-control"/>
+                </div>
                 <h5>Additional fields</h5>
                 <hr/>
             </div>

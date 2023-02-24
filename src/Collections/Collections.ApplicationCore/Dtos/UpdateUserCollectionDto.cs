@@ -14,6 +14,8 @@ public class UpdateUserCollectionDto : IMapWith<UserCollection>
 
     public string? ImageSource { get; set; }
     
+    public string? ImageName { get; set; }
+    
     public IEnumerable<UpdateExtraFieldValueTypeDto>? ExtraFieldValueTypes { get; set; }
     
     public IEnumerable<CreateExtraFieldValueTypeDto>? NewExtraFieldValueTypes { get; set; }

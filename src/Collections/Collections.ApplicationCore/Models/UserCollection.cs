@@ -20,6 +20,8 @@ public class UserCollection : EntityBase<int>, IAggregateRoot
 
     public string? ImageSource { get; set; }
     
+    public string? ImageName { get; set; }
+    
     public List<ExtraFieldValueType>? ExtraFieldValueTypes { get; set; }
 
     public ICollection<Item> Items { get; set; }
@@ -28,13 +30,14 @@ public class UserCollection : EntityBase<int>, IAggregateRoot
     {
         
     }
-    public UserCollection(string title, string description, int userProfileId, int userCollectionThemeId, string imageSource = "", ICollection<ExtraFieldValueType> extraFieldValueTypes = null)
+    public UserCollection(string title, string description, int userProfileId, int userCollectionThemeId, string imageSource = "", string imageName = "", ICollection<ExtraFieldValueType> extraFieldValueTypes = null)
     {
         Title = Guard.Against.NullOrWhiteSpace(title, nameof(title));
         Description = Guard.Against.NullOrWhiteSpace(description, nameof(description));
         UserProfileId = Guard.Against.NegativeOrZero(userProfileId, nameof(userProfileId));
         UserCollectionThemeId = Guard.Against.NegativeOrZero(userCollectionThemeId, nameof(userCollectionThemeId));
         ImageSource = imageSource;
+        ImageName = imageName;
         ExtraFieldValueTypes = extraFieldValueTypes.ToList();
     }
 

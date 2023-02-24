@@ -20,7 +20,9 @@ public class CollectionWithItemsViewModel : IMapWith<UserCollection>
     
     public string UserCollectionTheme { get; set; }
     
-    public string ImageSource { get; set; }
+    public string ImageName { get; set; }
+    
+    public string ImageSignedSource { get; set; }
     
     public IList<ItemViewModel> Items { get; set; }
     

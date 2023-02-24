@@ -8,7 +8,7 @@ public interface ICollectionService
     public Task AddItemToCollection(int collectionId, Item item);
 
     public Task CreateCollection(int userProfileId, int userCollectionThemeId, string title, string description,
-        string imageSource, ICollection<ExtraFieldValueType> extraFieldValueTypes);
+        string imageSource, string imageName, ICollection<ExtraFieldValueType> extraFieldValueTypes);
 
     public Task UpdateCollection(UpdateUserCollectionDto userCollectionDto);
 

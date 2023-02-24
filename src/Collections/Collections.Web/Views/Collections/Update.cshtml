@@ -11,7 +11,7 @@
     <h1>Update collection @Model.Title</h1>
     <hr/>
     <div>
-        @using (Html.BeginForm("Update", "Collections", FormMethod.Post))
+        @using (Html.BeginForm("Update", "Collections", FormMethod.Post, new {@enctype="multipart/form-data"}))
         {
             <div>
                 @Html.HiddenFor(m => m.Id)
@@ -31,6 +31,12 @@
                         </div>
                     </div>
                     @Html.ValidationMessageFor(m => m.Description, string.Empty, new { @class = "form-validation text-danger" })
+                </div>
+                @Html.HiddenFor(m => m.ImageName)
+                @Html.HiddenFor(m => m.ImageSource)
+                <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input type="file" asp-for="Image" class="form-control"/>
                 </div>
 
                 <h5>Additional fields</h5>

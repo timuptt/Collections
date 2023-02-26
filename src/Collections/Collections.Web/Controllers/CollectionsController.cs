@@ -26,7 +26,8 @@ public class CollectionsController : Controller
 
     public CollectionsController(ICollectionService collectionService, IThemeViewModelService themeViewModelService,
         ICollectionViewModelService collectionViewModelService,
-        IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper, ICurrentUserProvider currentUser, ICloudStorageService cloudStorageService)
+        IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper, ICurrentUserProvider currentUser,
+        ICloudStorageService cloudStorageService)
     {
         _collectionService = collectionService;
         _themeViewModelService = themeViewModelService;
@@ -98,13 +99,11 @@ public class CollectionsController : Controller
     [HttpPost]
     public async Task<IActionResult> Update(UpdateCollectionViewModel request)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(request);
-        }
+        if (!ModelState.IsValid) return View(request);
         if (ImageIsChanged(request))
         {
-            await _cloudStorageService.DeleteFileAsync(request.ImageName!);
+            if(PreviousImageExist(request))
+                await _cloudStorageService.DeleteFileAsync(request.ImageName!);
             (request.ImageSource, request.ImageName) = await _cloudStorageService.UploadImageAsync(request.Image!);
         }
         await _collectionService.UpdateCollection(_mapper.Map<UpdateUserCollectionDto>(request));
@@ -132,4 +131,7 @@ public class CollectionsController : Controller
     
     private static bool ImageIsChanged(UpdateCollectionViewModel request) =>
         request.Image != null;
+
+    private static bool PreviousImageExist(UpdateCollectionViewModel request) =>
+        !string.IsNullOrEmpty(request.ImageName) && !string.IsNullOrEmpty(request.ImageSource);
 }

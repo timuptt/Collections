@@ -16,5 +16,13 @@ public class UserCollectionEntityConfiguration : IEntityTypeConfiguration<UserCo
             .Property(c => c.Description)
             .HasMaxLength(1000)
             .IsRequired();
+        builder
+            .HasIndex(c => new
+            {
+                c.Description,
+                c.Title
+            })
+            .HasMethod("GIN")
+            .IsTsVectorExpressionIndex("english");
     }
 }

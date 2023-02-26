@@ -53,7 +53,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.ExtraField", b =>
@@ -85,7 +85,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ExtraFields");
+                    b.ToTable("ExtraFields", (string)null);
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.ExtraFieldValueType", b =>
@@ -123,7 +123,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasIndex("UserCollectionId");
 
-                    b.ToTable("ExtraFieldValueTypes");
+                    b.ToTable("ExtraFieldValueTypes", (string)null);
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.Item", b =>
@@ -152,7 +152,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasIndex("UserCollectionId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.Like", b =>
@@ -167,7 +167,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Likes", (string)null);
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.Tag", b =>
@@ -191,7 +191,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.UserCollection", b =>
@@ -236,7 +236,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("UserCollections");
+                    b.ToTable("UserCollections", (string)null);
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.UserCollectionTheme", b =>
@@ -260,7 +260,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserCollectionThemes");
+                    b.ToTable("UserCollectionThemes", (string)null);
                 });
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.UserProfile", b =>
@@ -295,7 +295,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserProfiles");
+                    b.ToTable("UserProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Collections.Infrastructure.Identity.Models.ApplicationRole", b =>
@@ -441,7 +441,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("ItemTag");
+                    b.ToTable("ItemTag", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

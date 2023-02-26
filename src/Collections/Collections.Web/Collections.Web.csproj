@@ -33,8 +33,4 @@
       <ProjectReference Include="..\Collections.Infrastructure\Collections.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Api\Controllers" />
-    </ItemGroup>
-
 </Project>

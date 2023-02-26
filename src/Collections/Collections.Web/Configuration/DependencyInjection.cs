@@ -25,8 +25,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
-        services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         services.AddScoped<ICollectionService, CollectionService>();
         services.AddScoped<IItemService, ItemService>();
         services.AddScoped<ILikesService, LikesService>();
@@ -35,6 +33,9 @@ public static class DependencyInjection
     
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
+        services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+        services.AddScoped<IItemSearchRepository, ItemSearchRepository>();
         services.AddDbContext<ApplicationDbContext>(options => 
             options.UseNpgsql(DbConnectionHelper.GetConnectionString(configuration)));
         services.Configure<GCSConfiguration>(configuration);

@@ -1,3 +1,4 @@
+using System.Collections;
 using Collections.ApplicationCore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,5 +13,11 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<Item>
             .Property(i => i.Title)
             .HasMaxLength(100)
             .IsRequired();
+        builder
+            .HasIndex(
+                i => i.Title
+            )
+            .HasMethod("GIN")
+            .IsTsVectorExpressionIndex("english");
     }
 }

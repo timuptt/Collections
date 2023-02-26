@@ -12,5 +12,10 @@ public class CommentEntityConfiguration : IEntityTypeConfiguration<Comment>
             .Property(c => c.Body)
             .HasMaxLength(512)
             .IsRequired();
+        builder
+            .HasIndex(
+                c => c.Body)
+            .HasMethod("GIN")
+            .IsTsVectorExpressionIndex("english");
     }
 }

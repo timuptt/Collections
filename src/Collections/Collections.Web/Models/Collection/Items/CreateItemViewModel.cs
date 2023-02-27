@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Collections.ApplicationCore.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Collections.Web.Models.Collection.Items;
@@ -13,9 +14,9 @@ public class CreateItemViewModel
     [DataType(DataType.Text)]
     public string Title { get; set; }
 
-    public SelectList Tags { get; set; } = new SelectList(new List<SelectListItem>());
+    public MultiSelectList Tags { get; set; } = new SelectList(new List<SelectListItem>());
 
-    public IEnumerable<int> selectedValues;
+    public IEnumerable<string> SelectedValues { get; set; }
 
     public IList<CreateExtraFieldViewModel>? ExtraFields { get; set; }
 }

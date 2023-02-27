@@ -8,7 +8,7 @@ public interface IItemService
 {
     public Task UpdateItem(string id);
 
-    public Task CreateItem(int collectionId, string title, IEnumerable<Tag> tags, IEnumerable<ExtraField> extraFields);
+    public Task CreateItem(int collectionId, string title, IEnumerable<string> tags, IEnumerable<ExtraField> extraFields);
 
     public Task WriteComment(CommentDto commentDto);
     

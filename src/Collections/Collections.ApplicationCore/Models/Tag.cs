@@ -6,7 +6,7 @@ namespace Collections.ApplicationCore.Models;
 
 public class Tag : EntityBase<int>, IAggregateRoot
 {
-    public string Title { get; set; }
+    public string? Title { get; set; }
     
     public ICollection<Item> Items { get; set; }
 
@@ -15,6 +15,6 @@ public class Tag : EntityBase<int>, IAggregateRoot
 
     public Tag(string title)
     {
-        Title = Guard.Against.NullOrWhiteSpace(title, nameof(title));
+        Title = title.ToLower();
     }
 }

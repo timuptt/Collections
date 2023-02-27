@@ -75,7 +75,7 @@
                             @item.LikesCount
                         </td>
                         <td>
-                            @string.Join(" ", item.Tags.Select(t => t.Title))
+                            @string.Join(" ", item.Tags.Select(t => t.Text))
                         </td>
                         @foreach (var field in item.ExtraFields)
                         {

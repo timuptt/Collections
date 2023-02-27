@@ -26,7 +26,7 @@ public class Item : EntityBase<int>, IAggregateRoot
     {
         UserCollectionId = Guard.Against.NegativeOrZero(collectionId, nameof(collectionId));
         Title = Guard.Against.NullOrEmpty(title, nameof(title));
-        Tags = Guard.Against.Null(tags, nameof(tags));
+        Tags = tags;
         ExtraFields = extraFields.ToList();
     }
 }

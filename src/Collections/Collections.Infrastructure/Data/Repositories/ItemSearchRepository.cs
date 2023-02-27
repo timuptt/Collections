@@ -22,7 +22,8 @@ public class ItemSearchRepository : IItemSearchRepository
     {
         searchTerm = searchTerm.Trim().Replace(" ", "<->");
         var query = $"{searchTerm}:*";
-        var items = _dbContext.Items.Where(
+        var items = _dbContext.Items.AsNoTracking()
+            .Where(
             i =>
                 EF.Functions.ToTsVector(i.Title).Matches(query) ||
                 EF.Functions.ToTsVector(i.UserCollection.Title + " " + i.UserCollection.Description)
@@ -34,5 +35,20 @@ public class ItemSearchRepository : IItemSearchRepository
                 i.ExtraFields.Any(e => EF.Functions.ToTsVector(e.Value).Matches(query)))
             .Take(10);
         return await items.ProjectTo<TProjectTo>(_mapper.ConfigurationProvider).ToListAsync();
-    } 
+    }
+
+    public async Task AddAsync(Item item, IEnumerable<string> tags)
+    {
+        foreach (var tag in tags)
+        {
+            if (int.TryParse(tag, out var tagId))
+            {
+                item.Tags.Add(await _dbContext.Tags.FirstAsync(t => t.Id == tagId));
+                continue;
+            }
+            item.Tags.Add(new Tag(tag));
+        }
+        await _dbContext.Items.AddAsync(item);
+        await _dbContext.SaveChangesAsync();
+    }
 }

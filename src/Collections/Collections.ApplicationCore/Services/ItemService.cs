@@ -11,13 +11,15 @@ public class ItemService : IItemService
 {
     private readonly IRepository<Item> _itemRepository;
     private readonly IRepository<Comment> _commentRepository;
+    private readonly IItemSearchRepository _itemSearchRepository;
     private readonly IMapper _mapper;
 
-    public ItemService(IRepository<Item> itemRepository, IRepository<Comment> commentRepository, IMapper mapper)
+    public ItemService(IRepository<Item> itemRepository, IRepository<Comment> commentRepository, IMapper mapper, IItemSearchRepository itemSearchRepository)
     {
         _itemRepository = itemRepository;
         _commentRepository = commentRepository;
         _mapper = mapper;
+        _itemSearchRepository = itemSearchRepository;
     }
 
     public async Task UpdateItem(string id)
@@ -25,10 +27,10 @@ public class ItemService : IItemService
         throw new NotImplementedException();
     }
     
-    public async Task CreateItem(int collectionId, string title, IEnumerable<Tag> tags, IEnumerable<ExtraField> extraFields)
+    public async Task CreateItem(int collectionId, string title, IEnumerable<string> tags, IEnumerable<ExtraField> extraFields)
     {
-        var item = new Item(collectionId, title, tags.ToList(), extraFields.ToList());
-        await _itemRepository.AddAsync(item);
+        var item = new Item() {UserCollectionId = collectionId, Title = title, Tags = new List<Tag>(), ExtraFields = extraFields.ToList()};
+        await _itemSearchRepository.AddAsync(item, tags);
     }
 
     public async Task WriteComment(CommentDto commentDto)

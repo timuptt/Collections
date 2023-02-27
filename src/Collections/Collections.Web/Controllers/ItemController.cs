@@ -68,9 +68,9 @@ public class ItemController : Controller
     public async Task<IActionResult> CreateItem(CreateItemViewModel request)
     {
         if (!ModelState.IsValid) return View("Create", request);
-        await _itemService.CreateItem(request.UserCollectionId, request.Title, new List<Tag>(),
+        await _itemService.CreateItem(request.UserCollectionId, request.Title, request.SelectedValues,
             request.ExtraFields.Select(f => new ExtraField()
-                { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }) ?? new List<ExtraField>());
+                { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }));
         return RedirectToAction("Index", "Home");
     }
 

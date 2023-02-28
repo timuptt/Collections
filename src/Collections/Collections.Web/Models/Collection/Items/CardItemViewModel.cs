@@ -7,11 +7,16 @@ namespace Collections.Web.Models.Collection.Items;
 public class CardItemViewModel : IMapWith<Item>
 {
     public int Id { get; set; }
+
     public string Title { get; set; }
+
     public int LikesCount { get; set; }
     
     public int CommentsCount { get; set; }
+
     public DateTime AddedOn { get; set; }
+    
+    public IEnumerable<TagViewModel> Tags { get; set; }
 
     public void Mapping(Profile profile)
     {

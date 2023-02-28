@@ -6,31 +6,39 @@ using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Interfaces;
 using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.Tags;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Collections.Web.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class TagController : ControllerBase
     {
         private readonly IReadRepository<Tag> _tagReadRepository;
-        private readonly IRepository<Tag> _tagRepository;
 
         public TagController(IReadRepository<Tag> tagReadRepository, IRepository<Tag> tagRepository)
         {
             _tagReadRepository = tagReadRepository;
-            _tagRepository = tagRepository;
         }
         
         [HttpGet]
+        [Route("api/[controller]/[action]")]
         public async Task<IActionResult> Search(string term)
         {
             if (term.IsNullOrEmpty()) return Ok();
             var specification = new TagsByPrefixSpec(term, 10);
             var tags = await _tagReadRepository.ListProjectedAsync<TagViewModel>(specification);
+            return Ok(tags);
+        }
+
+        [HttpGet]
+        [Route("api/[controller]/[action]")]
+        public async Task<IActionResult> GetTopTags()
+        {
+            var specification = new TagsWithWeightSpec(50);
+            var tags = await _tagReadRepository.ListProjectedAsync<CloudTagViewModel>(specification);
             return Ok(tags);
         }
     }

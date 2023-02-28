@@ -1,0 +1,61 @@
+@model Collections.Web.Models.Tags.TagWithItemsViewModel
+
+<div class="container">
+    <h1>Items by @Model.Title tag</h1>
+    <hr/>
+    @if (Model.Items.Count > 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(m => m.Items[0].Id)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(m => m.Items[0].Title)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(m => m.Items[0].UserCollectionName)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(m => m.Items[0].CommentsCount)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(m => m.Items[0].LikesCount)
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in @Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">@item.Title</a>
+                        </td>
+                        <td>
+                            @item.UserCollectionName
+                        </td>
+                        <td>
+                            @item.CommentsCount
+                        </td>
+                        <td>
+                            @item.LikesCount
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div>
+            <p>There is no items :(</p>
+        </div>
+    }
+    
+</div>

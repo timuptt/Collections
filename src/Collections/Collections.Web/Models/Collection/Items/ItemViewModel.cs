@@ -17,6 +17,11 @@ public class ItemViewModel : IMapWith<Item>
     [DisplayName("Likes")]
     public int LikesCount { get; set; }
     
+    [DisplayName("Comments")]
+    public int CommentsCount { get; set; }
+    
+    [DisplayName("Collection")]
+    public string UserCollectionName { get; set; }
     public IEnumerable<ExtraFieldViewModel> ExtraFields { get; set; }
     
     [DisplayName("Tags")]
@@ -26,6 +31,10 @@ public class ItemViewModel : IMapWith<Item>
     {
         profile.CreateMap<Item, ItemViewModel>()
             .ForMember(itemVm => itemVm.LikesCount,
-                opt => opt.MapFrom(item => item.Likes.Count));
+                opt => opt.MapFrom(item => item.Likes.Count))
+            .ForMember(itemVm => itemVm.CommentsCount,
+            opt => opt.MapFrom(item => item.Comments.Count))
+            .ForMember(itemVm => itemVm.UserCollectionName, opt =>
+                opt.MapFrom(item => item.UserCollection.Title));
     }
 }

@@ -1,11 +1,13 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Collections.ApplicationCore.Models;
+using AutoMapper;
+using Collections.ApplicationCore.Common.Mappings;
+using Collections.ApplicationCore.Dtos;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Collections.Web.Models.Collection.Items;
 
-public class CreateItemViewModel
+public class CreateItemViewModel : IMapWith<ItemDto>
 {
     public int UserCollectionId { get; set; }
     
@@ -16,7 +18,12 @@ public class CreateItemViewModel
 
     public MultiSelectList Tags { get; set; } = new SelectList(new List<SelectListItem>());
 
-    public IEnumerable<string> SelectedValues { get; set; }
+    public IEnumerable<string> SelectedTags { get; set; }
 
     public IList<CreateExtraFieldViewModel>? ExtraFields { get; set; }
+
+    public void Mapping(Profile profile)
+    {
+        profile.CreateMap<CreateItemViewModel, ItemDto>();
+    }
 }

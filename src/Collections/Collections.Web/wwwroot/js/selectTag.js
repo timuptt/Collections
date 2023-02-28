@@ -38,14 +38,5 @@ $(document).ready(function() {
                 newTag: true 
             }
         }
-    }).on("select2:select", function (e) {
-        if (e.params.data.newTag === true){
-            console.log("selected new " + e.params.data.id + " " + e.params.data.text);
-            $("#selectedTags").insertAdjacentHTML("beforeend", '<option value="' + 0 + '" text="' + e.params.data.text +'"/>')
-        }
-        else{
-            console.log("selected " + e.params.data.id + " " + e.params.data.text);
-            $("#selectedTags").insertAdjacentHTML("beforeend", '<option value="' + e.params.data.id + '" text="' + e.params.data.text +'"/>')
-        }
     })
 });

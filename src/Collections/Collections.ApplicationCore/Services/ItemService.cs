@@ -11,26 +11,47 @@ public class ItemService : IItemService
 {
     private readonly IRepository<Item> _itemRepository;
     private readonly IRepository<Comment> _commentRepository;
-    private readonly IItemSearchRepository _itemSearchRepository;
+    private readonly IReadRepository<Tag> _tagReadRepository;
     private readonly IMapper _mapper;
 
-    public ItemService(IRepository<Item> itemRepository, IRepository<Comment> commentRepository, IMapper mapper, IItemSearchRepository itemSearchRepository)
+    public ItemService(IRepository<Item> itemRepository, IRepository<Comment> commentRepository, IMapper mapper,
+        IReadRepository<Tag> tagReadRepository)
     {
         _itemRepository = itemRepository;
         _commentRepository = commentRepository;
         _mapper = mapper;
-        _itemSearchRepository = itemSearchRepository;
+        _tagReadRepository = tagReadRepository;
     }
 
-    public async Task UpdateItem(string id)
+    public async Task UpdateItem(UpdateItemDto itemDto)
     {
-        throw new NotImplementedException();
+        var itemToUpdate = await _itemRepository.GetByIdAsync(itemDto.Id);
+        Guard.Against.Null(itemToUpdate);
+        _mapper.Map(itemDto, itemToUpdate);
+        await _itemRepository.UpdateAsync(itemToUpdate);
     }
-    
-    public async Task CreateItem(int collectionId, string title, IEnumerable<string> tags, IEnumerable<ExtraField> extraFields)
+
+    public async Task CreateItem(ItemDto itemDto, IEnumerable<string>? tags)
     {
-        var item = new Item() {UserCollectionId = collectionId, Title = title, Tags = new List<Tag>(), ExtraFields = extraFields.ToList()};
-        await _itemSearchRepository.AddAsync(item, tags);
+        Guard.Against.Null(itemDto);
+        var item = _mapper.Map<Item>(itemDto);
+        if(tags != null) await ProcessTags(tags, item);
+        await _itemRepository.AddAsync(item);
+    }
+
+    private async Task ProcessTags(IEnumerable<string> tags, Item item)
+    {
+        item.Tags = new List<Tag>();
+        foreach (var tag in tags)
+        {
+            if (int.TryParse(tag, out var tagId))
+            {
+                var dbTag = await _tagReadRepository.GetByIdAsync(tagId);
+                if (dbTag != null) item.Tags.Add(dbTag);
+                continue;
+            }
+            item.Tags.Add(new Tag(tag));
+        }
     }
 
     public async Task WriteComment(CommentDto commentDto)

@@ -1,17 +1,58 @@
+@using Collections.ApplicationCore.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Collections.Web.Models.Collection.Items.UpdateItemViewModel
 
-@{
-    Layout = null;
-}
+<div class="container">
+    <h1>Update item @Model.Title</h1>
+    <hr/>
+    
+    @using (Html.BeginForm("UpdateItem", "Item", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Id)
+        <div class="mb-3">
+            <label class="form-label">@Html.DisplayNameFor(m => m.Title)</label>
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+        </div>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
+        if (@Model.ExtraFields != null)
+        {
+            <h5>Additional fields</h5>
+            <hr/>
+            <div class="p-3">
+                @for (var i = 0; i < @Model.ExtraFields.Count; i++)
+                {
+                    <div class="mb-3">
+                        @Html.HiddenFor(m => m.ExtraFields[i].Id)
+                        @Html.HiddenFor(m => m.ExtraFields[i].ExtraFieldValueTypeId)
+                        @Html.HiddenFor(m => m.ExtraFields[i].ExtraFieldValueType)
+                        @Html.HiddenFor(m => m.ExtraFields[i].ExtraFieldValueType.Name)
+                        <label class="form-label">@Model.ExtraFields[i].ExtraFieldValueType.Name</label>
+                        @switch (@Model.ExtraFields[i].ExtraFieldValueType.ValueType)
+                        {
+                            case ValueTypes.String:
+                                @Html.TextBoxFor(m => m.ExtraFields[i].Value, new { @class = "form-control" })
+                                break;
+                            case ValueTypes.Text:
+                                @Html.TextAreaFor(m => m.ExtraFields[i].Value, new { @class = "form-control" })
+                                break;
+                            case ValueTypes.Date:
+                                <input asp-for="ExtraFields[i].Value" value="@Model.ExtraFields[i].Value" type="date" class="form-control"/>
+                                break;
+                            case ValueTypes.Number:
+                                <input asp-for="ExtraFields[i].Value" value="@Model.ExtraFields[i].Value" type="number" class="form-control"/>
+                                break;
+                            case ValueTypes.Binary:
+                                <input asp-for="ExtraFields[i].Value" value="@Model.ExtraFields[i].Value" type="checkbox" class="form-check"/>
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    </div>
+                }
+            </div>
+            <input type="submit" class="btn btn-primary" value="Submit"/>
+        }
+    }
 </div>
-</body>
-</html>
+   

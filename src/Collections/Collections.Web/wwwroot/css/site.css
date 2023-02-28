@@ -24,3 +24,7 @@ body {
 .search-box{
   width: 30%;
 }
+
+.tag-cloud {
+  height: 100px;
+}

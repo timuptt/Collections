@@ -3,7 +3,6 @@ using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Interfaces;
 using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Specifications;
-using Collections.Shared.Constants.Identity;
 using Collections.Shared.Interfaces;
 using Collections.Web.Hubs;
 using Collections.Web.Interfaces;
@@ -55,7 +54,8 @@ public class ItemController : Controller
     public async Task<IActionResult> Create(CreateItemViewModel request)
     {
         var specification = new ExtraFieldValueTypesSpec(request.UserCollectionId);
-        var extraFieldValueTypes = await _extraFieldReadRepository.ListProjectedAsync<ExtraFieldValueTypeViewModel>(specification);
+        var extraFieldValueTypes =
+            await _extraFieldReadRepository.ListProjectedAsync<ExtraFieldValueTypeViewModel>(specification);
         request.ExtraFields = new List<CreateExtraFieldViewModel>();
         foreach (var type in extraFieldValueTypes)
         {
@@ -68,10 +68,8 @@ public class ItemController : Controller
     public async Task<IActionResult> CreateItem(CreateItemViewModel request)
     {
         if (!ModelState.IsValid) return View("Create", request);
-        await _itemService.CreateItem(request.UserCollectionId, request.Title, new List<Tag>(),
-            request.ExtraFields.Select(f => new ExtraField()
-                { Value = f.Value, ExtraFieldValueTypeId = f.ExtraFieldValueTypeId }) ?? new List<ExtraField>());
-        return RedirectToAction("Index", "Home");
+        await _itemService.CreateItem(_mapper.Map<ItemDto>(request), request.SelectedTags);
+        return RedirectToAction("Details", "Collections", new { id = request.UserCollectionId });
     }
 
 
@@ -96,8 +94,17 @@ public class ItemController : Controller
         return RedirectToAction("Details", "Item", new { id = itemId });
     }
 
-    public async Task<IActionResult> Update(int itemId)
+    public async Task<IActionResult> Update(int id)
     {
-        throw new NotImplementedException();
+        var specification = new ItemByIdSpec(id);
+        var itemVm = await _itemReadRepository.GetBySpecProjectedAsync<UpdateItemViewModel>(specification);
+        return View(itemVm);
+    }
+
+    public async Task<IActionResult> UpdateItem(UpdateItemViewModel request)
+    {
+        if (!ModelState.IsValid) return View("Update", request);
+        await _itemService.UpdateItem(_mapper.Map<UpdateItemDto>(request));
+        return RedirectToAction("Details", "Item", new { id = request.Id });
     }
 }

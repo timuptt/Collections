@@ -5,9 +5,10 @@ $(document).ready(function() {
         tags: true,
         multiple: "multiple",
         ajax: {
-            url: document.location.origin +"/api/Tag",
+            delay: 200,
+            url: document.location.origin + "/api/Tag",
             contentType: "application/json",
-            data: function(params) {
+            data: function (params) {
                 var query = {
                     term: params.term,
                 };
@@ -18,11 +19,24 @@ $(document).ready(function() {
                     results: $.map(result, function (item) {
                         return {
                             id: item.id,
-                            text: item.title
+                            text: item.text
                         }
                     })
                 }
             }
+        },
+        createTag: function (params) {
+            var term = $.trim(params.term);
+
+            if (term === '') {
+                return null;
+            }
+
+            return {
+                id: term,
+                text: term,
+                newTag: true 
+            }
         }
-    });
+    })
 });

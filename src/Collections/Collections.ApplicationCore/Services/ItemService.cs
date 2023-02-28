@@ -11,24 +11,47 @@ public class ItemService : IItemService
 {
     private readonly IRepository<Item> _itemRepository;
     private readonly IRepository<Comment> _commentRepository;
+    private readonly IReadRepository<Tag> _tagReadRepository;
     private readonly IMapper _mapper;
 
-    public ItemService(IRepository<Item> itemRepository, IRepository<Comment> commentRepository, IMapper mapper)
+    public ItemService(IRepository<Item> itemRepository, IRepository<Comment> commentRepository, IMapper mapper,
+        IReadRepository<Tag> tagReadRepository)
     {
         _itemRepository = itemRepository;
         _commentRepository = commentRepository;
         _mapper = mapper;
+        _tagReadRepository = tagReadRepository;
     }
 
-    public async Task UpdateItem(string id)
+    public async Task UpdateItem(UpdateItemDto itemDto)
     {
-        throw new NotImplementedException();
+        var itemToUpdate = await _itemRepository.GetByIdAsync(itemDto.Id);
+        Guard.Against.Null(itemToUpdate);
+        _mapper.Map(itemDto, itemToUpdate);
+        await _itemRepository.UpdateAsync(itemToUpdate);
     }
-    
-    public async Task CreateItem(int collectionId, string title, IEnumerable<Tag> tags, IEnumerable<ExtraField> extraFields)
+
+    public async Task CreateItem(ItemDto itemDto, IEnumerable<string>? tags)
     {
-        var item = new Item(collectionId, title, tags.ToList(), extraFields.ToList());
+        Guard.Against.Null(itemDto);
+        var item = _mapper.Map<Item>(itemDto);
+        if(tags != null) await ProcessTags(tags, item);
         await _itemRepository.AddAsync(item);
+    }
+
+    private async Task ProcessTags(IEnumerable<string> tags, Item item)
+    {
+        item.Tags = new List<Tag>();
+        foreach (var tag in tags)
+        {
+            if (int.TryParse(tag, out var tagId))
+            {
+                var dbTag = await _tagReadRepository.GetByIdAsync(tagId);
+                if (dbTag != null) item.Tags.Add(dbTag);
+                continue;
+            }
+            item.Tags.Add(new Tag(tag));
+        }
     }
 
     public async Task WriteComment(CommentDto commentDto)

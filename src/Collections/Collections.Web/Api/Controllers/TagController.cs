@@ -33,12 +33,5 @@ namespace Collections.Web.Api.Controllers
             var tags = await _tagReadRepository.ListProjectedAsync<TagViewModel>(specification);
             return Ok(tags);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(string term)
-        {
-            var newTag = await _tagRepository.AddAsync(new Tag(term));
-            return Ok(new TagViewModel() {Id = newTag.Id, Title = newTag.Title});
-        }
     }
 }

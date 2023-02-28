@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Models;
 using Collections.Infrastructure.Data.Contexts;
 using Collections.Shared.Interfaces;
@@ -18,11 +19,12 @@ public class ItemSearchRepository : IItemSearchRepository
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TProjectTo>> SearchProjectedAsync<TProjectTo>(string searchTerm)
+    public async Task<IEnumerable<TProjectTo>> SearchProjectedAsync<TProjectTo>(string searchTerm) where TProjectTo : class, IMapWith<Item>
     {
         searchTerm = searchTerm.Trim().Replace(" ", "<->");
         var query = $"{searchTerm}:*";
-        var items = _dbContext.Items.Where(
+        var items = _dbContext.Items.AsNoTracking()
+            .Where(
             i =>
                 EF.Functions.ToTsVector(i.Title).Matches(query) ||
                 EF.Functions.ToTsVector(i.UserCollection.Title + " " + i.UserCollection.Description)
@@ -34,5 +36,5 @@ public class ItemSearchRepository : IItemSearchRepository
                 i.ExtraFields.Any(e => EF.Functions.ToTsVector(e.Value).Matches(query)))
             .Take(10);
         return await items.ProjectTo<TProjectTo>(_mapper.ConfigurationProvider).ToListAsync();
-    } 
+    }
 }

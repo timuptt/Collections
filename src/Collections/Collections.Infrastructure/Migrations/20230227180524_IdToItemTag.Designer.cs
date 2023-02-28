@@ -3,6 +3,7 @@ using System;
 using Collections.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Collections.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230227180524_IdToItemTag")]
+    partial class IdToItemTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,19 +344,19 @@ namespace Collections.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "46215f67-eb24-425d-b8de-1b2126ec6876",
+                            Id = "2fadd0b3-7b47-4198-a2f0-a09e91747804",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "738f5b5d-58ed-4e1e-9fbd-50b0a1361b6d",
+                            Id = "6b79976a-6c4a-4601-9d10-93f97cccb24a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e760b3eb-1fc2-4a24-9c90-57bbd3670d92",
+                            Id = "38408f2a-ca1f-48c4-abca-c65039d0d6c3",
                             Name = "Author",
                             NormalizedName = "AUTHOR"
                         });

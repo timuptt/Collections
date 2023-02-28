@@ -1,14 +1,14 @@
 using Collections.ApplicationCore.Dtos;
-using Collections.ApplicationCore.Models;
-using Collections.Shared.Interfaces;
 
 namespace Collections.ApplicationCore.Interfaces;
 
 public interface IItemService
 {
-    public Task UpdateItem(string id);
+    public Task UpdateItem(UpdateItemDto itemDto);
 
-    public Task CreateItem(int collectionId, string title, IEnumerable<Tag> tags, IEnumerable<ExtraField> extraFields);
+    // public Task CreateItem(int collectionId, string title, IEnumerable<string> tags, IEnumerable<ExtraField> extraFields);
+    
+    public Task CreateItem(ItemDto itemDto, IEnumerable<string> tags);
 
     public Task WriteComment(CommentDto commentDto);
     

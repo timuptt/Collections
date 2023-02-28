@@ -3,6 +3,7 @@ using System;
 using Collections.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Collections.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230227133910_RemoveTagId")]
+    partial class RemoveTagId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,24 +185,11 @@ namespace Collections.Infrastructure.Migrations
 
             modelBuilder.Entity("Collections.ApplicationCore.Models.Tag", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AddedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("character varying(40)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Title");
 
                     b.ToTable("Tags");
                 });
@@ -341,19 +331,19 @@ namespace Collections.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "46215f67-eb24-425d-b8de-1b2126ec6876",
+                            Id = "402ebb7d-20eb-4f2b-882c-e3b2b6284bea",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "738f5b5d-58ed-4e1e-9fbd-50b0a1361b6d",
+                            Id = "6d072443-78ce-40aa-a7cf-bcdaf935cc74",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e760b3eb-1fc2-4a24-9c90-57bbd3670d92",
+                            Id = "80344126-f1f9-4f00-a4e9-45247b79ee4b",
                             Name = "Author",
                             NormalizedName = "AUTHOR"
                         });
@@ -449,12 +439,12 @@ namespace Collections.Infrastructure.Migrations
                     b.Property<int>("ItemsId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TagsId")
-                        .HasColumnType("integer");
+                    b.Property<string>("TagsTitle")
+                        .HasColumnType("character varying(40)");
 
-                    b.HasKey("ItemsId", "TagsId");
+                    b.HasKey("ItemsId", "TagsTitle");
 
-                    b.HasIndex("TagsId");
+                    b.HasIndex("TagsTitle");
 
                     b.ToTable("ItemTag");
                 });
@@ -688,7 +678,7 @@ namespace Collections.Infrastructure.Migrations
 
                     b.HasOne("Collections.ApplicationCore.Models.Tag", null)
                         .WithMany()
-                        .HasForeignKey("TagsId")
+                        .HasForeignKey("TagsTitle")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

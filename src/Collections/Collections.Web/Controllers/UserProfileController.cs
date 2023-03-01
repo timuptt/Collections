@@ -26,12 +26,6 @@ public class UserProfileController : Controller
         _filter = filter;
     }
 
-    // GET
-    public IActionResult Index()
-    {
-        return View();
-    }
-
     [AllowAnonymous]
     public async Task<IActionResult> Details(int id, int pageNumber = 1, int pageSize = 10, 
         string sortProp = "", OrderEnum sortOrder = OrderEnum.Ascending, string searchProp = "Title", string searchTerm = "")

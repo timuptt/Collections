@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Collections.Web.Interfaces
+@inject ILocalisationOptionsProvider Options
+
+@{
+    var options = Options.GetOptions();
+    var culture = Context.Features.Get<IRequestCultureFeature>();
+    var cultures = options.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.Name })
+        .ToList();
+    var returnUrl = string.IsNullOrWhiteSpace(Context.Request.Path) ? "~/" : 
+        $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
+}
+
+<div class="me-2">
+    <form asp-action="SetCulture" asp-controller="Home" asp-route-returnUrl="@returnUrl">
+        <select id="culture" name="culture" asp-for="@culture.RequestCulture.UICulture.Name"
+                asp-items="@cultures" onchange="this.form.submit();"></select>
+    </form>
+</div>
+

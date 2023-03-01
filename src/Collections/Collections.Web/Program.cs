@@ -1,5 +1,6 @@
 using Collections.Web.Configuration;
 using Collections.Web.Hubs;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +35,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseRequestLocalization();
+
 app.MapRazorPages();
+
 app.MapHub<CommentsHub>("/commentsHub");
 
 app.Run();

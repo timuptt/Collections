@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using AutoMapper;
 using Collections.ApplicationCore.Common.Mappings;
 using Collections.Infrastructure.Identity.Models;
@@ -9,10 +10,14 @@ public class ApplicationUserViewModel : IMapWith<Infrastructure.Identity.Models.
     public string Id { get; set; }
     
     public int UserProfileId { get; set; }
+    
+    [DisplayName("Full name")]
     public string FullName { get; set; }
 
+    [DisplayName("User roles")]
     public IEnumerable<ApplicationUserRole> UserRoles { get; set; }
     
+    [DisplayName("Status")]
     public UserStatuses Status { get; set; }
 
     public void Mapping(Profile profile)

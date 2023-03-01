@@ -7,7 +7,7 @@ using Collections.Shared.Constants.Identity;
 using Collections.Shared.Interfaces;
 using Collections.Web.Interfaces;
 using Collections.Web.Models.Collection;
-using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.Items;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

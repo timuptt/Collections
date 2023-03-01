@@ -1,7 +1,7 @@
 @using Collections.ApplicationCore.Models
 @using Collections.Web.Interfaces
 @model Collections.Web.Models.UserProfile.UserProfileViewModel
-@inject ICurrentUserProvider crrentUser
+@inject ICurrentUserProvider CurrentUser
 
 <!DOCTYPE html>
 
@@ -15,18 +15,20 @@
         @Model.FirstName @Model.LastName
     </h1>
     <hr/>
-    <h3>Collections</h3>
-    @if (crrentUser.HasPermissions(@Model.Id))
-    {
-        if (crrentUser.IsAdmin)
+    <div class="d-flex justify-content-between">
+        <h3>@ViewLocalizer["Collections"]</h3>
+        @if (CurrentUser.HasPermissions(@Model.Id))
         {
-            <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create" asp-route-profileId="@Model.Id">Create collection as @Model.FirstName @Model.LastName</a>
+            if (CurrentUser.IsAdmin)
+            {
+                <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create" asp-route-profileId="@Model.Id">@ViewLocalizer["CreateCollectionAs"] @Model.FirstName @Model.LastName</a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create"><i class="bi bi-plus-lg"></i> @ViewLocalizer["CreateCollection"]</a>
+            }
         }
-        else
-        {
-            <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create">Create collection</a>
-        }
-    }
+    </div>
     <hr/>
     @using (Html.BeginForm())
     {

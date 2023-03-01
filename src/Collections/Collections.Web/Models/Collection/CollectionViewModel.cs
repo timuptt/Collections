@@ -21,6 +21,8 @@ public class CollectionViewModel : IMapWith<UserCollection>
     
     public string ImageSource { get; set; }
     
+    public string ImageName { get; set; }
+    
     public int ItemsCount { get; set; }
 
     public void Mapping(Profile profile)

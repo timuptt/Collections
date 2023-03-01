@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.ExtraFieldValueTypes;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Collections.Web.Models.Collection;
@@ -8,18 +8,17 @@ namespace Collections.Web.Models.Collection;
 public class CreateCollectionViewModel
 {
     [Required]
-    [MaxLength(40)]
-    [MinLength(2)]
+    [StringLength(40, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
     [DisplayName("Title")]
     public string Title { get; set; }
     
     [Required]
-    [MaxLength(1000)]
-    [MinLength(2)]
+    [StringLength(1000, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
     [DataType(DataType.MultilineText)]
     [DisplayName("Description")]
     public string Description { get; set; }
     
+    [DisplayName("Image")]
     public IFormFile? Image { get; set; }
     public string? ImageSource { get; set; }
     

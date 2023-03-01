@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Interfaces;
-using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.Items;
 using Collections.Web.Models.Tags;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,7 @@
 using AutoMapper;
 using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Models;
-using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.Items;
 
 namespace Collections.Web.Models.Tags;
 

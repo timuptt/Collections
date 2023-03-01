@@ -6,7 +6,9 @@ using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Interfaces;
 using Collections.Web.Hubs;
 using Collections.Web.Interfaces;
-using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.ExtraFields;
+using Collections.Web.Models.ExtraFieldValueTypes;
+using Collections.Web.Models.Items;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -35,12 +37,6 @@ public class ItemController : Controller
         _commentsHub = commentsHub;
         _likesService = likesService;
         _currentUser = currentUser;
-    }
-
-    // GET
-    public IActionResult Index()
-    {
-        return View();
     }
 
     [AllowAnonymous]

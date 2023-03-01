@@ -1,5 +1,4 @@
 using Collections.ApplicationCore.Models;
-using Collections.Infrastructure.Data.Extensions;
 using Collections.Infrastructure.Identity.Models;
 using Collections.Shared.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +29,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-        builder.SeedUserRoles();
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

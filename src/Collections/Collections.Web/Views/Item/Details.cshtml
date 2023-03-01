@@ -3,8 +3,8 @@
 @using Markdig
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Collections.Web.Models.Collection.Items.ItemExtendedViewModel;
-@inject ICurrentUserProvider currentUser
+@model Collections.Web.Models.Items.ItemExtendedViewModel;
+@inject ICurrentUserProvider CurrentUser
 
 <!DOCTYPE html>
 
@@ -14,19 +14,24 @@
 </head>
 <body>
 <div class="container">
-    <h1>@Model.Title <small class="text-muted">in collection <a asp-action="Details" asp-controller="Collections" asp-route-id="@Model.UserCollectionId" class="text-decoration-none">@Model.UserCollectionTitle</a></small></h1>
+    <div class="d-flex justify-content-between">
+        <h1>@Model.Title <small class="text-muted">@ViewLocalizer["InCollection"] <a asp-action="Details" asp-controller="Collections" asp-route-id="@Model.UserCollectionId" class="text-decoration-none">@Model.UserCollectionTitle</a></small></h1>
+        <div class="p-3">
+            @if (CurrentUser.HasPermissions(@Model.UserProfileId))
+                    {
+                        <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pen"></i></a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                    }
+        </div>
+    </div>
     <hr/>
-    @Html.HiddenFor(m=> m.Id, new {@id="groupId"})
-    @if (currentUser.HasPermissions(@Model.UserProfileId))
-    {
-        <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Update item</a>
-        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete item</a>
-    }
+    @Html.HiddenFor(m => m.Id, new { @id = "groupId" })
+
     <div class="p-3">
         @foreach (var extraField in @Model.ExtraFields)
         {
             <div class="d-flex">
-                
+
                 @switch (extraField.ExtraFieldValueType!.ValueType)
                 {
                     case ValueTypes.String:
@@ -48,13 +53,13 @@
                 }
             </div>
         }
-        
+
         <div class="d-flex mt-3">
-            <label class="me-1 text-muted">Created:</label>
+            <label class="me-1 text-muted">@Html.DisplayNameFor(m => m.AddedOn):</label>
             <p>@Model.AddedOn</p>
         </div>
         <div class="d-flex">
-            <label class="me-1 text-muted">Updated:</label>
+            <label class="me-1 text-muted">@Html.DisplayNameFor(m => m.ModifiedOn):</label>
             <p>@Model.ModifiedOn</p>
         </div>
         @{
@@ -72,7 +77,7 @@
         }
         <div>
             <div>
-                @if (!User.Identity.IsAuthenticated || Model.Likes.All(p => p.UserProfileId != currentUser.ProfileId))
+                @if (!User.Identity.IsAuthenticated || Model.Likes.All(p => p.UserProfileId != CurrentUser.ProfileId))
                 {
                     <a type="button" class="btn btn-outline-secondary" onclick="location.href = '@Url.Action("LikeItem", "Item", new { itemId = @Model.Id })'"><span class="bi bi-heart"></span> @Model.Likes.Count()</a>
                 }
@@ -85,22 +90,19 @@
         </div>
 
     </div>
-    
+
 </div>
 <div class="container-fluid pt-3">
     <div class="container">
-        <h2>
-            Comments
-        </h2>
+        <h2>@ViewLocalizer["Comments"]</h2>
         <hr/>
         <div>
-            <h5>Write a comment:</h5>
             <div class="p-3">
                 @using (Html.BeginForm("WriteComment", "Item", FormMethod.Post))
                 {
                     @Html.Hidden("ItemId", value: @Model.Id)
-                    @Html.TextArea("Body", "", new {@class="form-control mb-3", rows="5", placeholder="Write a comment"})
-                    <input type="submit" class="btn btn-primary align-content-end" value="Write" id="writeComment"/>
+                    @Html.TextArea("Body", "", new {@class="form-control mb-3", rows="5", placeholder=ViewLocalizer["WriteAComment"].Value})
+                    <input type="submit" class="btn btn-primary align-content-end" value="@ViewLocalizer["Send"]" id="writeComment"/>
                 }
             </div>
         </div>

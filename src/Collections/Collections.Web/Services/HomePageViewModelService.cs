@@ -5,7 +5,7 @@ using Collections.Shared.Interfaces;
 using Collections.Web.Interfaces;
 using Collections.Web.Models;
 using Collections.Web.Models.Collection;
-using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.Items;
 
 namespace Collections.Web.Services;
 

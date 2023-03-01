@@ -1,7 +1,9 @@
 @using Collections.Web.Interfaces
 @using Markdig
+@using Microsoft.AspNetCore.Mvc.Localization
 @model Collections.Web.Models.Collection.CreateCollectionViewModel
 @inject ICurrentUserProvider currentUser
+@inject IViewLocalizer ViewLocalizer;
 
 <!DOCTYPE html>
 <html>
@@ -10,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Create new collection</h1>
+    <h1>@ViewLocalizer["CreateNewCollection"]</h1>
     <hr/>
     <div>
         @using (Html.BeginForm("Create", "Collections", FormMethod.Post, new {@enctype="multipart/form-data"}))
@@ -40,16 +42,16 @@
                     @Html.DropDownListFor(m => m.SelectedThemeId, Model.Themes, new {@class="form-select"})
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Image</label>
+                    <label class="form-label">@Html.DisplayNameFor(m => m.Image)</label>
                     <input type="file" asp-for="Image" class="form-control"/>
                 </div>
-                <h5>Additional fields</h5>
+                <h5>@ViewLocalizer["AdditionalFields"]</h5>
                 <hr/>
             </div>
-            <div class="row text-center ms-1 me-1">
-                <input type="button" value="Add property" class="btn btn-outline-success" id="addPropertyInput"/>
+            <div class="row text-center ms-1 mb-3">
+                <input type="button" value="@ViewLocalizer["AddNewField"]" class="btn btn-outline-success" id="addPropertyInput"/>
             </div>
-            <input type="submit" class="btn btn-primary" value="Submit"/>
+            <input type="submit" class="btn btn-primary" value="@ViewLocalizer["Submit"]"/>
         }
     </div>
     

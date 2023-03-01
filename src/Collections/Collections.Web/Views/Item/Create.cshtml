@@ -1,6 +1,6 @@
 @using Collections.ApplicationCore.Models
 @using Microsoft.CodeAnalysis.Classification
-@model Collections.Web.Models.Collection.Items.CreateItemViewModel
+@model Collections.Web.Models.Items.CreateItemViewModel
 
 <!DOCTYPE html>
 
@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Create new item</h1>
+    <h1>@ViewLocalizer["CreateNewItem"]</h1>
     <hr/>
     @using (Html.BeginForm("CreateItem", "Item", FormMethod.Post))
     {
@@ -25,7 +25,7 @@
         
         <div class="mb-3">
             <label class="form-label">Tags</label>
-            @Html.ListBoxFor(m => m.SelectedTags, new List<SelectListItem>(), new {@class="tags-select form-control", @id="selectedTags", multiple="multiple"});
+            @Html.ListBoxFor(m => m.SelectedTags, new List<SelectListItem>(), new {@class="tags-select form-control", @id="selectedTags", multiple="multiple"})
         </div>
 
         if (@Model.ExtraFields != null)
@@ -59,7 +59,7 @@
                 </div>
             }
         }
-        <input type="submit" class="btn btn-primary" value="Submit"/>
+        <input type="submit" class="btn btn-primary" value="@ViewLocalizer["Submit"]"/>
     }
 
 </div>

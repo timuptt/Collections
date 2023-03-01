@@ -110,9 +110,10 @@ public class CollectionsController : Controller
         return RedirectToAction("Details", "Collections",new {id = request.Id});
     }
 
-    public async Task<IActionResult> Delete(int collectionId)
+    public async Task<IActionResult> Delete(int collectionId, string? imageName)
     {
         await _collectionService.DeleteCollection(collectionId);
+        if (imageName != null) await _cloudStorageService.DeleteFileAsync(imageName);
         return RedirectToAction("Index", "Home");
     }
 

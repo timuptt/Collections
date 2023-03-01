@@ -11,6 +11,7 @@ public class CloudStorageService : ICloudStorageService
 {
     private readonly GCSConfiguration _options;
     private readonly GoogleCredential _googleCredentials;
+    private readonly string? _bucketName;
 
     public CloudStorageService(IOptions<GCSConfiguration> options)
     {
@@ -18,8 +19,10 @@ public class CloudStorageService : ICloudStorageService
         
 #if DEBUG
         _googleCredentials = GoogleCredential.FromFile(_options.GCPStorageAuthFile);
+        _bucketName = _options.GoogleCloudStorageBucketName;
 #else
         _googleCredentials = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS"));
+        _bucketName = Environment.GetEnvironmentVariable("GOOGLE_BUCKET_NAME");
 #endif
     }
 
@@ -43,7 +46,7 @@ public class CloudStorageService : ICloudStorageService
     public async Task<string> GetSignedUrlAsync(string fileName, int timeOut = 30)
     {
         var serviceAccountCredential = _googleCredentials.UnderlyingCredential as ServiceAccountCredential;
-        var urlSigner = UrlSigner.FromServiceAccountCredential(serviceAccountCredential);
+        var urlSigner = UrlSigner.FromCredential(serviceAccountCredential);
         var signedUrl = await urlSigner.SignAsync(_options.GoogleCloudStorageBucketName, fileName,
             TimeSpan.FromMinutes(timeOut));
         return signedUrl;

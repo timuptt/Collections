@@ -38,7 +38,21 @@ public class ItemService : IItemService
         if(tags != null) await ProcessTags(tags, item);
         await _itemRepository.AddAsync(item);
     }
+    
+    public async Task WriteComment(CommentDto commentDto)
+    {
+        var comment = _mapper.Map<Comment>(commentDto);
+        await _commentRepository.AddAsync(comment);
+    }
 
+    public async Task DeleteItem(int itemId)
+    {
+        Guard.Against.NegativeOrZero(itemId);
+        var itemToDelete = await _itemRepository.GetByIdAsync(itemId);
+        Guard.Against.Null(itemToDelete);
+        await _itemRepository.DeleteAsync(itemToDelete);
+    }
+    
     private async Task ProcessTags(IEnumerable<string> tags, Item item)
     {
         item.Tags = new List<Tag>();
@@ -52,19 +66,5 @@ public class ItemService : IItemService
             }
             item.Tags.Add(new Tag(tag));
         }
-    }
-
-    public async Task WriteComment(CommentDto commentDto)
-    {
-        var comment = _mapper.Map<Comment>(commentDto);
-        await _commentRepository.AddAsync(comment);
-    }
-
-    public async Task DeleteItem(int itemId)
-    {
-        Guard.Against.NegativeOrZero(itemId);
-        var itemToDelete = await _itemRepository.GetByIdAsync(itemId);
-        Guard.Against.Null(itemToDelete);
-        await _itemRepository.DeleteAsync(itemToDelete);
     }
 }

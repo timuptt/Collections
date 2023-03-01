@@ -21,7 +21,7 @@
             @if (currentUser.HasPermissions(@Model.UserProfileId))
             {
                 <a asp-action="Update" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pen"></i></a>
-                <a asp-action="Delete" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                <a asp-action="Delete" asp-route-collectionId="@Model.Id" asp-route-imageName="@(Model.ImageName ?? "")" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
             }
         </div>
     </div>

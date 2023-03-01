@@ -1,6 +1,7 @@
 $(document).ready(function(){
     $('.item-search').select2({
         placeholder: "Search...",
+        multiple: "multiple",
         ajax: {
             delay: 200,
             url: document.location.origin + "/api/Item",

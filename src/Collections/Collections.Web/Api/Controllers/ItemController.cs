@@ -1,5 +1,5 @@
 using Collections.Shared.Interfaces;
-using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.Items;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Collections.Web.Api.Controllers;

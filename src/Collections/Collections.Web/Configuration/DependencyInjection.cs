@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Interfaces;
@@ -15,8 +16,10 @@ using Collections.Web.Common.Mappings;
 using Collections.Web.Configuration.Connection;
 using Collections.Web.Filters;
 using Collections.Web.Interfaces;
+using Collections.Web.Resources;
 using Collections.Web.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Collections.Web.Configuration;
@@ -55,8 +58,28 @@ public static class DependencyInjection
 
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
+        services.AddLocalization(options =>
+        {
+            options.ResourcesPath = "Resources";
+        });
         services.AddControllersWithViews()
-            .AddRazorRuntimeCompilation();
+            .AddRazorRuntimeCompilation()
+            .AddViewLocalization()
+            .AddDataAnnotationsLocalization(options => {
+                options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    factory.Create(typeof(SharedResources));
+            });
+        services.Configure<RequestLocalizationOptions>(options =>
+        {
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en"),
+                new CultureInfo("ru"),
+            };
+            options.DefaultRequestCulture = new RequestCulture("en");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+        });
         return services;
     }
 
@@ -69,10 +92,10 @@ public static class DependencyInjection
             {
                 configuration.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
                 configuration.AddProfile(new AssemblyMappingProfile(Assembly.GetAssembly(typeof(IMapWith<>))!));
-            }
-                );
+            });
         services.AddScoped<IFilter<UserCollection>, CollectionFilter>();
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+        services.AddScoped<ILocalisationOptionsProvider, LocalizationOptionsProvider>();
         services.AddSignalR();
         return services;
     }

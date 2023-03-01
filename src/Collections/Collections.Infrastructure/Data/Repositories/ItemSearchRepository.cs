@@ -19,7 +19,7 @@ public class ItemSearchRepository : IItemSearchRepository
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TProjectTo>> SearchProjectedAsync<TProjectTo>(string searchTerm) where TProjectTo : class, IMapWith<Item>
+    public async Task<IEnumerable<TProjectTo>> SearchProjectedAsync<TProjectTo>(string searchTerm) where TProjectTo : class
     {
         searchTerm = searchTerm.Trim().Replace(" ", "<->");
         var query = $"{searchTerm}:*";

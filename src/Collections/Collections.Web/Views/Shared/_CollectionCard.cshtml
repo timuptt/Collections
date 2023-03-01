@@ -1,0 +1,40 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Collections.Shared.Interfaces
+@using Markdig
+@model Collections.Web.Models.Collection.CollectionViewModel
+@inject IViewLocalizer ViewLocalizer
+@inject ICloudStorageService StorageService
+
+<div class="col">
+    <div class="card shadow-sm">
+        @{
+            if (@Model.ImageName != null)
+            {
+                var imgSrc = await StorageService.GetSignedUrlAsync(@Model.ImageName);
+                <img class="card-img-top cropped" focusable="false" src="@imgSrc" />
+            }
+            else
+            {
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Title</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            }
+            
+        }
+        <div class="card-body">
+            <p class="card-text">
+                @Model.Title 
+                <a asp-action="Details" asp-controller="UserProfile" asp-route-id="@Model.UserProfileId" class="text-decoration-none"><small class="text-muted">@ViewLocalizer["By"] @Model.ProfileFullName</small></a>
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a asp-controller="Collections" asp-action="Details" asp-route-id=@Model.Id type="button" class="btn btn-sm btn-outline-secondary p-2">
+                        @ViewLocalizer["See details"]
+                    </a>
+                    <a type="button" class="btn btn-outline-secondary" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" title="@Html.Raw(Markdown.ToHtml(@Model.Description))">
+                        <i class="bi bi-patch-question"></i>
+                    </a>
+                </div>
+                <small class="text-muted"><i class="bi bi-files"></i> @Model.ItemsCount</small>
+            </div>
+        </div>
+    </div>
+</div>

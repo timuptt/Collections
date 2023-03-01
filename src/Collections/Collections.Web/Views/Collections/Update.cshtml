@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @model Collections.Web.Models.Collection.UpdateCollectionViewModel
 
 <!DOCTYPE html>
@@ -8,7 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Update collection @Model.Title</h1>
+    <h1>@ViewLocalizer["UpdateCollection"] @Model.Title</h1>
     <hr/>
     <div>
         @using (Html.BeginForm("Update", "Collections", FormMethod.Post, new {@enctype="multipart/form-data"}))
@@ -35,11 +36,11 @@
                 @Html.HiddenFor(m => m.ImageName)
                 @Html.HiddenFor(m => m.ImageSource)
                 <div class="mb-3">
-                    <label class="form-label">Image</label>
+                    <label class="form-label">@Html.DisplayNameFor(m => m.Image)</label>
                     <input type="file" asp-for="Image" class="form-control"/>
                 </div>
 
-                <h5>Additional fields</h5>
+                <h5>@ViewLocalizer["AdditionalFields"]</h5>
                 <hr/>
                 <div id="updateBlock">
                     @if(Model.ExtraFieldValueTypes != null) 
@@ -61,12 +62,12 @@
                         }
                     }
                 </div>
-                <div class="row text-center ms-1 me-1">
-                    <input type="button" value="Add property" class="btn btn-outline-success" id="addPropertyInput"/>
+                <div class="row text-center ms-1 mb-3">
+                    <input type="button" value="@ViewLocalizer["AddField"]" class="btn btn-outline-success" id="addPropertyInput"/>
                 </div>
             </div>
             
-            <input type="submit" class="btn btn-primary" value="Submit"/>
+            <input type="submit" class="btn btn-primary" value="@ViewLocalizer["Submit"]"/>
         }
     </div>
 </div>

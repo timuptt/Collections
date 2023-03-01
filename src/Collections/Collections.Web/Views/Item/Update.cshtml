@@ -1,9 +1,9 @@
 @using Collections.ApplicationCore.Models
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Collections.Web.Models.Collection.Items.UpdateItemViewModel
+@model Collections.Web.Models.Items.UpdateItemViewModel
 
 <div class="container">
-    <h1>Update item @Model.Title</h1>
+    <h1>@ViewLocalizer["UpdateItem"] @Model.Title</h1>
     <hr/>
     
     @using (Html.BeginForm("UpdateItem", "Item", FormMethod.Post))
@@ -51,7 +51,7 @@
                     </div>
                 }
             </div>
-            <input type="submit" class="btn btn-primary" value="Submit"/>
+            <input type="submit" class="btn btn-primary" value="@ViewLocalizer["Submit"]"/>
         }
     }
 </div>

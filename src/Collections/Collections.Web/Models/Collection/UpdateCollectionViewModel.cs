@@ -5,7 +5,7 @@ using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Models;
 using Collections.Web.Common.Mappings;
-using Collections.Web.Models.Collection.Items;
+using Collections.Web.Models.ExtraFieldValueTypes;
 
 namespace Collections.Web.Models.Collection;
 
@@ -13,14 +13,12 @@ public class UpdateCollectionViewModel : IMapWith<UserCollection>
 {
     public int Id { get; set; }
     
-    [MaxLength(40)]
-    [MinLength(2)]
+    [StringLength(40, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
     [DataType(DataType.Text)]
     [DisplayName("Title")]
     public string Title { get; set; }
     
-    [MaxLength(1000)]
-    [MinLength(2)]
+    [StringLength(1000, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
     [DataType(DataType.MultilineText)]
     [DisplayName("Description")]
     public string Description { get; set; }
@@ -29,6 +27,7 @@ public class UpdateCollectionViewModel : IMapWith<UserCollection>
     
     public string? ImageName { get; set; }
     
+    [DisplayName("Image")]
     public IFormFile? Image { get; set; }
     
     public IList<UpdateExtraFieldValueTypeViewModel>? ExtraFieldValueTypes { get; set; }

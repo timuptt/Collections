@@ -2,6 +2,7 @@
 using Collections.Web.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Collections.Web.Models;
+using Microsoft.AspNetCore.Localization;
 
 namespace Collections.Web.Controllers;
 
@@ -25,6 +26,15 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpPost]
+    public IActionResult SetCulture(string culture, string returnUrl)
+    {
+        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            new CookieOptions(){Expires = DateTimeOffset.Now.AddDays(30)});
+        return LocalRedirect(returnUrl ?? "~/");
     }
 
     public IActionResult Create() => RedirectToAction("Create", "Collections");

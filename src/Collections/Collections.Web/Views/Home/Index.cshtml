@@ -1,4 +1,6 @@
-﻿@model HomePageViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model HomePageViewModel
+@inject IViewLocalizer ViewLocalizer
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -6,14 +8,14 @@
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Welcome to <span class="text-primary">Collections</span>!</h1>
-            <p class="lead text-muted">Collect everything you want.</p>
+            <h1 class="fw-light">@ViewLocalizer["WelcomeTo"] <span class="text-primary">Collections</span>!</h1>
+            <p class="lead text-muted">@ViewLocalizer["CollectEverything"]</p>
             <p>
                 @if (User.Identity!.IsAuthenticated)
                 {
-                    <a asp-action="Create" asp-controller="Collections" class="btn btn-primary my-2">Create collection</a>
+                    <a asp-action="Create" asp-controller="Collections" class="btn btn-primary my-2"><i class="bi bi-plus-lg"> </i>@ViewLocalizer["CreateCollection"]</a>
                 }
-                <a asp-action="Index" asp-controller="Collections" class="btn btn-outline-secondary">Explore more</a>
+                <a asp-action="Index" asp-controller="Collections" class="btn btn-outline-secondary"><i class="bi bi-globe-central-south-asia"></i> @ViewLocalizer["ExploreMore"]</a>
             </p>
         </div>
     </div>
@@ -23,79 +25,32 @@
 
 <div class="container-fluid py-5 bg-light">
     <div class="container">
-        <h3>Collections with more items</h3>
+        <h3>@ViewLocalizer["CollectionsWithMore"]</h3>
         <hr/>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach (var item in Model.CollectionsWithMoreItems)
                 {
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <div class="card-header">
-                                @item.Title 
-                                <a asp-action="Details" asp-controller="UserProfile" asp-route-id="@item.UserProfileId" class="text-decoration-none"><small class="text-muted">by @item.ProfileFullName</small></a>
-                            </div>
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Title</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                            <div class="card-body">
-                                <p class="card-text">@item.Description</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <a asp-controller="Collections" asp-action="Details" asp-route-id=@item.Id type="button" class="btn btn-sm btn-outline-secondary">View</a>
-                                    </div>
-                                    <small class="text-muted">@item.ItemsCount items</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    await Html.RenderPartialAsync("_CollectionCard", item);
                 }
             </div>
     </div>
     <div class="container">
-        <h3>Most liked items</h3>
+        <h3>@ViewLocalizer["MostPopularItems"]</h3>
         <hr/>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach (var item in @Model.MostPopularItems)
             {
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-header">
-                            @item.Title
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Tags</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-                                </div>
-                                <small class="text-muted">Likes: @item.LikesCount</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                await Html.RenderPartialAsync("_ItemCard", item);
             }
         </div>
     </div>
     <div class="container">
-            <h3>Last added items</h3>
+            <h3>@ViewLocalizer["LastAddedItems"]</h3>
             <hr/>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 @foreach (var item in @Model.LastAddedItems)
                 {
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <div class="card-header">
-                                @item.Title
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Tags</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-                                    </div>
-                                    <small class="text-muted">@item.AddedOn</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    await Html.RenderPartialAsync("_ItemCard", item);
                 }
             </div>
         </div>

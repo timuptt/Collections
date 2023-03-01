@@ -19,7 +19,7 @@ public class CloudStorageService : ICloudStorageService
 #if DEBUG
         _googleCredentials = GoogleCredential.FromFile(_options.GCPStorageAuthFile);
 #else
-        _googleCredantials = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS"))
+        _googleCredantials = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS"));
 #endif
     }
 

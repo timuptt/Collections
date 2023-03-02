@@ -1,7 +1,7 @@
+using System.ComponentModel;
 using AutoMapper;
 using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Models;
-using Collections.Web.Common.Mappings;
 using Collections.Web.Models.ExtraFieldValueTypes;
 using Collections.Web.Models.Items;
 
@@ -15,15 +15,24 @@ public class CollectionWithItemsViewModel : IMapWith<UserCollection>
 
     public string ProfileFullName { get; set; }
     
+    [DisplayName("Title")]
     public string Title { get; set; }
     
+    [DisplayName("Description")]
     public string Description { get; set; }
     
+    [DisplayName("Theme")]
     public string UserCollectionTheme { get; set; }
     
     public string ImageName { get; set; }
     
     public string ImageSignedSource { get; set; }
+    
+    [DisplayName("Created")]
+    public DateTime CreatedOn { get; set; }
+    
+    [DisplayName("Updated")]
+    public DateTime ModifiedOn { get; set; }
     
     public IList<ItemViewModel> Items { get; set; }
     

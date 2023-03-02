@@ -2,7 +2,7 @@
 @using Markdig
 @using Microsoft.AspNetCore.Mvc.Localization
 @model Collections.Web.Models.Collection.CollectionWithItemsViewModel
-@inject ICurrentUserProvider currentUser
+@inject ICurrentUserProvider CurrentUser
 @inject IViewLocalizer ViewLocalizer
 
 <!DOCTYPE html>
@@ -12,33 +12,53 @@
     <title>title</title>
 </head>
 <body>
-<img src="@Model.ImageSignedSource" alt="@Model.ImageName" class="img-fluid"/>
-<div class="container">
 
-    <div class="d-flex justify-content-between">
-        <h1>@Model.Title <small class="text-muted text-decoration-underline">@ViewLocalizer["By"] @Model.ProfileFullName</small></h1>
-        <div class="p-3">
-            @if (currentUser.HasPermissions(@Model.UserProfileId))
-            {
-                <a asp-action="Update" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pen"></i></a>
-                <a asp-action="Delete" asp-route-collectionId="@Model.Id" asp-route-imageName="@(Model.ImageName ?? "")" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
-            }
+<div class="container">
+    <div class="row justify-content-between">
+        <img src="@Model.ImageSignedSource" alt="@Model.ImageName" class="img collection-img col-md-3 mb-2"/>
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between">
+                <h1>@Model.Title </h1>
+                <div class="p-3">
+                    @if (CurrentUser.HasPermissions(@Model.UserProfileId))
+                    {
+                        <a asp-action="Update" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pen"></i></a>
+                        <a asp-action="Delete" asp-route-collectionId="@Model.Id" asp-route-imageName="@(Model.ImageName ?? "")" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                    }
+                </div>
+            </div>
+            <hr/>
+            <h3 class="mb-3 text-muted">@ViewLocalizer["By"] <a class=" text-decoration-none" asp-action="Details" asp-controller="UserProfile" asp-route-id="@Model.UserProfileId">@Model.ProfileFullName</a></h3>
+            <div>
+                <div class="row">
+                    <label class="text-muted col-3">@Html.DisplayNameFor(m => m.UserCollectionTheme):</label>
+                    <h5 class="col-9">@Model.UserCollectionTheme</h5>
+                </div>
+                <div class="row">
+                    <label class="text-muted col-3">@Html.DisplayNameFor(m => m.CreatedOn):</label>
+                    <p class="col-9">@Model.CreatedOn</p>
+                </div>
+                <div class="row">
+                    <label class="text-muted col-3">@Html.DisplayNameFor(m => m.ModifiedOn):</label>
+                    <p class="col-9">@Model.ModifiedOn</p>
+                </div>
+            </div>
         </div>
     </div>
-    <hr/>
-    <h3>@Model.UserCollectionTheme</h3>
     <div class="p-3 bg-light mt-3 mb-3 rounded-1">
+        <small class="text-muted">@Html.DisplayNameFor(m => m.Description)</small>
         @Html.Raw(Markdown.ToHtml(@Model.Description))
     </div>
     <div class="d-flex justify-content-between">
         <h3>@ViewLocalizer["Items"]</h3>
         <div>
-            @if (currentUser.HasPermissions(@Model.UserProfileId))
+            @if (CurrentUser.HasPermissions(@Model.UserProfileId))
             {
                 <a asp-action="CreateItem" asp-route-collectionId="@Model.Id" class="btn btn-primary"><i class="bi bi-plus-lg"> </i>@ViewLocalizer["CreateItem"]</a>
             }
         </div>
     </div>
+    <hr/>
     
     @if (Model.Items.Count > 0)
     {

@@ -1,16 +1,9 @@
-@using Collections.Web.Interfaces
 @using Markdig
-@using Microsoft.AspNetCore.Mvc.Localization
 @model Collections.Web.Models.Collection.CreateCollectionViewModel
-@inject ICurrentUserProvider currentUser
 @inject IViewLocalizer ViewLocalizer;
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
+@{
+    ViewData["Title"] = "Create Collection";
+}
 <div class="container">
     <h1>@ViewLocalizer["CreateNewCollection"]</h1>
     <hr/>
@@ -27,10 +20,10 @@
                 <div class="mb-3">
                     <label class="form-label">@Html.DisplayNameFor(m => m.Description)</label>
                     <div class="row">
-                        <div class="me-3 col">
+                        <div class="me-3 col-md">
                             @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @oninput="OnTextChanged"})
                         </div>
-                        <div class="col">
+                        <div class="col-md">
                             <markdown text="# Hello"># Hello</markdown>
                         </div>    
                     </div>
@@ -48,7 +41,7 @@
                 <h5>@ViewLocalizer["AdditionalFields"]</h5>
                 <hr/>
             </div>
-            <div class="row text-center ms-1 mb-3">
+            <div class="row text-center ms-1 me-1 mb-3">
                 <input type="button" value="@ViewLocalizer["AddNewField"]" class="btn btn-outline-success" id="addPropertyInput"/>
             </div>
             <input type="submit" class="btn btn-primary" value="@ViewLocalizer["Submit"]"/>
@@ -107,15 +100,3 @@
         }
     }
 </script>
-</body>
-</html>
-
-@functions
-{
-    public string Input { get; set; } = "## Hello";
-
-    protected void OnTextChanged(EventArgs args)
-    {
-        Input = Markdown.ToHtml(args.ToString());
-    }
-}

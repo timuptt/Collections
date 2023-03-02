@@ -1,5 +1,7 @@
 @model Collections.Web.Models.Tags.TagWithItemsViewModel
-
+@{
+    ViewData["Title"] = Model.Title;
+}
 <div class="container">
     <h1>Items by @Model.Title tag</h1>
     <hr/>

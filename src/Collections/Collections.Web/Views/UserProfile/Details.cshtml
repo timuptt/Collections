@@ -25,40 +25,29 @@
         }
     </div>
     <hr/>
-    @using (Html.BeginForm())
-    {
-        <p>Search by title:</p>
-        @Html.TextBox("searchTerm")
-        <input type="submit" class="btn btn-sm-secondary" value="Search"/>
-    }
-    @if (@Model.UserCollections.Count > 0)
-    {
-        var previousDisabled = !Model.UserCollections.PreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.UserCollections.NextPage ? "disabled" : "";
-        <div class="table-responsive p-1">
-            <table class="table user-collections-table">
-                <thead>
-                <tr>
-                    <td>
-                        Id
-                    </td>
-                    <td>
-                        Title
-                    </td>
-                    <td>
-                        Description
-                    </td>
-                    <td>
-                        Theme
-                    </td>
-                    <td>
-                        ItemsCount
-                    </td>
-                </tr>
-                </thead>
-            </table>
-        </div>
-    }
+    <div class="table-responsive p-1">
+        <table class="table user-collections-table">
+            <thead>
+            <tr>
+                <td>
+                    Id
+                </td>
+                <td>
+                   @SharedLocalizer["Title"]
+                </td>
+                <td>
+                    @SharedLocalizer["Description"]
+                </td>
+                <td>
+                    @SharedLocalizer["Theme"]
+                </td>
+                <td>
+                    @SharedLocalizer["Items count"]
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 @section Scripts

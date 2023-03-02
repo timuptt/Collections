@@ -6,9 +6,5 @@ namespace Collections.Web.Filters;
 
 public interface IFilter<TEntity>
 {
-    public Expression<Func<TEntity, object?>>? GetOrderPredicate(string propertyName);
-
-    public OrderEnum GetSortOrder(OrderEnum sortOrder);
-
-    public IEnumerable<string> GetOrderProperties();
+    public Expression<Func<TEntity, object?>>? GetSortingPredicate(string propertyName);
 }

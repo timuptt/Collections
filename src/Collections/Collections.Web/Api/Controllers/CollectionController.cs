@@ -28,7 +28,7 @@ public class CollectionController : ControllerBase
         var request = new DataTableRequestHelper(Request);
         var totalRows = await GetTotalRows(userId);
         var specification = new UserCollectionFilteredPagedSpec(request.Skip, request.PageSize, request.SearchValue,
-            _filter.GetOrderPredicate(request.SortColumn), request.SortColumnDirection, userId);
+            _filter.GetSortingPredicate(request.SortColumn), request.SortColumnDirection, userId);
         var collections = await _collectionReadRepository.ListProjectedAsync<CollectionViewModel>(specification);
         var jsonData = new
             { draw = request.Draw, recordsFiltered = totalRows, recordsTotal = totalRows, data = collections };

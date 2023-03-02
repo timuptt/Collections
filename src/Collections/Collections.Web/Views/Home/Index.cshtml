@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
@@ -24,7 +23,7 @@
 <div class="container-fluid tag-cloud" id="tagCloud" name="tagCloud"></div>
 
 <div class="container-fluid py-5 bg-light">
-    <div class="container">
+    <div class="container mb-3">
         <h3>@ViewLocalizer["CollectionsWithMore"]</h3>
         <hr/>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -34,7 +33,7 @@
                 }
             </div>
     </div>
-    <div class="container">
+    <div class="container mb-3">
         <h3>@ViewLocalizer["MostPopularItems"]</h3>
         <hr/>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -44,7 +43,7 @@
             }
         </div>
     </div>
-    <div class="container">
+    <div class="container mb-3">
             <h3>@ViewLocalizer["LastAddedItems"]</h3>
             <hr/>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">

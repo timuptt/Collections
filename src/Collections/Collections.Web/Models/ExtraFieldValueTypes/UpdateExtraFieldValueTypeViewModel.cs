@@ -15,8 +15,10 @@ public class UpdateExtraFieldValueTypeViewModel : IMapWith<ExtraFieldValueType>
     [DisplayName("Name")]
     public string Name { get; set; }
     
+    [DisplayName("Is Required")]
     public bool IsRequired { get; set; }
     
+    [DisplayName("Is Visible")]
     public bool IsVisible { get; set; }
 
     public void Mapping(Profile profile)

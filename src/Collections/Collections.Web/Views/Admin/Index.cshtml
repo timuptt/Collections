@@ -2,14 +2,9 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Collections.Shared.Constants.Identity
 @model IEnumerable<Collections.Web.Models.ApplicationUser.ApplicationUserViewModel>
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>@ViewLocalizer["UserManagement"]</title>
-</head>
-<body>
+@{
+    ViewData["Title"] = "User management";
+}
 <div class="container">
     <h1>@ViewLocalizer["UserManagement"]</h1>
     <hr/>
@@ -83,5 +78,3 @@
         </table>
     </div>
 </div>
-</body>
-</html>

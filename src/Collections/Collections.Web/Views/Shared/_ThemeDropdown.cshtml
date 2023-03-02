@@ -1,0 +1,12 @@
+@{
+    var returnUrl = string.IsNullOrWhiteSpace(Context.Request.Path) ? "~/" : 
+        $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
+}
+<div class="me-2">
+    <form asp-action="SetTheme" asp-controller="Home" asp-route-returnUrl="@returnUrl">
+        <select id="theme" name="theme" asp-for="@Context.Request.Cookies["theme"]" onchange="this.form.submit();">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+    </form>
+</div>

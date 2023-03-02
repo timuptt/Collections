@@ -6,6 +6,17 @@ html {
   html {
     font-size: 16px;
   }
+  .collection-img {
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+  .collection-img {
+    width: 100%;
+  }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -32,6 +43,12 @@ body {
 .cropped {
   width: 100%;
   height: 225px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.collection-img{
+  height: 300px;
   object-fit: cover;
   object-position: 50% 50%;
 }

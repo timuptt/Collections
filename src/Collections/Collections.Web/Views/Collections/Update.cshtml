@@ -1,13 +1,7 @@
-@using Microsoft.AspNetCore.Mvc.Localization
 @model Collections.Web.Models.Collection.UpdateCollectionViewModel
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
+@{
+    ViewData["Title"] = "Update " + @Model.Title;
+}
 <div class="container">
     <h1>@ViewLocalizer["UpdateCollection"] @Model.Title</h1>
     <hr/>
@@ -56,13 +50,13 @@
                                     @Html.TextBoxFor(m => m.ExtraFieldValueTypes[i].Name, new { @class = "form-control" })
                                 </div>
 
-                                <label>Is Visible</label>
+                                <label>@Html.DisplayNameFor(m => m.ExtraFieldValueTypes[i].IsVisible)</label>
                                 @Html.CheckBoxFor(m => m.ExtraFieldValueTypes[i].IsVisible)
                             </div>
                         }
                     }
                 </div>
-                <div class="row text-center ms-1 mb-3">
+                <div class="row text-center ms-1 me-1 mb-3">
                     <input type="button" value="@ViewLocalizer["AddField"]" class="btn btn-outline-success" id="addPropertyInput"/>
                 </div>
             </div>
@@ -122,5 +116,3 @@
         }
     }
 </script>
-</body>
-</html>

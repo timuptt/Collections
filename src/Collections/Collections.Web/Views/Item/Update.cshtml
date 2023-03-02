@@ -1,7 +1,9 @@
 @using Collections.ApplicationCore.Models
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Collections.Web.Models.Items.UpdateItemViewModel
-
+@{
+    ViewData["Title"] = "Update " + @Model.Title;
+}
 <div class="container">
     <h1>@ViewLocalizer["UpdateItem"] @Model.Title</h1>
     <hr/>

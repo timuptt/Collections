@@ -12,6 +12,7 @@ public class UserCollectionsWithMoreItemsSpecification : Specification<UserColle
             .Include(c => c.UserProfile)
             .Include(c => c.UserCollectionTheme)
             .Include(c => c.Items)
+            .EnableCache(nameof(UserCollectionsWithMoreItemsSpecification))
             .Take(6);
     }
 }

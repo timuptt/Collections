@@ -9,6 +9,7 @@ public class TagsWithWeightSpec : Specification<Tag>, ISingleResultSpecification
     {
         Query
             .OrderByDescending(t => t.Items.Count)
-            .Take(take);
+            .Take(take)
+            .EnableCache(nameof(TagsWithWeightSpec), take);
     }
 }

@@ -12,6 +12,7 @@ public class UserCollectionWithItemsByIdSpecification : Specification<UserCollec
             .Where(c => c.Id == collectionId)
             .Include(c => c.Items)
                 .ThenInclude(i => i.ExtraFields)
-            .Include(c => c.ExtraFieldValueTypes);
+            .Include(c => c.ExtraFieldValueTypes)
+            .EnableCache(nameof(UserCollectionWithItemsByIdSpecification), collectionId);
     }
 }

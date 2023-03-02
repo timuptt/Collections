@@ -34,6 +34,7 @@ namespace Collections.Web.Api.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 120)]
         [Route("api/[controller]/[action]")]
         public async Task<IActionResult> GetTopTags()
         {

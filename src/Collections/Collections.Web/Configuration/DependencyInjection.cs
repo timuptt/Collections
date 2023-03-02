@@ -36,7 +36,8 @@ public static class DependencyInjection
     
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
+        services.AddScoped(typeof(EfRepository<>));
+        services.AddScoped(typeof(IReadRepository<>), typeof(CachedRepository<>));
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         services.AddScoped<IItemSearchRepository, ItemSearchRepository>();
         services.AddDbContext<ApplicationDbContext>(options => 

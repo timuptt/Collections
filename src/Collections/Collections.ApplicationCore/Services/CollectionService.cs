@@ -64,7 +64,7 @@ public class CollectionService : ICollectionService
 
     private async Task<UserCollection> AddExtraFieldsToUserCollectionItems(UpdateUserCollectionDto collectionDto)
     {
-        var specification = new UserCollectionWithItemsAbdExtraFieldsSpec(collectionDto.Id);
+        var specification = new UserCollectionWithItemsAndExtraFieldsSpec(collectionDto.Id);
         var collectionToUpdate = await _userCollectionsRepository.GetBySpecAsync(specification);
         foreach (var item in collectionToUpdate!.Items)
         {

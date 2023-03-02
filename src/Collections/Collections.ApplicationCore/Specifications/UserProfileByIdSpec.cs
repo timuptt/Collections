@@ -8,6 +8,7 @@ public class UserProfileByIdSpec : Specification<UserProfile>, ISingleResultSpec
     public UserProfileByIdSpec(int id)
     {
         Query
-            .Where(p => p.Id == id);
+            .Where(p => p.Id == id)
+            .EnableCache(nameof(UserProfileByIdSpec), id);
     }
 }

@@ -9,6 +9,7 @@ public sealed class ItemsByTagSpecification : Specification<Item>, ISingleResult
     {
         Query
             .Where(i => i.Tags.Select(t => t.Title).Contains(tag))
-            .Include(i => i.Tags);
+            .Include(i => i.Tags)
+            .EnableCache(nameof(ItemsByTagSpecification), tag);
     }
 }

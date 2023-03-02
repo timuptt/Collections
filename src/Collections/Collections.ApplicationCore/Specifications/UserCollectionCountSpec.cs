@@ -8,7 +8,8 @@ public class UserCollectionCountSpec : Specification<UserCollection>
     public UserCollectionCountSpec(int userId)
     {
         Query
-            .AsNoTracking();
+            .AsNoTracking()
+            .EnableCache(nameof(UserCollectionCountSpec), userId);
         if (userId > 0)
         {
             Query

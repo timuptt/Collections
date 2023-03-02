@@ -9,6 +9,7 @@ public class LastItemsSpecification : Specification<Item>, ISingleResultSpecific
     {
         Query
             .OrderByDescending(i => i.AddedOn)
-            .Take(6);
+            .Take(6)
+            .EnableCache(nameof(LastItemsSpecification));
     }
 }

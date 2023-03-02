@@ -9,6 +9,7 @@ public class MostLikedItemsSpecification : Specification<Item>, ISingleResultSpe
     {
         Query
             .OrderByDescending(i => i.Likes.Count)
-            .Take(6);
+            .Take(6)
+            .EnableCache(nameof(MostLikedItemsSpecification));
     }
 }

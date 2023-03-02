@@ -11,6 +11,7 @@ public class TagsByPrefixSpec : Specification<Tag>, ISingleResultSpecification
         Query
             .Search(t => t.Title, searchTerm)
             .OrderBy(t => t.Title)
-            .Take(count);
+            .Take(count)
+            .EnableCache(nameof(TagsByPrefixSpec), prefix, count);
     }
 }

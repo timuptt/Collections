@@ -16,7 +16,7 @@ public class HomeController : Controller
         _logger = logger;
         _homePageViewModelService = homePageViewModelService;
     }
-
+    
     public async Task<IActionResult> Index()
     {
         return View(await _homePageViewModelService.GetHomePageViewModel());

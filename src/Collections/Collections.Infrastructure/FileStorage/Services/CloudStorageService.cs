@@ -9,17 +9,14 @@ namespace Collections.Infrastructure.FileStorage.Services;
 
 public class CloudStorageService : ICloudStorageService
 {
-    private readonly GCSConfiguration _options;
     private readonly GoogleCredential _googleCredentials;
     private readonly string? _bucketName;
 
     public CloudStorageService(IOptions<GCSConfiguration> options)
     {
-        _options = options.Value;
-        
 #if DEBUG
-        _googleCredentials = GoogleCredential.FromFile(_options.GCPStorageAuthFile);
-        _bucketName = _options.GoogleCloudStorageBucketName;
+        _googleCredentials = GoogleCredential.FromFile(options.Value.GCPStorageAuthFile);
+        _bucketName = options.Value.GoogleCloudStorageBucketName;
 #else
         _googleCredentials = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS"));
         _bucketName = Environment.GetEnvironmentVariable("GOOGLE_BUCKET_NAME");
@@ -29,7 +26,7 @@ public class CloudStorageService : ICloudStorageService
     public async Task DeleteFileAsync(string fileName)
     {
         using var storageClient = await StorageClient.CreateAsync(_googleCredentials);
-        await storageClient.DeleteObjectAsync(_options.GoogleCloudStorageBucketName, fileName);
+        await storageClient.DeleteObjectAsync(_bucketName, fileName);
     }
 
     public async Task<(string, string)> UploadImageAsync(IFormFile file)
@@ -38,7 +35,7 @@ public class CloudStorageService : ICloudStorageService
         await file.CopyToAsync(memoryStream);
         using var storageClient = await StorageClient.CreateAsync(_googleCredentials);
         var fileName = $"{DateTime.Now.Ticks}{file.FileName}";
-        var uploadedFile = await storageClient.UploadObjectAsync(_options.GoogleCloudStorageBucketName,
+        var uploadedFile = await storageClient.UploadObjectAsync(_bucketName,
             fileName, file.ContentType, memoryStream);
         return (uploadedFile.MediaLink, fileName);
     }
@@ -47,7 +44,7 @@ public class CloudStorageService : ICloudStorageService
     {
         var serviceAccountCredential = _googleCredentials.UnderlyingCredential as ServiceAccountCredential;
         var urlSigner = UrlSigner.FromCredential(serviceAccountCredential);
-        var signedUrl = await urlSigner.SignAsync(_options.GoogleCloudStorageBucketName, fileName,
+        var signedUrl = await urlSigner.SignAsync(_bucketName, fileName,
             TimeSpan.FromMinutes(timeOut));
         return signedUrl;
     }

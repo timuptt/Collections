@@ -6,7 +6,7 @@ $(document).ready(function() {
         multiple: "multiple",
         ajax: {
             delay: 200,
-            url: document.location.origin + "/api/Tag",
+            url: document.location.origin + "/api/Tag/Search",
             contentType: "application/json",
             data: function (params) {
                 var query = {

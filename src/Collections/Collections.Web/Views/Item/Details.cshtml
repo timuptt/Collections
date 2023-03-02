@@ -5,17 +5,12 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Collections.Web.Models.Items.ItemExtendedViewModel;
 @inject ICurrentUserProvider CurrentUser
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
+@{
+    ViewData["Title"] = Model.Title;
+}
 <div class="container">
     <div class="d-flex justify-content-between">
-        <h1>@Model.Title <small class="text-muted">@ViewLocalizer["InCollection"] <a asp-action="Details" asp-controller="Collections" asp-route-id="@Model.UserCollectionId" class="text-decoration-none">@Model.UserCollectionTitle</a></small></h1>
+        <h1>@Model.Title</h1>
         <div class="p-3">
             @if (CurrentUser.HasPermissions(@Model.UserProfileId))
                     {
@@ -25,42 +20,52 @@
         </div>
     </div>
     <hr/>
+    <div>
+        <h3 class="text-muted">@ViewLocalizer["InCollection"] <a asp-action="Details" asp-controller="Collections" asp-route-id="@Model.UserCollectionId" class="text-decoration-none">@Model.UserCollectionTitle</a></h3>
+    </div>
+    <div class="ms-3">
+        @if (@Model.Tags.Any())
+        {
+            foreach (var tag in @Model.Tags)
+            {
+                <a class="text-decoration-none text-white badge bg-success text-decoration-none" asp-action="Index" asp-controller="Tag" asp-route-id="@tag.Id">@tag.Text</a>
+            }
+        }
+    </div>
     @Html.HiddenFor(m => m.Id, new { @id = "groupId" })
 
     <div class="p-3">
+        
+        
         @foreach (var extraField in @Model.ExtraFields)
         {
-            <div class="d-flex">
-
+            <div class="row">
+                <label class="col-3 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
                 @switch (extraField.ExtraFieldValueType!.ValueType)
                 {
                     case ValueTypes.String:
-                        <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
-                        <p>@extraField.Value</p>
+                        <p class="col-9">@extraField.Value</p>
                         break;
                     case ValueTypes.Binary:
-                        <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
-                        <input type="checkbox" class="disabled" checked="@bool.Parse(extraField.Value)"/>
+                        <input type="checkbox" class="disabled col-9" checked="@bool.Parse(extraField.Value)"/>
                         break;
                     case ValueTypes.Date:
-                        <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
-                        <p>@extraField.Value</p>
+                        <p class="col-9">@extraField.Value</p>
                         break;
                     case ValueTypes.Number:
-                        <label class="me-1 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
-                        <p>@extraField.Value</p>
+                        <p class="col-9">@extraField.Value</p>
                         break;
                 }
             </div>
         }
 
-        <div class="d-flex mt-3">
-            <label class="me-1 text-muted">@Html.DisplayNameFor(m => m.AddedOn):</label>
-            <p>@Model.AddedOn</p>
+        <div class="row">
+            <label class="col-3 text-muted">@Html.DisplayNameFor(m => m.AddedOn):</label>
+            <p class="col-9">@Model.AddedOn</p>
         </div>
-        <div class="d-flex">
-            <label class="me-1 text-muted">@Html.DisplayNameFor(m => m.ModifiedOn):</label>
-            <p>@Model.ModifiedOn</p>
+        <div class="row">
+            <label class="col-3 text-muted">@Html.DisplayNameFor(m => m.ModifiedOn):</label>
+            <p class="col-9">@Model.ModifiedOn</p>
         </div>
         @{
             var markdownFields = @Model.ExtraFields.Where(e => e.ExtraFieldValueType.ValueType == ValueTypes.Text);
@@ -86,9 +91,7 @@
                     <a type="button" class="btn btn-outline-danger" onclick="location.href = '@Url.Action("LikeItem", "Item", new { itemId = @Model.Id })'"><span class="bi bi-heart-fill"></span> @Model.Likes.Count()</a>
                 }
             </div>
-
         </div>
-
     </div>
 
 </div>
@@ -98,10 +101,10 @@
         <hr/>
         <div>
             <div class="p-3">
-                @using (Html.BeginForm("WriteComment", "Item", FormMethod.Post))
+                @using (Html.BeginForm("WriteComment", "Item", FormMethod.Post, new {@id="commentsForm"}))
                 {
                     @Html.Hidden("ItemId", value: @Model.Id)
-                    @Html.TextArea("Body", "", new {@class="form-control mb-3", rows="5", placeholder=ViewLocalizer["WriteAComment"].Value})
+                    @Html.TextArea("Body", string.Empty, new {@class="form-control mb-3", rows="2", placeholder=ViewLocalizer["WriteAComment"].Value, required="required"})
                     <input type="submit" class="btn btn-primary align-content-end" value="@ViewLocalizer["Send"]" id="writeComment"/>
                 }
             </div>
@@ -126,6 +129,7 @@
 @section Scripts
 {
     <script src="~/js/commentHubClient.js"></script>
+    <script>
+    $("#commentsForm").validate()
+    </script>
 }
-</body>
-</html>

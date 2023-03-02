@@ -37,5 +37,12 @@ public class HomeController : Controller
         return LocalRedirect(returnUrl ?? "~/");
     }
 
+    [HttpPost]
+    public IActionResult SetTheme(string theme, string returnUrl)
+    {
+        Response.Cookies.Append("theme", theme, new CookieOptions() { Expires = DateTimeOffset.Now.AddDays(30) });
+        return LocalRedirect(returnUrl);
+    }
+
     public IActionResult Create() => RedirectToAction("Create", "Collections");
 }

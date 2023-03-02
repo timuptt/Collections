@@ -8,11 +8,10 @@
         <div class="card-body">
             @if (Model.Tags.Any())
             {
-                <div class="p-1 mb-2 d-flex">
-                    <p class="text-muted me-1"><i class="bi bi-hash"></i></p>
+                <div class="p-1 mb-3 d-flex">
                     @foreach (var tag in Model.Tags)
                     {
-                        <a class="me-1"><span class="badge bg-success">@tag.Text</span></a>
+                        <a class="text-decoration-none text-white badge bg-success text-decoration-none me-1" asp-action="Index" asp-controller="Tag" asp-route-id="@tag.Id">@tag.Text</a>
                     }
                 </div>
             }

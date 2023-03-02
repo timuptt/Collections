@@ -1,15 +1,8 @@
 @using Collections.ApplicationCore.Models
-@using Microsoft.CodeAnalysis.Classification
 @model Collections.Web.Models.Items.CreateItemViewModel
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-    
-</head>
-<body>
+@{
+    ViewData["Title"] = "Create item";
+}
 <div class="container">
     <h1>@ViewLocalizer["CreateNewItem"]</h1>
     <hr/>
@@ -63,9 +56,7 @@
     }
 
 </div>
-</body>
 @section Scripts
 {
     <script src="js/selectTag.js"></script>
 }
-</html>

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using AutoMapper;
 using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Models;
@@ -12,9 +13,11 @@ public class ExtraFieldValueTypeViewModel : IMapWith<ExtraFieldValueType>
     
     public ValueTypes ValueType { get; set; }
     
-    public bool IsVisible { get; set; }
-    
+    [DisplayName("Is Required")]
     public bool IsRequired { get; set; }
+    
+    [DisplayName("Is Visible")]
+    public bool IsVisible { get; set; }
 
     public void Mapping(Profile profile)
     {

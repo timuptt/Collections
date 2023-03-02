@@ -2,14 +2,9 @@
 @using Collections.Web.Interfaces
 @model Collections.Web.Models.UserProfile.UserProfileViewModel
 @inject ICurrentUserProvider CurrentUser
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>Details</title>
-</head>
-<body>
+@{
+    ViewData["Title"] = string.Join(" ", Model.FirstName, Model.LastName);
+}
 <div class="container">
     <h1>
         @Model.FirstName @Model.LastName
@@ -99,5 +94,3 @@
         </nav>
     }
 </div>
-</body>
-</html>

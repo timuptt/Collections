@@ -8,8 +8,8 @@
 <div class="container">
     <h1>@ViewLocalizer["UserManagement"]</h1>
     <hr/>
-    <div class="table-responsive">
-        <table class="table">
+    <div class="table-responsive p-1">
+        <table class="table users-table">
             <thead>
             <tr>
                 <td>
@@ -64,11 +64,11 @@
                         }
                         @if (user.Status == UserStatuses.Active)
                         {
-                            <a asp-action="BlockUser" asp-route-userId="@user.Id" type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-lock"></i></a>
+                            <a asp-action="BlockUser" asp-route-userId="@user.Id" type="button" class="btn btn-sm btn-outline-warning"><i class="bi bi-lock"></i></a>
                         }
                         else
                         {
-                            <a asp-action="UnlockUser" asp-route-userId="@user.Id" type="button" class="btn btn-sm btn-sm-outline-success"><i class="bi bi-unlock"></i></a>
+                            <a asp-action="UnlockUser" asp-route-userId="@user.Id" type="button" class="btn btn-sm btn-outline-success"><i class="bi bi-unlock"></i></a>
                         }
                         <a asp-action="DeleteUser" asp-route-userId="@user.Id" type="button" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
                     </td>
@@ -78,3 +78,9 @@
         </table>
     </div>
 </div>
+@section Scripts
+{
+    <script>
+    $('.users-table').DataTable();
+    </script>
+}

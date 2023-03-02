@@ -62,5 +62,23 @@ namespace Collections.Web.Resources.Views.UserProfile {
                 return ResourceManager.GetString("CreateCollectionAs", resourceCulture);
             }
         }
+        
+        internal static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        internal static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        internal static string ItemsCount {
+            get {
+                return ResourceManager.GetString("ItemsCount", resourceCulture);
+            }
+        }
     }
 }

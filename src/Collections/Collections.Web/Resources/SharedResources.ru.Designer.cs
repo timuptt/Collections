@@ -164,5 +164,23 @@ namespace Collections.Web.Resources {
                 return ResourceManager.GetString("Status", resourceCulture);
             }
         }
+        
+        internal static string Items_count {
+            get {
+                return ResourceManager.GetString("Items count", resourceCulture);
+            }
+        }
+        
+        internal static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        internal static string ExploreCollections {
+            get {
+                return ResourceManager.GetString("ExploreCollections", resourceCulture);
+            }
+        }
     }
 }

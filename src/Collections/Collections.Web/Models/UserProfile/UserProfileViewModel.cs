@@ -14,12 +14,9 @@ public class UserProfileViewModel : IMapWith<ApplicationCore.Models.UserProfile>
     public string FirstName { get; set; }
     
     public string LastName { get; set; }
-    
-    public PaginatedList<CollectionForUserProfileViewModel, UserCollection> UserCollections { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<ApplicationCore.Models.UserProfile, UserProfileViewModel>()
-            .ForMember(p => p.UserCollections, opt => opt.Ignore());
+        profile.CreateMap<ApplicationCore.Models.UserProfile, UserProfileViewModel>();
     }
 }

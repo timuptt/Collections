@@ -12,6 +12,7 @@
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="12.0.1" />
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+      <PackageReference Include="DataTables.AspNet.AspNetCore" Version="3.0.0-preview.19" />
       <PackageReference Include="Markdig" Version="0.30.4" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.2" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.2" />

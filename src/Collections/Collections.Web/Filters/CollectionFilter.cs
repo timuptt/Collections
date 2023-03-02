@@ -10,8 +10,9 @@ public class CollectionFilter : IFilter<UserCollection>
         new ()
         {
             { nameof(UserCollection.Id), u => u.Id },
-            { nameof(UserCollection.Title), u => u.Id },
+            { nameof(UserCollection.Title), u => u.Title },
             { nameof(UserCollection.Description), u => u.Description },
+            { nameof(UserCollection.UserCollectionTheme.Theme), u => u.UserCollectionTheme.Theme},
             { "ItemsCount", u => u.Items.Count }
         };
 

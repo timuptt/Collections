@@ -28,10 +28,10 @@
         <hr/>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach (var item in Model.CollectionsWithMoreItems)
-                {
-                    await Html.RenderPartialAsync("_CollectionCard", item);
-                }
-            </div>
+            {
+                await Html.RenderPartialAsync("_CollectionCard", item);
+            }
+        </div>
     </div>
     <div class="container mb-3">
         <h3>@ViewLocalizer["MostPopularItems"]</h3>
@@ -44,13 +44,17 @@
         </div>
     </div>
     <div class="container mb-3">
-            <h3>@ViewLocalizer["LastAddedItems"]</h3>
-            <hr/>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                @foreach (var item in @Model.LastAddedItems)
-                {
-                    await Html.RenderPartialAsync("_ItemCard", item);
-                }
-            </div>
+        <h3>@ViewLocalizer["LastAddedItems"]</h3>
+        <hr/>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @foreach (var item in @Model.LastAddedItems)
+            {
+                await Html.RenderPartialAsync("_ItemCard", item);
+            }
         </div>
+    </div>
 </div>
+@section Scripts
+{
+    <script src="~/js/tagCloud.js"></script>
+}

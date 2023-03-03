@@ -54,7 +54,6 @@ public static class DependencyInjection
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserProfileClaimFactory>();
         services.AddScoped<IUserManagementService<ApplicationUser>, UserManagementService>();
         services.AddAuthentication()
-            .AddCookie()
             .AddGoogle(googleOptions =>
             {
 #if DEBUG

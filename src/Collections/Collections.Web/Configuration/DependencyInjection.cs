@@ -16,7 +16,6 @@ using Collections.Web.Common.Mappings;
 using Collections.Web.Configuration.Connection;
 using Collections.Web.Filters;
 using Collections.Web.Interfaces;
-using Collections.Web.Resources;
 using Collections.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -47,13 +46,25 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddIdentity(this IServiceCollection services)
+    public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserProfileClaimFactory>();
         services.AddScoped<IUserManagementService<ApplicationUser>, UserManagementService>();
+        services.AddAuthentication()
+            .AddCookie()
+            .AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+            })
+            .AddMicrosoftAccount(microsoftOptions =>
+            {
+                microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
+                microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+            });
         return services;
     }
 

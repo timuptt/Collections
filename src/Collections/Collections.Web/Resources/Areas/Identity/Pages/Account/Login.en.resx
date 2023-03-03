@@ -33,4 +33,8 @@
     <data name="Use another service to log in" xml:space="preserve">
         <value>Use another service to log in</value>
     </data>
+    <data name="Login with" xml:space="preserve">
+        <value>Login with</value>
+        <comment>Login with</comment>
+    </data>
 </root>

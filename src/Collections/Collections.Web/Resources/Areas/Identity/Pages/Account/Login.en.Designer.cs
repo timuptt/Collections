@@ -74,5 +74,11 @@ namespace Collections.Web.Resources.Pages.Account {
                 return ResourceManager.GetString("Use another service to log in", resourceCulture);
             }
         }
+        
+        internal static string Login_with {
+            get {
+                return ResourceManager.GetString("Login with", resourceCulture);
+            }
+        }
     }
 }

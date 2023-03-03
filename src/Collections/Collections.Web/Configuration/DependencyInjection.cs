@@ -54,10 +54,13 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>();
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserProfileClaimFactory>();
         services.AddScoped<IUserManagementService<ApplicationUser>, UserManagementService>();
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        services.AddAuthentication()
             .AddCookie(options =>
             {
                 options.CookieManager = new ChunkingCookieManager();
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             })
             .AddGoogle(googleOptions =>
             {

@@ -57,13 +57,23 @@ public static class DependencyInjection
             .AddCookie()
             .AddGoogle(googleOptions =>
             {
+#if DEBUG
                 googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+#else
+                googleOptions.ClientId = Environment.GetEnvironmentVariable("Authentication:Google:ClientId");
+                googleOptions.ClientSecret = Environment.GetEnvironmentVariable("Authentication:Google:ClientSecret");
+#endif
             })
             .AddMicrosoftAccount(microsoftOptions =>
             {
+#if DEBUG
                 microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                 microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+#else
+                microsoftOptions.ClientId = Environment.GetEnvironmentVariable("Authentication:Microsoft:ClientId");
+                microsoftOptions.ClientSecret = Environment.GetEnvironmentVariable("Authentication:Microsoft:ClientSecret");
+#endif
             });
         return services;
     }

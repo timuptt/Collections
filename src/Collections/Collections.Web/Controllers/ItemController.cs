@@ -55,7 +55,7 @@ public class ItemController : Controller
         request.ExtraFields = new List<CreateExtraFieldViewModel>();
         foreach (var type in extraFieldValueTypes)
         {
-            request.ExtraFields.Add(new CreateExtraFieldViewModel() { ExtraFieldValueType = type });
+            request.ExtraFields.Add(new CreateExtraFieldViewModel() { ExtraFieldValueType = type, ExtraFieldValueTypeId = type.Id});
         }
         return View(request);
     }

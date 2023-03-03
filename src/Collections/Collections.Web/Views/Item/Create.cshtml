@@ -11,9 +11,8 @@
         @Html.HiddenFor(m => m.UserCollectionId);
         
         <div class="mb-3">
-            <label asp-for="@Model.Title" class="form-label"></label>
-            <input asp-for="@Model.Title" class="form-control"/>
-            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+            <label class="form-label">@Html.DisplayNameFor(m => m.Title)</label>
+            @Html.TextBoxFor(m => m.Title, new {@class="form-control"})
         </div>
         
         <div class="mb-3">
@@ -25,26 +24,29 @@
         {
             for (var i = 0; i < @Model.ExtraFields.Count; i++)
             {
+
                 <div class="mb-3">
-                    <input asp-for="ExtraFields[i].ExtraFieldValueTypeId" value="@Model.ExtraFields[i].ExtraFieldValueType.Id" hidden="hidden"/>
+                    @Html.HiddenFor(m => m.ExtraFields[i].ExtraFieldValueTypeId)
                     @Html.HiddenFor(m => m.ExtraFields[i].ExtraFieldValueType)
+                    @Html.HiddenFor(m => m.ExtraFields[i].ExtraFieldValueType.Name)
                     <label class="form-label">@Model.ExtraFields[i].ExtraFieldValueType.Name</label>
-                    @switch (@Model.ExtraFields[i].ExtraFieldValueType.ValueType)
+                    @switch (Model.ExtraFields[i].ExtraFieldValueType.ValueType)
                     {
+                        
                         case ValueTypes.String:
-                            <input asp-for="ExtraFields[i].Value" type="text" class="form-control"/>
+                            <input asp-for="ExtraFields[i].Value" type="text" class="form-control" required="@Model.ExtraFields[i].ExtraFieldValueType.IsRequired"/>
                             break;
                         case ValueTypes.Text:
-                            <textarea asp-for="ExtraFields[i].Value" class="form-control" rows="10"></textarea>
+                            <textarea asp-for="ExtraFields[i].Value" class="form-control" rows="10" required="@Model.ExtraFields[i].ExtraFieldValueType.IsRequired"></textarea>
                             break;
                         case ValueTypes.Date:
-                            <input asp-for="ExtraFields[i].Value" type="date" class="form-control"/>
+                            <input asp-for="ExtraFields[i].Value" type="date" class="form-control" required="@Model.ExtraFields[i].ExtraFieldValueType.IsRequired"/>
                             break;
                         case ValueTypes.Number:
-                            <input asp-for="ExtraFields[i].Value" type="number" class="form-control"/>
+                            <input asp-for="ExtraFields[i].Value" type="number" class="form-control" required="@Model.ExtraFields[i].ExtraFieldValueType.IsRequired"/>
                             break;
                         case ValueTypes.Binary:
-                            <input asp-for="ExtraFields[i].Value" type="checkbox" class="form-check"/>
+                            <input asp-for="ExtraFields[i].Value" type="checkbox" class="form-check" required="@Model.ExtraFields[i].ExtraFieldValueType.IsRequired"/>
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

@@ -22,14 +22,14 @@ public class CollectionService : ICollectionService
         _mapper = mapper;
     }
     
-    public async Task AddItemToCollection(int collectionId, Item item)
-    {
-        Guard.Against.NegativeOrZero(collectionId, nameof(collectionId));
-        var collectionToAdd = await _userCollectionsRepository.GetByIdAsync(collectionId);
-        Guard.Against.Null(collectionToAdd);
-        collectionToAdd.AddItem(item);
-        await _userCollectionsRepository.UpdateAsync(collectionToAdd);
-    }
+    // public async Task AddItemToCollection(int collectionId, Item item)
+    // {
+    //     Guard.Against.NegativeOrZero(collectionId, nameof(collectionId));
+    //     var collectionToAdd = await _userCollectionsRepository.GetByIdAsync(collectionId);
+    //     Guard.Against.Null(collectionToAdd);
+    //     collectionToAdd.AddItem(item);
+    //     await _userCollectionsRepository.UpdateAsync(collectionToAdd);
+    // }
     
     public async Task DeleteCollection(int id)
     {
@@ -39,11 +39,9 @@ public class CollectionService : ICollectionService
         await _userCollectionsRepository.DeleteAsync(collectionToDelete);
     }
 
-    public async Task CreateCollection(int userProfileId, int userCollectionThemeId, string title,
-        string description, string imageSource, string imageName,
-        ICollection<ExtraFieldValueType> extraFieldValueTypes)
+    public async Task CreateCollection(CreateUserCollectionDto collectionDto)
     {
-        var collection = new UserCollection(title, description, userProfileId, userCollectionThemeId, imageSource, imageName, extraFieldValueTypes);
+        var collection = _mapper.Map<UserCollection>(collectionDto);
         await _userCollectionsRepository.AddAsync(collection);
     }
 

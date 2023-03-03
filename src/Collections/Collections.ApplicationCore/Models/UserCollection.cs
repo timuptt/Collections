@@ -27,10 +27,10 @@ public class UserCollection : EntityBase<int>, IAggregateRoot
     public ICollection<Item> Items { get; set; }
 
     public UserCollection()
-    {
-        
-    }
-    public UserCollection(string title, string description, int userProfileId, int userCollectionThemeId, string imageSource = "", string imageName = "", ICollection<ExtraFieldValueType> extraFieldValueTypes = null)
+    { }
+
+    public UserCollection(string title, string description, int userProfileId, int userCollectionThemeId,
+        string imageSource, string imageName, IEnumerable<ExtraFieldValueType> extraFieldValueTypes)
     {
         Title = Guard.Against.NullOrWhiteSpace(title, nameof(title));
         Description = Guard.Against.NullOrWhiteSpace(description, nameof(description));
@@ -39,10 +39,5 @@ public class UserCollection : EntityBase<int>, IAggregateRoot
         ImageSource = imageSource;
         ImageName = imageName;
         ExtraFieldValueTypes = extraFieldValueTypes.ToList();
-    }
-
-    protected internal void AddItem(Item item)
-    {
-        Items.Add(item);
     }
 }

@@ -1,6 +1,6 @@
 using Collections.Web.Configuration;
 using Collections.Web.Hubs;
-using Microsoft.Extensions.Options;
+using Collections.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +38,7 @@ app.MapControllerRoute(
 
 app.UseRequestLocalization();
 
+app.UseMiddleware<LogoutMiddleware>();
 app.MapRazorPages();
 
 app.MapHub<CommentsHub>("/commentsHub");

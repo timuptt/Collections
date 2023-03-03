@@ -1,7 +1,8 @@
 ﻿@page
 @using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.StaticFiles.Infrastructure
 @model LockoutModel
-@inject IStringLocalizer SharedLocalizer
+@inject IStringLocalizer<SharedOptions> SharedLocalizer
 @{
     ViewData["Title"] = "Locked out";
 }

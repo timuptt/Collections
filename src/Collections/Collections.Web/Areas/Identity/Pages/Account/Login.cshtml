@@ -43,24 +43,28 @@
                             </div>
                         </form>
                         <hr/>
-                        <div class="d-flex justify-content-between">
-                            @foreach (var provider in Model.ExternalLogins!)
-                            {
-                                switch (provider.Name)
+                    </section>
+                    <section>
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div class="d-flex justify-content-between">
+                                                            
+                                @foreach (var provider in Model.ExternalLogins!)
                                 {
-                                    case "Google":
-                                        <button type="submit" class="btn  btn-link text-decoration-none" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="bi bi-google me-2"></i>@ViewLocalizer["Login with"] @provider.DisplayName</button>
-                                        break;
-                                    case "Microsoft":
-                                        <button type="submit" class="btn  btn-link text-decoration-none" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="bi bi-microsoft me-2"></i>@ViewLocalizer["Login with"] @provider.DisplayName</button>
-                                        break;
-                                    default:
-                                        <button type="submit" class="btn btn-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                        break;
+                                    switch (provider.Name)
+                                    {
+                                        case "Google":
+                                            <button type="submit" class="btn btn-link text-decoration-none" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="bi bi-google me-2"></i>@ViewLocalizer["Login with"] @provider.DisplayName</button>
+                                            break;
+                                        case "Microsoft":
+                                            <button type="submit" class="btn btn-link text-decoration-none" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="bi bi-microsoft me-2"></i>@ViewLocalizer["Login with"] @provider.DisplayName</button>
+                                            break;
+                                        default:
+                                            <button type="submit" class="btn btn-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                            break;
+                                    }
                                 }
-                            }
-                        </div>
-
+                            </div>
+                        </form>
                     </section>
                 </div>
             </div>

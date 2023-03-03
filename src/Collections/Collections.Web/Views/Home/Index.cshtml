@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@model HomePageViewModel
+﻿@model HomePageViewModel
 @inject IViewLocalizer ViewLocalizer
 @{
     ViewData["Title"] = "Home Page";
@@ -7,8 +6,9 @@
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">@ViewLocalizer["WelcomeTo"] <span class="text-primary">Collections</span>!</h1>
-            <p class="lead text-muted">@ViewLocalizer["CollectEverything"]</p>
+            <h1 class="fw-light">@ViewLocalizer["WelcomeTo"] <img src="img/logo.png"/></h1> 
+
+                <p class="lead text-muted">@ViewLocalizer["CollectEverything"]</p>
             <p>
                 @if (User.Identity!.IsAuthenticated)
                 {

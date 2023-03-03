@@ -350,6 +350,7 @@
 
     <ItemGroup>
       <Folder Include="Resources\Models\Items" />
+      <Folder Include="wwwroot\img" />
     </ItemGroup>
 
 </Project>

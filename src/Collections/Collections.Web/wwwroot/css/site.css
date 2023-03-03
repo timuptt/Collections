@@ -17,6 +17,10 @@ html {
   .collection-img {
     width: 100%;
   }
+
+  .logo {
+    width: 70px;
+  }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -55,4 +59,8 @@ body {
 
 #culture {
   width: 3rem;
+}
+
+.logo {
+  width: 100px;
 }

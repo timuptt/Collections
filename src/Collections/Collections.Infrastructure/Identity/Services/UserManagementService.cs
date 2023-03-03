@@ -9,12 +9,10 @@ namespace Collections.Infrastructure.Identity.Services;
 public class UserManagementService : IUserManagementService<ApplicationUser>
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
-    
-    public UserManagementService(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+
+    public UserManagementService(UserManager<ApplicationUser> userManager)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
     }
     
     public IQueryable<ApplicationUser> ListAllUsersPaginated(int skip = 0, int take = int.MaxValue)

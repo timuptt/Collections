@@ -21,16 +21,7 @@ public class CollectionService : ICollectionService
         _extraFieldValueTypeRepository = extraFieldValueTypeRepository;
         _mapper = mapper;
     }
-    
-    // public async Task AddItemToCollection(int collectionId, Item item)
-    // {
-    //     Guard.Against.NegativeOrZero(collectionId, nameof(collectionId));
-    //     var collectionToAdd = await _userCollectionsRepository.GetByIdAsync(collectionId);
-    //     Guard.Against.Null(collectionToAdd);
-    //     collectionToAdd.AddItem(item);
-    //     await _userCollectionsRepository.UpdateAsync(collectionToAdd);
-    // }
-    
+
     public async Task DeleteCollection(int id)
     {
         Guard.Against.NegativeOrZero(id, nameof(id));

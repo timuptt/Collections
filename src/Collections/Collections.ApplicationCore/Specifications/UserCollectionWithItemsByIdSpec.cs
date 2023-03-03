@@ -3,16 +3,16 @@ using Collections.ApplicationCore.Models;
 
 namespace Collections.ApplicationCore.Specifications;
 
-public class UserCollectionWithItemsByIdSpecification : Specification<UserCollection>,
+public class UserCollectionWithItemsByIdSpec : Specification<UserCollection>,
     ISingleResultSpecification
 {
-    public UserCollectionWithItemsByIdSpecification(int collectionId)
+    public UserCollectionWithItemsByIdSpec(int collectionId)
     {
         Query
             .Where(c => c.Id == collectionId)
             .Include(c => c.Items)
                 .ThenInclude(i => i.ExtraFields)
             .Include(c => c.ExtraFieldValueTypes)
-            .EnableCache(nameof(UserCollectionWithItemsByIdSpecification), collectionId);
+            .EnableCache(nameof(UserCollectionWithItemsByIdSpec), collectionId);
     }
 }

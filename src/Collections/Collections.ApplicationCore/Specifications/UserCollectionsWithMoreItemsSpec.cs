@@ -3,16 +3,16 @@ using Collections.ApplicationCore.Models;
 
 namespace Collections.ApplicationCore.Specifications;
 
-public class UserCollectionsWithMoreItemsSpecification : Specification<UserCollection>, ISingleResultSpecification
+public class UserCollectionsWithMoreItemsSpec : Specification<UserCollection>, ISingleResultSpecification
 {
-    public UserCollectionsWithMoreItemsSpecification()
+    public UserCollectionsWithMoreItemsSpec()
     {
         Query
             .OrderByDescending(c => c.Items.Count)
             .Include(c => c.UserProfile)
             .Include(c => c.UserCollectionTheme)
             .Include(c => c.Items)
-            .EnableCache(nameof(UserCollectionsWithMoreItemsSpecification))
+            .EnableCache(nameof(UserCollectionsWithMoreItemsSpec))
             .Take(6);
     }
 }

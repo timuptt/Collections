@@ -1,6 +1,7 @@
 using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Interfaces;
+using Collections.Web.Models.Items;
 using Collections.Web.Models.Tags;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ public class TagController : Controller
     public async Task<IActionResult> Index(int id)
     {
         var specification = new TagByIdSpec(id);
-        var tagVm = await _tagReadRepository.GetBySpecProjectedAsync<TagWithItemsViewModel>(specification);
+        var tagVm = await _tagReadRepository.GetBySpecProjectedAsync<TagViewModel>(specification);
         return View(tagVm);
     }
 }

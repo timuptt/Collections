@@ -6,5 +6,5 @@ namespace Collections.Web.Filters;
 
 public interface IFilter<TEntity>
 {
-    public Expression<Func<TEntity, object?>>? GetSortingPredicate(string propertyName);
+    public Expression<Func<TEntity, object?>> GetSortingPredicate(string propertyName);
 }

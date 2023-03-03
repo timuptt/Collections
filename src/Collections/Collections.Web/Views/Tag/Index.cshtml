@@ -1,63 +1,65 @@
-@model Collections.Web.Models.Tags.TagWithItemsViewModel
+@model Collections.Web.Models.Items.TagViewModel
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = Model.Text;
 }
 <div class="container">
-    <h1>Items by @Model.Title tag</h1>
+    <h1>Items by @Model.Text tag</h1>
     <hr/>
-    @if (Model.Items.Count > 0)
-    {
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <td>
-                        @Html.DisplayNameFor(m => m.Items[0].Id)
-                    </td>
-                    <td>
-                        @Html.DisplayNameFor(m => m.Items[0].Title)
-                    </td>
-                    <td>
-                        @Html.DisplayNameFor(m => m.Items[0].UserCollectionName)
-                    </td>
-                    <td>
-                        @Html.DisplayNameFor(m => m.Items[0].CommentsCount)
-                    </td>
-                    <td>
-                        @Html.DisplayNameFor(m => m.Items[0].LikesCount)
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var item in @Model.Items)
-                {
-                    <tr>
-                        <td>
-                            @item.Id
-                        </td>
-                        <td>
-                            <a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">@item.Title</a>
-                        </td>
-                        <td>
-                            @item.UserCollectionName
-                        </td>
-                        <td>
-                            @item.CommentsCount
-                        </td>
-                        <td>
-                            @item.LikesCount
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <div>
-            <p>There is no items :(</p>
-        </div>
-    }
-    
+    <div class="table-responsive p-1">
+        <table class="table table-striped" id="items-by-tag">
+            <thead>
+            <tr>
+                <td>
+                    @SharedLocalizer["Id"]
+                </td>
+                <td>
+                    @SharedLocalizer["Title"]
+                </td>
+                <td>
+                    @SharedLocalizer["CollectionName"]
+                </td>
+                <td>
+                    @SharedLocalizer["CommentsCount"]
+                </td>
+                <td>
+                    @SharedLocalizer["Likes"]
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
+
+@section Scripts
+{
+    <script>
+    $("#items-by-tag").dataTable({
+        serverSide: true,
+            processing: true,
+            filter: true,
+            searchDelay: 500,
+            ajax: {
+                url: document.location.origin +"/api/Item/ItemsByTag?tagId=" + @Model.Id,
+                type: 'POST',
+                datatype: 'application/json'
+            },
+            columns: [
+                { data: "id", autoWidth: true,
+                    render : function(data, type) {
+                        if(type === 'display') {
+                            return $('<a>')
+                                .attr('href', document.location.origin + "/Item/Details/" + data)
+                                .text(data)
+                                .wrap('<div></div>')
+                                .parent()
+                                .html();
+                        }
+                        return data
+                    }},
+                { data: "title", name: "Title", autoWidth: true },
+                { data: "userCollectionName", name: "Collection", autoWidth: true },
+                { data: "commentsCount", name: "Comments", autoWidth: true },
+                { data: "likesCount", name: "Likes", autoWidth: true },
+            ]
+    });
+    </script>
+}

@@ -95,6 +95,7 @@ public static class DependencyInjection
                 configuration.AddProfile(new AssemblyMappingProfile(Assembly.GetAssembly(typeof(IMapWith<>))!));
             });
         services.AddScoped<IFilter<UserCollection>, CollectionFilter>();
+        services.AddScoped<IFilter<Item>, ItemFilter>();
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
         services.AddScoped<ILocalisationOptionsProvider, LocalizationOptionsProvider>();
         services.AddSignalR();

@@ -27,4 +27,8 @@
     <data name="Use another service to register." xml:space="preserve">
         <value>Зарегистрироваться с помощью стороннего сервиса</value>
     </data>
+    <data name="Login with" xml:space="preserve">
+        <value>Войти с</value>
+        <comment>Login with</comment>
+    </data>
 </root>

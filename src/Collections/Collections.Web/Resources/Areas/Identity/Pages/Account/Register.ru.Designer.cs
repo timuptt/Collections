@@ -62,5 +62,11 @@ namespace Collections.Web.Resources.Areas.Identity.Pages.Account {
                 return ResourceManager.GetString("Use another service to register.", resourceCulture);
             }
         }
+        
+        internal static string Login_with {
+            get {
+                return ResourceManager.GetString("Login with", resourceCulture);
+            }
+        }
     }
 }

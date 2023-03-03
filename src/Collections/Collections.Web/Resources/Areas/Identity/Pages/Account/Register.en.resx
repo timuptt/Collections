@@ -27,4 +27,8 @@
     <data name="Use another service to register." xml:space="preserve">
         <value>Use another service to register.</value>
     </data>
+    <data name="Login with" xml:space="preserve">
+        <value>Login with</value>
+        <comment>Login with</comment>
+    </data>
 </root>

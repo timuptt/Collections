@@ -33,4 +33,8 @@
     <data name="Use another service to log in" xml:space="preserve">
         <value>Войти с помощью стороннего сервиса</value>
     </data>
+    <data name="Login with" xml:space="preserve">
+        <value>Войти с </value>
+        <comment>Login with</comment>
+    </data>
 </root>

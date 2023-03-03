@@ -53,6 +53,7 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>();
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserProfileClaimFactory>();
         services.AddScoped<IUserManagementService<ApplicationUser>, UserManagementService>();
+        services.AddDataProtection();
         services.AddAuthentication()
             .AddGoogle(googleOptions =>
             {

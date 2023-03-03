@@ -66,25 +66,22 @@ public class CollectionsController : Controller
             request.Themes = await _themeViewModelService.GetThemesAsSelectList();
             return View(request);
         }
-        var extraFieldValueTypes = new List<ExtraFieldValueType>();
-        if (request.ExtraFieldValueTypes != null)
-        {
-            extraFieldValueTypes = request.ExtraFieldValueTypes.Select(e => new ExtraFieldValueType()
-            {
-                Name = e.Name,
-                IsRequired = e.IsRequired,
-                IsVisible = e.IsVisible,
-                ValueType = e.ValueType
-            }).ToList();
-        }
+        // var extraFieldValueTypes = new List<ExtraFieldValueType>();
+        // if (request.ExtraFieldValueTypes != null)
+        // {
+        //     extraFieldValueTypes = request.ExtraFieldValueTypes.Select(e => new ExtraFieldValueType()
+        //     {
+        //         Name = e.Name,
+        //         IsRequired = e.IsRequired,
+        //         IsVisible = e.IsVisible,
+        //         ValueType = e.ValueType
+        //     }).ToList();
+        // }
         if (request.Image != null)
         {
             (request.ImageSource, request.ImageName) = await _cloudStorageService.UploadImageAsync(request.Image);
         }
-        await _collectionService.CreateCollection(
-            request.UserProfileId,
-            request.SelectedThemeId, request.Title, request.Description,
-            request.ImageSource, request.ImageName, extraFieldValueTypes);
+        await _collectionService.CreateCollection(_mapper.Map<CreateUserCollectionDto>(request));
         return RedirectToAction("Index", "Home");
     }
 

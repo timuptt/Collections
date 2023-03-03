@@ -189,4 +189,10 @@
     <value>Открой больше коллекций</value>
     <comment>ExploreCollections</comment>
   </data>
+  <data name="Locked out" xml:space="preserve">
+    <value>Аккаунт заблокирован</value>
+  </data>
+  <data name="Your account has been locked out, please try again later." xml:space="preserve">
+    <value>Ваш аккаунт заблокирован, повторите попытку входа через какое-то время.</value>
+  </data>
 </root>

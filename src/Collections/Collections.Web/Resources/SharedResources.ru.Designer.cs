@@ -182,5 +182,17 @@ namespace Collections.Web.Resources {
                 return ResourceManager.GetString("ExploreCollections", resourceCulture);
             }
         }
+        
+        internal static string Locked_out {
+            get {
+                return ResourceManager.GetString("Locked out", resourceCulture);
+            }
+        }
+        
+        internal static string Your_account_has_been_locked_out__please_try_again_later_ {
+            get {
+                return ResourceManager.GetString("Your account has been locked out, please try again later.", resourceCulture);
+            }
+        }
     }
 }

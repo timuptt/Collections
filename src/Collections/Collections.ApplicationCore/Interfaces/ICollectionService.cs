@@ -5,10 +5,9 @@ namespace Collections.ApplicationCore.Interfaces;
 
 public interface ICollectionService
 {
-    public Task AddItemToCollection(int collectionId, Item item);
+    // public Task AddItemToCollection(int collectionId, Item item);
 
-    public Task CreateCollection(int userProfileId, int userCollectionThemeId, string title, string description,
-        string imageSource, string imageName, ICollection<ExtraFieldValueType> extraFieldValueTypes);
+    public Task CreateCollection(CreateUserCollectionDto collectionDto);
 
     public Task UpdateCollection(UpdateUserCollectionDto userCollectionDto);
 

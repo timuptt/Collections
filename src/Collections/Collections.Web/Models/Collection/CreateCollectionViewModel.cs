@@ -1,14 +1,17 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
+using Collections.ApplicationCore.Common.Mappings;
+using Collections.ApplicationCore.Dtos;
 using Collections.Web.Models.ExtraFieldValueTypes;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Collections.Web.Models.Collection;
 
-public class CreateCollectionViewModel
+public class CreateCollectionViewModel : IMapWith<CreateUserCollectionDto>
 {
     [Required]
-    [StringLength(40, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+    [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
     [DisplayName("Title")]
     public string Title { get; set; }
     
@@ -33,4 +36,11 @@ public class CreateCollectionViewModel
     public SelectList? Themes { get; set; }
 
     public IEnumerable<CreateExtraFieldValueTypeViewModel>? ExtraFieldValueTypes { get; set; }
+
+    public void Mapping(Profile profile)
+    {
+        profile.CreateMap<CreateCollectionViewModel, CreateUserCollectionDto>()
+            .ForMember(collection => collection.UserCollectionThemeId, opt => 
+                opt.MapFrom(collectionVm => collectionVm.SelectedThemeId));
+    }
 }

@@ -17,7 +17,7 @@ public class ThemeViewModelService : IThemeViewModelService
 
     public async Task<SelectList> GetThemesAsSelectList()
     {
-        var themes = await _themeReadRepository.ListProjectedAsync<UserCollectionThemeViewModel>(null);
+        var themes = await _themeReadRepository.ListProjectedAsync<UserCollectionThemeViewModel>();
         return new SelectList(themes.Select(t => new SelectListItem(t.Theme, t.Id.ToString())),
             nameof(SelectListItem.Value), nameof(SelectListItem.Text));
     }

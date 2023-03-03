@@ -31,24 +31,22 @@ public abstract class ApplicationRepository<T> : RepositoryBase<T> where T : cla
         _dbContext = dbContext;
         _mapper = mapper;
     }
-
-    public async Task<List<TProjectTo>> ListProjectedAsync<TProjectTo>(CancellationToken cancellationToken = default)
-    {
-        return await ListProjectedAsync<TProjectTo>(null, cancellationToken);
-    }
-
+    
     public async Task<List<TProjectTo>> ListProjectedAsync<TProjectTo>(ISpecification<T> specification,
         CancellationToken cancellationToken = default)
     {
-        if (specification == null)
-            return await _dbContext.Set<T>()
-                .AsNoTracking()
-                .ProjectTo<TProjectTo>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
         return await SpecificationEvaluator.Default
             .GetQuery(_dbContext.Set<T>()
                 .AsNoTracking()
                 .AsQueryable(), specification)
+            .ProjectTo<TProjectTo>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<TProjectTo>> ListProjectedAsync<TProjectTo>(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<T>()
+            .AsNoTracking()
             .ProjectTo<TProjectTo>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
     }

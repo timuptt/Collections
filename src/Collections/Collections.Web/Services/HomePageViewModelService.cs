@@ -35,7 +35,7 @@ public class HomePageViewModelService : IHomePageViewModelService
 
     private async Task<IEnumerable<CollectionViewModel>> GetCollectionsWithMoreItems()
     {
-        var specification = new UserCollectionsWithMoreItemsSpecification();
+        var specification = new UserCollectionsWithMoreItemsSpec();
         return await _userCollectionsRepository.ListProjectedAsync<CollectionViewModel>(specification);
     }
 

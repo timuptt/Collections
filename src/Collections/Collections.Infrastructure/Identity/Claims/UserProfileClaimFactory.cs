@@ -10,7 +10,6 @@ namespace Collections.Infrastructure.Identity.Claims;
 
 public class UserProfileClaimFactory : UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IReadRepository<UserProfile> _readRepository;
 
     public UserProfileClaimFactory(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,

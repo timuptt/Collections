@@ -25,7 +25,7 @@ public class CollectionViewModelService : ICollectionViewModelService
 
     public async Task<CollectionWithItemsViewModel> GetCollectionViewModelById(int id)
     {
-        var specification = new UserCollectionWithItemsByIdSpecification(id);
+        var specification = new UserCollectionWithItemsByIdSpec(id);
         var collection = await _userCollectionsRepository.GetBySpecProjectedAsync<CollectionWithItemsViewModel>(specification);
         if (!string.IsNullOrWhiteSpace(collection.ImageName))
         {

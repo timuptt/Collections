@@ -54,15 +54,14 @@ public static class DependencyInjection
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserProfileClaimFactory>();
         services.AddScoped<IUserManagementService<ApplicationUser>, UserManagementService>();
         services.AddAuthentication()
-            .AddCookie()
             .AddGoogle(googleOptions =>
             {
 #if DEBUG
                 googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
 #else
-                googleOptions.ClientId = Environment.GetEnvironmentVariable("Authentication:Google:ClientId");
-                googleOptions.ClientSecret = Environment.GetEnvironmentVariable("Authentication:Google:ClientSecret");
+                googleOptions.ClientId = Environment.GetEnvironmentVariable("AUTHENTICATION_GOOGLE_CLIENTID");
+                googleOptions.ClientSecret = Environment.GetEnvironmentVariable("AUTHENTICATION_GOOGLE_CLIENTSECRET");
 #endif
             })
             .AddMicrosoftAccount(microsoftOptions =>
@@ -71,8 +70,8 @@ public static class DependencyInjection
                 microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                 microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
 #else
-                microsoftOptions.ClientId = Environment.GetEnvironmentVariable("Authentication:Microsoft:ClientId");
-                microsoftOptions.ClientSecret = Environment.GetEnvironmentVariable("Authentication:Microsoft:ClientSecret");
+                microsoftOptions.ClientId = Environment.GetEnvironmentVariable("AUTHENTICATION_MICROSOFT_CLIENTID");
+                microsoftOptions.ClientSecret = Environment.GetEnvironmentVariable("AUTNENTICATION_MICROSOFT_CLIENTSECRET");
 #endif
             });
         return services;

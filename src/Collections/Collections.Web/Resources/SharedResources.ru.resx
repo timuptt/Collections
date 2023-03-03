@@ -195,4 +195,12 @@
   <data name="Your account has been locked out, please try again later." xml:space="preserve">
     <value>Ваш аккаунт заблокирован, повторите попытку входа через какое-то время.</value>
   </data>
+  <data name="CollectionName" xml:space="preserve">
+    <value>Коллекция</value>
+    <comment>CollectionName</comment>
+  </data>
+  <data name="CommentsCount" xml:space="preserve">
+    <value>Комментарии</value>
+    <comment>CommentsCount</comment>
+  </data>
 </root>

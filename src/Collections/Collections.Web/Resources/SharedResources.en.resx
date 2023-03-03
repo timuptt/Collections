@@ -196,4 +196,12 @@
   <data name="Your account has been locked out, please try again later." xml:space="preserve">
     <value>Your account has been locked out, please try again later.</value>
   </data>
+  <data name="CollectionName" xml:space="preserve">
+    <value>Collection name</value>
+    <comment>CollectionName</comment>
+  </data>
+  <data name="CommentsCount" xml:space="preserve">
+    <value>Comments сount</value>
+    <comment>CommentsCount</comment>
+  </data>
 </root>

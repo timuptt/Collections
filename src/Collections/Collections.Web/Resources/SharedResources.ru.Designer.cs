@@ -194,5 +194,17 @@ namespace Collections.Web.Resources {
                 return ResourceManager.GetString("Your account has been locked out, please try again later.", resourceCulture);
             }
         }
+        
+        internal static string CollectionName {
+            get {
+                return ResourceManager.GetString("CollectionName", resourceCulture);
+            }
+        }
+        
+        internal static string CommentsCount {
+            get {
+                return ResourceManager.GetString("CommentsCount", resourceCulture);
+            }
+        }
     }
 }

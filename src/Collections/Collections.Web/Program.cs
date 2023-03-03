@@ -1,6 +1,7 @@
 using Collections.Web.Configuration;
 using Collections.Web.Hubs;
 using Collections.Web.Middlewares;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions()
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto
+});
 
 app.MapControllerRoute(
     name: "default",

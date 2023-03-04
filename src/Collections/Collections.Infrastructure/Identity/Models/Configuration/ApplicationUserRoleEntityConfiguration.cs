@@ -1,8 +1,7 @@
-using Collections.Infrastructure.Identity.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Collections.Infrastructure.Identity.Configuration;
+namespace Collections.Infrastructure.Identity.Models.Configuration;
 
 public class ApplicationUserRoleEntityConfiguration : IEntityTypeConfiguration<ApplicationUserRole>
 {

@@ -18,21 +18,21 @@ namespace Collections.Web.Controllers;
 public class CollectionsController : Controller
 {
     private readonly ICollectionService _collectionService;
-    private readonly ICollectionViewModelService _collectionViewModelService;
     private readonly IThemeViewModelService _themeViewModelService;
     private readonly IReadRepository<UserCollection> _userCollectionReadRepository;
     private readonly ICurrentUserProvider _currentUser;
     private readonly ICloudStorageService _cloudStorageService;
     private readonly IMapper _mapper;
 
-    public CollectionsController(ICollectionService collectionService, IThemeViewModelService themeViewModelService,
-        ICollectionViewModelService collectionViewModelService,
-        IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper, ICurrentUserProvider currentUser,
+    public CollectionsController(ICollectionService collectionService, 
+        IThemeViewModelService themeViewModelService,
+        IReadRepository<UserCollection> userCollectionReadRepository, 
+        IMapper mapper, 
+        ICurrentUserProvider currentUser,
         ICloudStorageService cloudStorageService)
     {
         _collectionService = collectionService;
         _themeViewModelService = themeViewModelService;
-        _collectionViewModelService = collectionViewModelService;
         _userCollectionReadRepository = userCollectionReadRepository;
         _mapper = mapper;
         _currentUser = currentUser;
@@ -45,18 +45,25 @@ public class CollectionsController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Create(int profileId)
+    public async Task<IActionResult> Create()
     {
-        if (profileId <= 0)
+        var createCollectionViewModel = new CreateCollectionViewModel
         {
-            profileId = _currentUser.ProfileId;
-        }
+            UserProfileId = _currentUser.ProfileId,
+            Themes = await _themeViewModelService.GetThemesAsSelectList()
+        };
+        return View(createCollectionViewModel);
+    }
+    
+    [Authorize(Roles = UserRoleConstants.AdminRole)]
+    public async Task<IActionResult> CreateAsUser(int profileId)
+    {
         var createCollectionViewModel = new CreateCollectionViewModel
         {
             UserProfileId = profileId,
             Themes = await _themeViewModelService.GetThemesAsSelectList()
         };
-        return View(createCollectionViewModel);
+        return View("Create", createCollectionViewModel);
     }
 
     [HttpPost]
@@ -107,7 +114,8 @@ public class CollectionsController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> Details(int id)
     {
-        var collectionVm = await _collectionViewModelService.GetCollectionViewModelById(id);
+        var specification = new UserCollectionWithItemsByIdSpec(id);
+        var collectionVm = await _userCollectionReadRepository.GetBySpecProjectedAsync<CollectionWithItemsViewModel>(specification);
         return View(collectionVm);
     }
 

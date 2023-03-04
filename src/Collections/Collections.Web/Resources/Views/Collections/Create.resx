@@ -14,4 +14,8 @@
     <data name="AddNewField" xml:space="preserve">
         <value />
     </data>
+    <data name="5mb less" xml:space="preserve">
+        <value />
+        <comment>5mb less</comment>
+    </data>
 </root>

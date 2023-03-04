@@ -30,4 +30,8 @@
     <data name="AddField" xml:space="preserve">
         <value>Добавить поле</value>
     </data>
+    <data name="5mb less" xml:space="preserve">
+        <value>не более 5 мегабайт</value>
+        <comment>5mb less</comment>
+    </data>
 </root>

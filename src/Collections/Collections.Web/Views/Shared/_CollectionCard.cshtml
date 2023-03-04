@@ -1,23 +1,19 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using Collections.Shared.Interfaces
 @using Markdig
 @model Collections.Web.Models.Collection.CollectionViewModel
 @inject IViewLocalizer ViewLocalizer
-@inject ICloudStorageService StorageService
 
 <div class="col">
     <div class="card shadow-sm">
         @{
             if (@Model.ImageName != null)
             {
-                var imgSrc = await StorageService.GetSignedUrlAsync(@Model.ImageName);
-                <img class="card-img-top cropped" focusable="false" src="@imgSrc" />
+                <img class="card-img-top cropped" focusable="false" src="@Model.ImageSource" />
             }
             else
             {
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Title</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <img class="card-img-top cropped" focusable="false" src="~/img/placeholder.jpg" />
             }
-            
         }
         <div class="card-body">
             <p class="card-text">

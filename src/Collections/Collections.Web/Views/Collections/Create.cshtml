@@ -18,7 +18,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">@Html.DisplayNameFor(m => m.Description)</label>
-                    <div class="row">
+                    <div>
                         @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @oninput="OnTextChanged", @id="markdown-description"})
                     </div>
                     @Html.ValidationMessageFor(m => m.Description, string.Empty, new { @class = "form-validation text-danger" })
@@ -29,8 +29,9 @@
                     @Html.DropDownListFor(m => m.SelectedThemeId, Model.Themes, new {@class="form-select"})
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">@Html.DisplayNameFor(m => m.Image)</label>
+                    <label class="form-label">@Html.DisplayNameFor(m => m.Image) <span class="text-muted small">@ViewLocalizer["5mb less"]</span></label>
                     <input type="file" asp-for="Image" class="form-control"/>
+                    @Html.ValidationMessageFor(m => m.Image, string.Empty, new {@class="text-danger"})
                 </div>
                 <h5>@ViewLocalizer["AdditionalFields"]</h5>
                 <hr/>

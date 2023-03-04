@@ -1,7 +1,7 @@
 namespace Collections.Infrastructure.FileStorage.Configuration;
 
-public class GCSConfiguration
+public class GoogleCloudOptions
 {
-    public string? GCPStorageAuthFile { get; set; }
+    public string? GoogleCloudStorageAuthFile { get; set; }
     public string? GoogleCloudStorageBucketName { get; set; }
 }

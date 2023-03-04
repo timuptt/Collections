@@ -5,7 +5,7 @@ namespace Collections.ApplicationCore.Specifications;
 
 public class UserCollectionsWithMoreItemsSpec : Specification<UserCollection>, ISingleResultSpecification
 {
-    public UserCollectionsWithMoreItemsSpec()
+    public UserCollectionsWithMoreItemsSpec(int take)
     {
         Query
             .OrderByDescending(c => c.Items.Count)
@@ -13,6 +13,6 @@ public class UserCollectionsWithMoreItemsSpec : Specification<UserCollection>, I
             .Include(c => c.UserCollectionTheme)
             .Include(c => c.Items)
             .EnableCache(nameof(UserCollectionsWithMoreItemsSpec))
-            .Take(6);
+            .Take(take);
     }
 }

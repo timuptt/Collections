@@ -28,12 +28,14 @@ public class UserManagementService : IUserManagementService<ApplicationUser>
     {
         var user = await _userManager.FindByIdAsync(userId);
         await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow.AddYears(100));
+        await _userManager.UpdateSecurityStampAsync(user);
     }
     
     public async Task UnlockUser(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
         await _userManager.SetLockoutEndDateAsync(user, null);
+        await _userManager.UpdateSecurityStampAsync(user);
     }
 
     public async Task DeleteUser(string userId)

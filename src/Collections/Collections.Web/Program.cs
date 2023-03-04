@@ -1,6 +1,5 @@
 using Collections.Web.Configuration;
 using Collections.Web.Hubs;
-using Collections.Web.Middlewares;
 using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddIdentity(builder.Configuration)
-    .AddPresentation()
+    .AddPresentation(builder.Configuration)
     .AddApplication()
     .AddWebServices();
 
@@ -44,7 +43,6 @@ app.MapControllerRoute(
 
 app.UseRequestLocalization();
 
-app.UseMiddleware<LogoutMiddleware>();
 app.MapRazorPages();
 
 app.MapHub<CommentsHub>("/commentsHub");

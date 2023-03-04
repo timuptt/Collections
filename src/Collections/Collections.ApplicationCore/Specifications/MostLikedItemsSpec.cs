@@ -5,11 +5,12 @@ namespace Collections.ApplicationCore.Specifications;
 
 public class MostLikedItemsSpec : Specification<Item>, ISingleResultSpecification
 {
-    public MostLikedItemsSpec()
+    public MostLikedItemsSpec(int take)
     {
         Query
             .OrderByDescending(i => i.Likes.Count)
-            .Take(6)
-            .EnableCache(nameof(MostLikedItemsSpec));
+            .EnableCache(nameof(MostLikedItemsSpec))
+            .Take(take);
+
     }
 }

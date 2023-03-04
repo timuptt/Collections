@@ -12,15 +12,10 @@ public class CloudStorageService : ICloudStorageService
     private readonly GoogleCredential _googleCredentials;
     private readonly string? _bucketName;
 
-    public CloudStorageService(IOptions<GCSConfiguration> options)
+    public CloudStorageService(IOptions<GoogleCloudOptions> options)
     {
-#if DEBUG
-        _googleCredentials = GoogleCredential.FromFile(options.Value.GCPStorageAuthFile);
+        _googleCredentials = GoogleCredential.FromFile(options.Value.GoogleCloudStorageAuthFile);
         _bucketName = options.Value.GoogleCloudStorageBucketName;
-#else
-        _googleCredentials = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS"));
-        _bucketName = Environment.GetEnvironmentVariable("GOOGLE_BUCKET_NAME");
-#endif
     }
 
     public async Task DeleteFileAsync(string fileName)

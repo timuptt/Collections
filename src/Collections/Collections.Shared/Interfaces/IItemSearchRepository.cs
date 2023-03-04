@@ -2,5 +2,5 @@ namespace Collections.Shared.Interfaces;
 
 public interface IItemSearchRepository
 {
-    public Task<IEnumerable<TProjectTo>> SearchProjectedAsync<TProjectTo>(string searchTerm) where TProjectTo : class;
+    public Task<IEnumerable<TProjectTo>> SearchProjectedAsync<TProjectTo>(string searchTerm, int resultsCount) where TProjectTo : class;
 }

@@ -14,7 +14,11 @@ public class CloudStorageService : ICloudStorageService
 
     public CloudStorageService(IOptions<GoogleCloudOptions> options)
     {
-        _googleCredentials = GoogleCredential.FromFile(options.Value.GoogleCloudStorageAuthFile);
+#if DEBUG
+        _googleCredentials = GoogleCredential.FromFile(options.Value.GoogleCloudStorageAuthFile); 
+#else
+        _googleCredentials = GoogleCredential.FromJson(options.Value.GoogleCloudStorageAuthFile);
+#endif
         _bucketName = options.Value.GoogleCloudStorageBucketName;
     }
 

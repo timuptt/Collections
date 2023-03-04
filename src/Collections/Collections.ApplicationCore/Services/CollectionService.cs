@@ -61,8 +61,9 @@ public class CollectionService : ICollectionService
             {
                 if (i >= item.ExtraFields.Count)
                 {
+                    var value = collectionToUpdate.ExtraFieldValueTypes[i].ValueType == ValueTypes.Binary ? "false" : "";
                     item.ExtraFields.Add(new ExtraField()
-                        { Value = "", ExtraFieldValueTypeId = collectionToUpdate.ExtraFieldValueTypes[i].Id });
+                        { Value = value, ExtraFieldValueTypeId = collectionToUpdate.ExtraFieldValueTypes[i].Id });
                 }
             }
         }

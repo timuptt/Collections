@@ -1,3 +1,4 @@
+using System.Net;
 using AutoMapper;
 using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Interfaces;
@@ -22,12 +23,13 @@ public class CollectionsController : Controller
     private readonly IReadRepository<UserCollection> _userCollectionReadRepository;
     private readonly ICurrentUserProvider _currentUser;
     private readonly ICloudStorageService _cloudStorageService;
+    private readonly IDataExportService<CollectionWithItemsViewModel> _dataExportService;
     private readonly IMapper _mapper;
 
     public CollectionsController(ICollectionService collectionService, IThemeViewModelService themeViewModelService,
         ICollectionViewModelService collectionViewModelService,
         IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper, ICurrentUserProvider currentUser,
-        ICloudStorageService cloudStorageService)
+        ICloudStorageService cloudStorageService, IDataExportService<CollectionWithItemsViewModel> dataExportService)
     {
         _collectionService = collectionService;
         _themeViewModelService = themeViewModelService;
@@ -36,6 +38,7 @@ public class CollectionsController : Controller
         _mapper = mapper;
         _currentUser = currentUser;
         _cloudStorageService = cloudStorageService;
+        _dataExportService = dataExportService;
     }
 
     [AllowAnonymous]
@@ -66,17 +69,6 @@ public class CollectionsController : Controller
             request.Themes = await _themeViewModelService.GetThemesAsSelectList();
             return View(request);
         }
-        // var extraFieldValueTypes = new List<ExtraFieldValueType>();
-        // if (request.ExtraFieldValueTypes != null)
-        // {
-        //     extraFieldValueTypes = request.ExtraFieldValueTypes.Select(e => new ExtraFieldValueType()
-        //     {
-        //         Name = e.Name,
-        //         IsRequired = e.IsRequired,
-        //         IsVisible = e.IsVisible,
-        //         ValueType = e.ValueType
-        //     }).ToList();
-        // }
         if (request.Image != null)
         {
             (request.ImageSource, request.ImageName) = await _cloudStorageService.UploadImageAsync(request.Image);
@@ -126,7 +118,7 @@ public class CollectionsController : Controller
         var itemVm = new CreateItemViewModel() { UserCollectionId = collectionId };
         return RedirectToAction("Create", "Item", itemVm);
     }
-    
+
     private static bool ImageIsChanged(UpdateCollectionViewModel request) =>
         request.Image != null;
 

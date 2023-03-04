@@ -204,4 +204,7 @@
     <value>Comments сount</value>
     <comment>CommentsCount</comment>
   </data>
+  <data name="Items by tag" xml:space="preserve">
+    <value>Items by tag</value>
+  </data>
 </root>

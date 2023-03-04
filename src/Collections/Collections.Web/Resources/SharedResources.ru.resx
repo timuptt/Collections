@@ -203,4 +203,7 @@
     <value>Комментарии</value>
     <comment>CommentsCount</comment>
   </data>
+  <data name="Items by tag" xml:space="preserve">
+    <value>Экспонаты по тэгу</value>
+  </data>
 </root>

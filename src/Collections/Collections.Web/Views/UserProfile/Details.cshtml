@@ -16,7 +16,7 @@
         {
             if (CurrentUser.IsAdmin)
             {
-                <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="Create" asp-route-profileId="@Model.Id">@ViewLocalizer["CreateCollectionAs"] @Model.FirstName @Model.LastName</a>
+                <a type="button" class="btn btn-primary" asp-controller="Collections" asp-action="CreateAsUser" asp-route-profileId="@Model.Id">@ViewLocalizer["CreateCollectionAs"] @Model.FirstName @Model.LastName</a>
             }
             else
             {

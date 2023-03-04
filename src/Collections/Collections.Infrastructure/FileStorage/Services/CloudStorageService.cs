@@ -34,17 +34,17 @@ public class CloudStorageService : ICloudStorageService
         await file.CopyToAsync(memoryStream);
         using var storageClient = await StorageClient.CreateAsync(_googleCredentials);
         var fileName = $"{DateTime.Now.Ticks}{file.FileName}";
-        var uploadedFile = await storageClient.UploadObjectAsync(_bucketName,
+        await storageClient.UploadObjectAsync(_bucketName,
             fileName, file.ContentType, memoryStream);
-        return (uploadedFile.MediaLink, fileName);
+        return (await GetSignedUrlAsync(fileName), fileName);
     }
 
-    public async Task<string> GetSignedUrlAsync(string fileName, int timeOut = 30)
+    public async Task<string> GetSignedUrlAsync(string fileName, int timeOut = 180)
     {
         var serviceAccountCredential = _googleCredentials.UnderlyingCredential as ServiceAccountCredential;
         var urlSigner = UrlSigner.FromCredential(serviceAccountCredential);
         var signedUrl = await urlSigner.SignAsync(_bucketName, fileName,
-            TimeSpan.FromMinutes(timeOut));
+            TimeSpan.FromDays(timeOut));
         return signedUrl;
     }
 }

@@ -26,7 +26,7 @@ public class CollectionWithItemsViewModel : IMapWith<UserCollection>
     
     public string ImageName { get; set; }
     
-    public string ImageSignedSource { get; set; }
+    public string ImageSource { get; set; }
     
     [DisplayName("Created")]
     public DateTime AddedOn { get; set; }

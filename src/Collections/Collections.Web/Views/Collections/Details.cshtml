@@ -14,12 +14,19 @@
 
 <div class="container">
     <div class="row justify-content-between">
-        <img src="@Model.ImageSignedSource" alt="@Model.ImageName" class="img collection-img col-md-3 mb-2"/>
+        @if (string.IsNullOrWhiteSpace(Model.ImageSource))
+        {
+            <img src="~/img/placeholder.jpg" alt="image" class="img collection-img col-md-3 mb-2"/>
+        }
+        else
+        {
+            <img src="@Model.ImageSource" alt="@Model.ImageName" class="img collection-img col-md-3 mb-2"/>
+        }
         <div class="col-md-9">
             <div class="d-flex justify-content-between">
                 <h1>@Model.Title</h1>
                 <div class="p-3">
-                     <a class="btn btn-sm btn-outline-success disabled"><i class="bi bi-filetype-csv"></i></a>
+                    <a class="btn btn-sm btn-outline-success disabled"><i class="bi bi-filetype-csv"></i></a>
                     @if (CurrentUser.HasPermissions(@Model.UserProfileId))
                     {
                         <a asp-action="Update" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pen"></i></a>

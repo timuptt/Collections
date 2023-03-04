@@ -30,4 +30,8 @@
     <data name="Submit" xml:space="preserve">
         <value>Submit</value>
     </data>
+    <data name="5mb less" xml:space="preserve">
+        <value>less than 5mb</value>
+        <comment>5mb less</comment>
+    </data>
 </root>

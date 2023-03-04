@@ -30,8 +30,9 @@
                 @Html.HiddenFor(m => m.ImageName)
                 @Html.HiddenFor(m => m.ImageSource)
                 <div class="mb-3">
-                    <label class="form-label">@Html.DisplayNameFor(m => m.Image)</label>
+                    <label class="form-label">@Html.DisplayNameFor(m => m.Image) @ViewLocalizer["5mb less"]</label>
                     <input type="file" asp-for="Image" class="form-control"/>
+                    @Html.ValidationMessageFor(m => m.Image, string.Empty, new {@class="text-danger"})
                 </div>
 
                 <h5>@ViewLocalizer["AdditionalFields"]</h5>

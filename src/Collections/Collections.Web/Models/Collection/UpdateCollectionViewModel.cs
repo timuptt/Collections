@@ -6,6 +6,7 @@ using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Models;
 using Collections.Web.Common.Mappings;
 using Collections.Web.Models.ExtraFieldValueTypes;
+using Collections.Web.Models.ValidationAttributes;
 
 namespace Collections.Web.Models.Collection;
 
@@ -28,6 +29,8 @@ public class UpdateCollectionViewModel : IMapWith<UserCollection>
     public string? ImageName { get; set; }
     
     [DisplayName("Image")]
+    [AllowedExtensions(new [] {".jpg", ".jpeg", ".png"})]
+    [MaxFileSize(5 * 1024 * 1024)]
     public IFormFile? Image { get; set; }
     
     public IList<UpdateExtraFieldValueTypeViewModel>? ExtraFieldValueTypes { get; set; }

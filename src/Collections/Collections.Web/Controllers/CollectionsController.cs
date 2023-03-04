@@ -23,13 +23,12 @@ public class CollectionsController : Controller
     private readonly IReadRepository<UserCollection> _userCollectionReadRepository;
     private readonly ICurrentUserProvider _currentUser;
     private readonly ICloudStorageService _cloudStorageService;
-    private readonly IDataExportService<CollectionWithItemsViewModel> _dataExportService;
     private readonly IMapper _mapper;
 
     public CollectionsController(ICollectionService collectionService, IThemeViewModelService themeViewModelService,
         ICollectionViewModelService collectionViewModelService,
         IReadRepository<UserCollection> userCollectionReadRepository, IMapper mapper, ICurrentUserProvider currentUser,
-        ICloudStorageService cloudStorageService, IDataExportService<CollectionWithItemsViewModel> dataExportService)
+        ICloudStorageService cloudStorageService)
     {
         _collectionService = collectionService;
         _themeViewModelService = themeViewModelService;
@@ -38,7 +37,6 @@ public class CollectionsController : Controller
         _mapper = mapper;
         _currentUser = currentUser;
         _cloudStorageService = cloudStorageService;
-        _dataExportService = dataExportService;
     }
 
     [AllowAnonymous]

@@ -19,12 +19,7 @@
                 <div class="mb-3">
                     <label class="form-label">@Html.DisplayNameFor(m => m.Description)</label>
                     <div class="row">
-                        <div class="me-3 col-md">
-                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @oninput="OnTextChanged", @id="markdown-description"})
-                        </div>
-                        <div class="col-md">
-                            <markdown text="# Hello"># Hello</markdown>
-                        </div>    
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @oninput="OnTextChanged", @id="markdown-description"})
                     </div>
                     @Html.ValidationMessageFor(m => m.Description, string.Empty, new { @class = "form-validation text-danger" })
                 </div>

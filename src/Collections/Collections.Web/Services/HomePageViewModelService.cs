@@ -41,7 +41,7 @@ public class HomePageViewModelService : IHomePageViewModelService
 
     private async Task<IEnumerable<CardItemViewModel>> GetMostPopularItems()
     {
-        var specification = new MostLikedItemsSpecification();
+        var specification = new MostLikedItemsSpec();
         return await _itemsReadRepository.ListProjectedAsync<CardItemViewModel>(specification);
     }
     

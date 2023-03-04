@@ -17,7 +17,6 @@ using Collections.Web.Configuration.Connection;
 using Collections.Web.Filters;
 using Collections.Web.Interfaces;
 using Collections.Web.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -55,13 +54,6 @@ public static class DependencyInjection
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserProfileClaimFactory>();
         services.AddScoped<IUserManagementService<ApplicationUser>, UserManagementService>();
         services.AddAuthentication()
-            .AddCookie(options =>
-            {
-                options.CookieManager = new ChunkingCookieManager();
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            })
             .AddGoogle(googleOptions =>
             {
 #if DEBUG

@@ -3,7 +3,7 @@
     ViewData["Title"] = Model.Text;
 }
 <div class="container">
-    <h1>Items by @Model.Text tag</h1>
+    <h1>@SharedLocalizer["Items by tag"] @Model.Text tag</h1>
     <hr/>
     <div class="table-responsive p-1">
         <table class="table table-striped" id="items-by-tag">

@@ -3,13 +3,13 @@ using Collections.ApplicationCore.Models;
 
 namespace Collections.ApplicationCore.Specifications;
 
-public class MostLikedItemsSpecification : Specification<Item>, ISingleResultSpecification
+public class MostLikedItemsSpec : Specification<Item>, ISingleResultSpecification
 {
-    public MostLikedItemsSpecification()
+    public MostLikedItemsSpec()
     {
         Query
             .OrderByDescending(i => i.Likes.Count)
             .Take(6)
-            .EnableCache(nameof(MostLikedItemsSpecification));
+            .EnableCache(nameof(MostLikedItemsSpec));
     }
 }

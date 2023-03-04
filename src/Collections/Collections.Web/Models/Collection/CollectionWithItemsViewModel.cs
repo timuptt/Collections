@@ -29,7 +29,7 @@ public class CollectionWithItemsViewModel : IMapWith<UserCollection>
     public string ImageSignedSource { get; set; }
     
     [DisplayName("Created")]
-    public DateTime CreatedOn { get; set; }
+    public DateTime AddedOn { get; set; }
     
     [DisplayName("Updated")]
     public DateTime ModifiedOn { get; set; }

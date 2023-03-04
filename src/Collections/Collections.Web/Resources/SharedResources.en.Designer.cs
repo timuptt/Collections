@@ -206,5 +206,11 @@ namespace Collections.Web.Resources {
                 return ResourceManager.GetString("CommentsCount", resourceCulture);
             }
         }
+        
+        internal static string Items_by_tag {
+            get {
+                return ResourceManager.GetString("Items by tag", resourceCulture);
+            }
+        }
     }
 }

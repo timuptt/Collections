@@ -17,9 +17,11 @@ public class CreateItemViewModel : IMapWith<ItemDto>
     [DataType(DataType.Text)]
     public string Title { get; set; }
 
-    [DisplayName("Title")]
+    [DisplayName("Tags")]
     public MultiSelectList Tags { get; set; } = new SelectList(new List<SelectListItem>());
 
+    [Required]
+    [DisplayName("Tags")]
     public IEnumerable<string> SelectedTags { get; set; }
 
     public IList<CreateExtraFieldViewModel>? ExtraFields { get; set; }

@@ -48,7 +48,7 @@
                         break;
                     case ValueTypes.Binary:
                         <label class="col-3 text-muted">@extraField.ExtraFieldValueType!.Name:</label>
-                        if (bool.Parse(extraField.Value))
+                        if (extraField.Value != string.Empty && bool.Parse(extraField.Value))
                         {
                             <p class="col-9"><i class="bi bi-check-lg"></i></p>
                             break;

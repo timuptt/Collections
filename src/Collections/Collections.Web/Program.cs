@@ -3,12 +3,13 @@ using Collections.Web.Hubs;
 using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
 builder.Services
+    .ConfigureServices(builder.Configuration)
     .AddInfrastructure(builder.Configuration)
     .AddIdentity(builder.Configuration)
-    .AddPresentation(builder.Configuration)
+    .AddPresentation()
     .AddApplication()
     .AddWebServices();
 

@@ -19,7 +19,7 @@ public class ItemSearchRepository : IItemSearchRepository
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TProjectTo>> SearchProjectedAsync<TProjectTo>(string searchTerm) where TProjectTo : class
+    public async Task<IEnumerable<TProjectTo>> SearchProjectedAsync<TProjectTo>(string searchTerm, int resultsCount) where TProjectTo : class
     {
         searchTerm = searchTerm.Trim().Replace(" ", "<->");
         var query = $"{searchTerm}:*";
@@ -34,7 +34,7 @@ public class ItemSearchRepository : IItemSearchRepository
                     .Matches(query) ||
                 i.Comments.Any(c => EF.Functions.ToTsVector(c.Body).Matches(query)) ||
                 i.ExtraFields.Any(e => EF.Functions.ToTsVector(e.Value).Matches(query)))
-            .Take(10);
+            .Take(resultsCount);
         return await items.ProjectTo<TProjectTo>(_mapper.ConfigurationProvider).ToListAsync();
     }
 }

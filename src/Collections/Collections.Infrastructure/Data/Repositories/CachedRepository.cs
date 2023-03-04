@@ -1,7 +1,9 @@
 using Ardalis.Specification;
+using Collections.Infrastructure.Data.Repositories.Options;
 using Collections.Shared.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Collections.Infrastructure.Data.Repositories;
 
@@ -14,13 +16,15 @@ public class CachedRepository<T> : IReadRepository<T> where T : class, IAggregat
 
     public CachedRepository(IMemoryCache cache,
         ILogger<CachedRepository<T>> logger,
-        EfRepository<T> sourceRepository)
+        EfRepository<T> sourceRepository, IOptions<CachingOptions> cachingOptions)
     {
         _cache = cache;
         _logger = logger;
         _sourceRepository = sourceRepository;
-        _cacheOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(relative: TimeSpan.FromSeconds(15));
+        _cacheOptions =
+            new MemoryCacheEntryOptions().SetAbsoluteExpiration(
+                relative: TimeSpan.FromSeconds(cachingOptions.Value.HotCachingInterval));
+
     }
     
     public Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = new CancellationToken()) where TId : notnull

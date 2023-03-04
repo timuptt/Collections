@@ -2,10 +2,12 @@ using Collections.ApplicationCore.Models;
 using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Interfaces;
 using Collections.Web.Api.Helpers;
+using Collections.Web.Configuration.Options;
 using Collections.Web.Filters;
 using Collections.Web.Models.Collection;
 using Collections.Web.Models.Items;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Collections.Web.Api.Controllers;
 
@@ -15,18 +17,20 @@ public class ItemController : ControllerBase
     private readonly IItemSearchRepository _itemSearchRepository;
     private readonly IReadRepository<Item> _itemReadRepository;
     private readonly IFilter<Item> _filter;
+    private readonly IOptions<SiteOptions> _options;
 
-    public ItemController(IItemSearchRepository itemSearchRepository, IReadRepository<Item> itemReadRepository, IFilter<Item> filter)
+    public ItemController(IItemSearchRepository itemSearchRepository, IReadRepository<Item> itemReadRepository, IFilter<Item> filter, IOptions<SiteOptions> options)
     {
         _itemSearchRepository = itemSearchRepository;
         _itemReadRepository = itemReadRepository;
         _filter = filter;
+        _options = options;
     }
 
     [Route("api/[controller]/[action]")]
     public async Task<IActionResult> Search(string term)
     {
-        return Ok(await _itemSearchRepository.SearchProjectedAsync<SearchItemViewModel>(term));
+        return Ok(await _itemSearchRepository.SearchProjectedAsync<SearchItemViewModel>(term, _options.Value.SearchResultItemsCount));
     }
 
     [Route("api/[controller]/[action]")]

@@ -13,11 +13,13 @@
         <div class="mb-3">
             <label class="form-label">@Html.DisplayNameFor(m => m.Title)</label>
             @Html.TextBoxFor(m => m.Title, new {@class="form-control"})
+            @Html.ValidationMessageFor(m => m.Title, string.Empty, new {@class="text-danger"})
         </div>
         
         <div class="mb-3">
-            <label class="form-label">Tags</label>
+            <label class="form-label">@Html.LabelFor(m => m.SelectedTags)</label>
             @Html.ListBoxFor(m => m.SelectedTags, new List<SelectListItem>(), new {@class="tags-select form-control", @id="selectedTags", multiple="multiple"})
+            @Html.ValidationMessageFor(m => m.SelectedTags, string.Empty, new {@class="text-danger"});
         </div>
 
         if (@Model.ExtraFields != null)
@@ -46,7 +48,7 @@
                             <input asp-for="ExtraFields[i].Value" type="number" class="form-control" required="@Model.ExtraFields[i].ExtraFieldValueType.IsRequired"/>
                             break;
                         case ValueTypes.Binary:
-                            <input asp-for="ExtraFields[i].Value" type="checkbox" class="form-check" required="@Model.ExtraFields[i].ExtraFieldValueType.IsRequired"/>
+                            <input asp-for="ExtraFields[i].Value" type="checkbox" class="form-check"/>
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

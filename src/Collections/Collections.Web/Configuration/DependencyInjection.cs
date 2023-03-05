@@ -60,6 +60,7 @@ public static class DependencyInjection
         services.AddAuthentication()
             .AddCookie(options =>
             {
+                options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.IsEssential = true;
             })

@@ -58,6 +58,11 @@ public static class DependencyInjection
         services.AddDataProtection()
             .PersistKeysToDbContext<ApplicationDbContext>();
         services.AddAuthentication()
+            .AddCookie(options =>
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.IsEssential = true;
+            })
             .AddGoogle(googleOptions =>
             {
                 googleOptions.ClientId = configuration["Authentication:Google:ClientId"];

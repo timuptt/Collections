@@ -1,4 +1,3 @@
-using System.Net;
 using AutoMapper;
 using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Interfaces;

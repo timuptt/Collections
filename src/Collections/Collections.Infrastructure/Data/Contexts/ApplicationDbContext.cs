@@ -1,6 +1,7 @@
 using Collections.ApplicationCore.Models;
 using Collections.Infrastructure.Identity.Models;
 using Collections.Shared.Interfaces;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Collections.Infrastructure.Data.Contexts;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, 
-    ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
+    ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>, IDataProtectionKeyContext
 {
     public DbSet<UserCollection> UserCollections { get; set; }
     public DbSet<Comment> Comments { get; set; }
@@ -19,6 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<UserCollectionTheme> UserCollectionThemes { get; set; } 
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Like> Likes { get; set; }
+    public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

@@ -18,6 +18,7 @@ using Collections.Web.Configuration.Options;
 using Collections.Web.Filters;
 using Collections.Web.Interfaces;
 using Collections.Web.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,8 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>();
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserProfileClaimFactory>();
         services.AddScoped<IUserManagementService<ApplicationUser>, UserManagementService>();
+        services.AddDataProtection()
+            .PersistKeysToDbContext<ApplicationDbContext>();
         services.AddAuthentication()
             .AddGoogle(googleOptions =>
             {

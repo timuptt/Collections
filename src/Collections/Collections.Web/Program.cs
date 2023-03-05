@@ -1,3 +1,4 @@
+using System.Net;
 using Collections.Web.Configuration;
 using Collections.Web.Hubs;
 using Microsoft.AspNetCore.HttpOverrides;

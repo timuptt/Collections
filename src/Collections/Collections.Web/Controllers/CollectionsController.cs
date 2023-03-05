@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using AutoMapper;
 using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Interfaces;
@@ -21,6 +22,7 @@ public class CollectionsController : Controller
     private readonly IReadRepository<UserCollection> _userCollectionReadRepository;
     private readonly ICurrentUserProvider _currentUser;
     private readonly ICloudStorageService _cloudStorageService;
+    private readonly IDataExportService _dataExportService;
     private readonly IMapper _mapper;
 
     public CollectionsController(ICollectionService collectionService, 
@@ -28,7 +30,7 @@ public class CollectionsController : Controller
         IReadRepository<UserCollection> userCollectionReadRepository, 
         IMapper mapper, 
         ICurrentUserProvider currentUser,
-        ICloudStorageService cloudStorageService)
+        ICloudStorageService cloudStorageService, IDataExportService dataExportService)
     {
         _collectionService = collectionService;
         _themeViewModelService = themeViewModelService;
@@ -36,6 +38,7 @@ public class CollectionsController : Controller
         _mapper = mapper;
         _currentUser = currentUser;
         _cloudStorageService = cloudStorageService;
+        _dataExportService = dataExportService;
     }
 
     [AllowAnonymous]
@@ -116,6 +119,13 @@ public class CollectionsController : Controller
         var specification = new UserCollectionWithItemsByIdSpec(id);
         var collectionVm = await _userCollectionReadRepository.GetBySpecProjectedAsync<CollectionWithItemsViewModel>(specification);
         return View(collectionVm);
+    }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> ExportAsCsv(int id)
+    {
+        var file = await _dataExportService.ExportCollectionToCsv(id);
+        return File(file.ToArray(), "text/csv", $"Collection_{id}_{DateTime.Now.Ticks}.csv");
     }
 
     public IActionResult CreateItem(int collectionId)

@@ -107,6 +107,7 @@ public static class DependencyInjection
         services.AddScoped<IFilter<Item>, ItemFilter>();
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
         services.AddScoped<ILocalisationOptionsProvider, LocalizationOptionsProvider>();
+        services.AddScoped<IDataExportService, DataExportService>();
         services.AddSignalR();
         return services;
     }

@@ -26,7 +26,7 @@
             <div class="d-flex justify-content-between">
                 <h1>@Model.Title</h1>
                 <div class="p-3">
-                    <a class="btn btn-sm btn-outline-success disabled"><i class="bi bi-filetype-csv"></i></a>
+                    <a asp-action="ExportAsCsv" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-success"><i class="bi bi-filetype-csv"></i></a>
                     @if (CurrentUser.HasPermissions(@Model.UserProfileId))
                     {
                         <a asp-action="Update" asp-route-collectionId="@Model.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pen"></i></a>

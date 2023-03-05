@@ -33,11 +33,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseForwardedHeaders(new ForwardedHeadersOptions()
-{
-    ForwardedHeaders = ForwardedHeaders.XForwardedProto
-});
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

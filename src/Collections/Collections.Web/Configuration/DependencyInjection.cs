@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Net;
 using System.Reflection;
 using Collections.ApplicationCore.Common.Mappings;
 using Collections.ApplicationCore.Interfaces;
@@ -91,13 +90,6 @@ public static class DependencyInjection
 
     public static IServiceCollection AddWebServices(this IServiceCollection services)
     {
-#if !DEBUG
-        services.AddHttpsRedirection(options =>
-        {
-            options.RedirectStatusCode = (int)HttpStatusCode.PermanentRedirect;
-            options.HttpsPort = 443;
-        });
-#endif
         services.AddScoped<IThemeViewModelService, ThemeViewModelService>();
         services.AddScoped<IHomePageViewModelService, HomePageViewModelService>();
         services.AddAutoMapper(configuration =>

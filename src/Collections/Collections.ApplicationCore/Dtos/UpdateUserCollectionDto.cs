@@ -16,6 +16,8 @@ public class UpdateUserCollectionDto : IMapWith<UserCollection>
     
     public string? ImageName { get; set; }
     
+    public int UserCollectionThemeId { get; set; }
+    
     public IEnumerable<UpdateExtraFieldValueTypeDto>? ExtraFieldValueTypes { get; set; }
     
     public IEnumerable<CreateExtraFieldValueTypeDto>? NewExtraFieldValueTypes { get; set; }

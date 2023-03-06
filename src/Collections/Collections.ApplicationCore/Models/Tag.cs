@@ -8,7 +8,7 @@ public class Tag : EntityBase<int>, IAggregateRoot
 {
     public string? Title { get; set; }
     
-    public ICollection<Item> Items { get; set; }
+    public ICollection<Item>? Items { get; set; }
 
     public Tag()
     { }

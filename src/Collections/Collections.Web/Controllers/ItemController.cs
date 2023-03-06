@@ -100,7 +100,7 @@ public class ItemController : Controller
     public async Task<IActionResult> UpdateItem(UpdateItemViewModel request)
     {
         if (!ModelState.IsValid) return View("Update", request);
-        await _itemService.UpdateItem(_mapper.Map<UpdateItemDto>(request));
+        await _itemService.UpdateItem(_mapper.Map<UpdateItemDto>(request), request.SelectedTags);
         return RedirectToAction("Details", "Item", new { id = request.Id });
     }
 }

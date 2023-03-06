@@ -7,6 +7,7 @@ using Collections.ApplicationCore.Models;
 using Collections.Web.Common.Mappings;
 using Collections.Web.Models.ExtraFieldValueTypes;
 using Collections.Web.Models.ValidationAttributes;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Collections.Web.Models.Collection;
 
@@ -33,6 +34,12 @@ public class UpdateCollectionViewModel : IMapWith<UserCollection>
     [MaxFileSize(5 * 1024 * 1024)]
     public IFormFile? Image { get; set; }
     
+    [Required]
+    [DisplayName("Theme")]
+    public int SelectedThemeId { get; set; }
+    
+    public SelectList? Themes { get; set; }
+    
     public IList<UpdateExtraFieldValueTypeViewModel>? ExtraFieldValueTypes { get; set; }
     
     public IList<CreateExtraFieldValueTypeViewModel>? NewExtraFieldValueTypes { get; set; }
@@ -40,8 +47,10 @@ public class UpdateCollectionViewModel : IMapWith<UserCollection>
     public void Mapping(Profile profile)
     {
         profile.CreateMap<UserCollection, UpdateCollectionViewModel>()
-            .ReverseMap();
-        profile.CreateMap<UpdateUserCollectionDto, UpdateCollectionViewModel>()
-            .ReverseMap();
+            .ForMember(collectionVm => collectionVm.SelectedThemeId, opt =>
+                opt.MapFrom(collection => collection.UserCollectionThemeId));
+        profile.CreateMap<UpdateCollectionViewModel, UpdateUserCollectionDto>()
+            .ForMember(collection => collection.UserCollectionThemeId, opt =>
+                opt.MapFrom(collectionVm => collectionVm.SelectedThemeId));
     }
 }

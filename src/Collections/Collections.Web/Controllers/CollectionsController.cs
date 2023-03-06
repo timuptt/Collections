@@ -89,6 +89,7 @@ public class CollectionsController : Controller
         var specification = new UserCollectionByIdSpec(collectionId);
         var collectionVm =
            await _userCollectionReadRepository.GetBySpecProjectedAsync<UpdateCollectionViewModel>(specification);
+        collectionVm.Themes = await _themeViewModelService.GetThemesAsSelectList();
         return View(collectionVm);
     }
 

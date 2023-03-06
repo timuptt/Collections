@@ -3,6 +3,7 @@ using AutoMapper;
 using Collections.ApplicationCore.Dtos;
 using Collections.ApplicationCore.Interfaces;
 using Collections.ApplicationCore.Models;
+using Collections.ApplicationCore.Specifications;
 using Collections.Shared.Interfaces;
 
 namespace Collections.ApplicationCore.Services;
@@ -23,13 +24,17 @@ public class ItemService : IItemService
         _tagReadRepository = tagReadRepository;
     }
 
-    public async Task UpdateItem(UpdateItemDto itemDto)
+    public async Task UpdateItem(UpdateItemDto itemDto, ICollection<string>? tags)
     {
-        var itemToUpdate = await _itemRepository.GetByIdAsync(itemDto.Id);
+        var specification = new ItemWithTagsByIdSpec(itemDto.Id);
+        var itemToUpdate = await _itemRepository.FirstOrDefaultAsync(specification);
         Guard.Against.Null(itemToUpdate);
         _mapper.Map(itemDto, itemToUpdate);
+        await ProcessUpdateTags(tags, itemToUpdate);
         await _itemRepository.UpdateAsync(itemToUpdate);
     }
+
+    
 
     public async Task CreateItem(ItemDto itemDto, IEnumerable<string>? tags)
     {
@@ -66,5 +71,15 @@ public class ItemService : IItemService
             }
             item.Tags.Add(new Tag(tag));
         }
+    }
+    
+    private async Task ProcessUpdateTags(IEnumerable<string> tags, Item itemToUpdate)
+    {
+        if (!tags.Any())
+        {
+            itemToUpdate.Tags = new List<Tag>();
+            return;
+        }
+        await ProcessTags(tags, itemToUpdate);
     }
 }

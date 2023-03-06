@@ -1,5 +1,6 @@
 @using Collections.ApplicationCore.Models
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Net.Mime
 @model Collections.Web.Models.Items.UpdateItemViewModel
 @{
     ViewData["Title"] = "Update " + @Model.Title;
@@ -15,6 +16,28 @@
             <label class="form-label">@Html.DisplayNameFor(m => m.Title)</label>
             @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
             <span asp-validation-for="@Model.Title" class="text-danger"></span>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">@Html.LabelFor(m => m.SelectedTags)</label>
+            <select asp-for="SelectedTags" class="tags-select form-select">
+                @if (Model.Tags.Any())
+                {
+                    for (var i = 0; i < Model.Tags.Count(); i++)
+                    {
+                        <option value="@Model.Tags[i].Id" selected="selected">@Model.Tags[i].Title</option>
+                    }
+                }
+            </select>
+                @if (Model.Tags.Any())
+            {
+                for (var i = 0; i < Model.Tags.Count(); i++)
+                {
+                    @Html.HiddenFor(m => m.Tags[i].Id)
+                    @Html.HiddenFor(m => m.Tags[i].Title)
+                }
+            }
+            @Html.ValidationMessageFor(m => m.SelectedTags, string.Empty, new { @class = "text-danger" });
         </div>
 
         if (@Model.ExtraFields != null)
@@ -45,11 +68,20 @@
                                 <input asp-for="ExtraFields[i].Value" value="@Model.ExtraFields[i].Value" type="number" class="form-control"/>
                                 break;
                             case ValueTypes.Binary:
-                                <input asp-for="ExtraFields[i].Value" value="@Model.ExtraFields[i].Value" type="checkbox" class="form-check"/>
+                                if (bool.TryParse(Model.ExtraFields[i].Value, out var value))
+                                {
+                                    <input asp-for="ExtraFields[i].Value" value="@value" type="checkbox" class="form-check"/>
+                                }
+                                else
+                                {
+                                    <input asp-for="ExtraFields[i].Value" value="false" type="checkbox" class="form-check"/>
+                                }
+                                
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();
                         }
+                        @Html.ValidationMessageFor(m => m.ExtraFields[i].Value, string.Empty, new {@class="text-danger"})
                     </div>
                 }
             </div>
